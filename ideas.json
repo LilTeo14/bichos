@@ -1,0 +1,401 @@
+[
+  {
+    "id": 1,
+    "modulo": "A",
+    "modulo_nombre": "Oportunidad A: Termorregulación y Refugios de Polinizadores Nativos",
+    "titulo": "Refugio Térmico Activo y Autónomo para Polinizadores Nativos",
+    "propuesta_tecnica": "Diseño y fabricación de una estructura modular de refugio para abejas solitarias y abejorros nativos, equipada con micro-calefactores controlados por un termostato de alta precisión (ESP32) y alimentados por energía solar. Para evitar alterar los ciclos de diapausa naturales o beneficiar a especies invasoras, el sistema se programa con un algoritmo de atenuación térmica extrema, activándose solo cuando la temperatura interior desciende bajo el umbral de congelamiento letal de los polinizadores.",
+    "justificacion_conservacion": "Proporciona un refugio térmico de rescate crítico para insectos polinizadores nativos (como Bombus dahlbomi y abejas solitarias) en reservas andinas y valles interiores de Chile central durante eventos de heladas invernales extremas intensificadas por el cambio climático. Su calibración inteligente evita interferir con la diapausa invernal biológica, salvaguardando la población reproductiva que emergerá en primavera.",
+    "evaluaciones_expertos": {
+      "experto_desarrollo_tecnologico": {
+        "puntuacion": 7.5,
+        "comentario": "Alta relevancia para zonas extremas de Chile con heladas severas, pero la dependencia de paneles solares y baterías activas eleva el costo de fabricación y mantenimiento en áreas remotas."
+      },
+      "experto_entomologia": {
+        "puntuacion": 8.0,
+        "comentario": "Con este rediseño inteligente y el algoritmo de atenuación térmica que solo previene la congelación letal sin calentar constantemente, se mitiga el riesgo de alterar la diapausa o beneficiar a la avispa chaqueta amarilla. Ahora es una herramienta de rescate viable para inviernos andinos extremos."
+      }
+    },
+    "imagen": "images/idea_1.png"
+  },
+  {
+    "id": 2,
+    "modulo": "A",
+    "modulo_nombre": "Oportunidad A: Termorregulación y Refugios de Polinizadores Nativos",
+    "titulo": "Módulos de Arcilla/Cerámica con Alta Inercia Térmica y Sensor DHT11",
+    "propuesta_tecnica": "Refugios modulares fabricados en arcilla cruda o cerámica de baja cocción (materiales de alta masa térmica). Integra en su interior un sensor digital de temperatura y humedad relativa (DHT11) conectado a un microcontrolador que registra y transmite datos históricos para validar experimentalmente la curva de atenuación térmica interna versus la externa.",
+    "justificacion_conservacion": "Aprovecha la inercia térmica pasiva de la arcilla para absorber radiación solar durante el día y liberarla lentamente por la noche. Esto estabiliza y amortigua el microclima interno del refugio de manera 100% pasiva, reduciendo drásticamente el estrés térmico en las especies nidificantes.",
+    "evaluaciones_expertos": {
+      "experto_desarrollo_tecnologico": {
+        "puntuacion": 8.5,
+        "comentario": "Solución pasiva brillante. La inercia térmica de la arcilla es ideal y su producción local aprovecha tradiciones alfareras chilenas (ej. Pomaire), reduciendo costos y huella de carbono al mínimo."
+      },
+      "experto_entomologia": {
+        "puntuacion": 8.5,
+        "comentario": "Excelente. La arcilla imita las propiedades térmicas del suelo, ideal para abejas solitarias nativas (Colletidae, Megachilidae). El monitoreo de temperatura y humedad aporta valiosos datos científicos sobre anidación."
+      }
+    },
+    "imagen": "images/idea_2.png"
+  },
+  {
+    "id": 3,
+    "modulo": "A",
+    "modulo_nombre": "Oportunidad A: Termorregulación y Refugios de Polinizadores Nativos",
+    "titulo": "Captador Solar de Policarbonato e Invernadero Pasivo",
+    "propuesta_tecnica": "Estructura híbrida que combina madera aislante nativa con una cubierta frontal de policarbonato orientado al sol (efecto captador). Cuenta con sensores de radiación (LDR), temperatura y un sistema pasivo de ventilación bimetálica autorregulada que abre compuertas de alivio si la temperatura interna supera los 32 °C para evitar el sobrecalentamiento letal.",
+    "justificacion_conservacion": "Emplea el efecto invernadero controlado en microescala para ayudar a abejas solitarias nativas ectotermas de los valles interiores de Chile central a activarse temprano en mañanas heladas. Al incorporar ventilación pasiva autorregulada, se previene que el refugio se convierta en una trampa térmica letal por la alta radiación UV local.",
+    "evaluaciones_expertos": {
+      "experto_desarrollo_tecnologico": {
+        "puntuacion": 7.0,
+        "comentario": "Buen aprovechamiento del efecto invernadero matutino para zonas áridas o cordilleranas. La principal limitación es el desgaste del policarbonato por la alta radiación UV en Chile y el riesgo de sobrecalentamiento."
+      },
+      "experto_entomologia": {
+        "puntuacion": 8.5,
+        "comentario": "Excelente. La adición de la ventilación bimetálica pasiva elimina el riesgo de sobrecalentamiento letal que presentaba el diseño original bajo la intensa radiación UV de Chile central, convirtiéndolo en un acelerador seguro de actividad matutina para polinizadores."
+      }
+    },
+    "imagen": "images/idea_3.png"
+  },
+  {
+    "id": 4,
+    "modulo": "A",
+    "modulo_nombre": "Oportunidad A: Termorregulación y Refugios de Polinizadores Nativos",
+    "titulo": "Colector Térmico Convectivo por Placa Absorbente Oscura",
+    "propuesta_tecnica": "Módulo de calefacción solar pasivo indirecto que implementa una placa metálica pintada con esmalte negro mate (alta absortividad) detrás de un panel de acrílico protector, creando una cámara de aire confinada. Un set de sensores mide diferencialmente la temperatura en el aire externo, la placa y el volumen útil del refugio.",
+    "justificacion_conservacion": "Utiliza la transferencia de calor por radiación y convección natural. La placa oscura acumula energía térmica y calienta el aire atrapado en la cámara de aire adyacente, el cual es inyectado de forma continua al interior del refugio, actuando como un escudo contra las heladas nocturnas sin perturbar a los animales con luz artificial.",
+    "evaluaciones_expertos": {
+      "experto_desarrollo_tecnologico": {
+        "puntuacion": 8.0,
+        "comentario": "Excelente diseño pasivo e indirecto. Calentar aire mediante convección natural protege a la fauna sin perturbarla con luz artificial, siendo altamente eficiente para noches frías andinas."
+      },
+      "experto_entomologia": {
+        "puntuacion": 7.5,
+        "comentario": "Una alternativa pasiva muy interesante que evita la luz directa y no altera los fotoperiodos. Útil para insectos nocturnos, aunque su diseño es mecánicamente robusto pero complejo de escalar en nidos pequeños."
+      }
+    },
+    "imagen": "images/idea_4.png"
+  },
+  {
+    "id": 5,
+    "modulo": "A",
+    "modulo_nombre": "Oportunidad A: Termorregulación y Refugios de Polinizadores Nativos",
+    "titulo": "Estación de Monitoreo Diferencial de Maderas Nativas e Introducidas",
+    "propuesta_tecnica": "Banco de pruebas multicámara fabricado con distintas secciones de madera (pino radiata, encina, coigüe, roble, etc.). Cada celda incorpora sensores de temperatura de precisión para evaluar en tiempo real la conductividad térmica, porosidad y eficiencia aislante de cada material forestal expuesto a la intemperie.",
+    "justificacion_conservacion": "Permite la caracterización física y el testeo empírico de materiales locales para definir cuál ofrece el mejor coeficiente de aislamiento térmico. Esto asegura la selección del material óptimo para la fabricación industrial de refugios específicos dirigidos a especies amenazadas en zonas con alta oscilación térmica.",
+    "evaluaciones_expertos": {
+      "experto_desarrollo_tecnologico": {
+        "puntuacion": 7.0,
+        "comentario": "Gran valor de investigación científica para caracterizar maderas chilenas frente al cambio climático. Sin embargo, su impacto como solución de conservación directa en el territorio es limitado."
+      },
+      "experto_entomologia": {
+        "puntuacion": 8.5,
+        "comentario": "Relevancia científica enorme para la entomología forestal chilena. Ayuda a comprender las preferencias de colonización de coleópteros saproxílicos amenazados (como el coleóptero gigante Acanthinodera cumingii) frente a maderas nativas versus exóticas."
+      }
+    },
+    "imagen": "images/idea_5.png"
+  },
+  {
+    "id": 6,
+    "modulo": "A",
+    "modulo_nombre": "Oportunidad A: Termorregulación y Refugios de Polinizadores Nativos",
+    "titulo": "Compuerta Térmica Automatizada mediante Servomotor",
+    "propuesta_tecnica": "Sistema micromecánico acoplado a la entrada del refugio que cuenta con una compuerta operada por un servomotor de bajo torque, un borde de silicona ultra-flexible no deformante y una barrera infrarroja de paso micro-entomológico controlada por un microcontrolador de ultra bajo consumo. La barrera detiene inmediatamente el cierre si detecta el tránsito de un insecto, y el motor opera solo en base a umbrales climáticos estrictos.",
+    "justificacion_conservacion": "Actúa como barrera aislante contra corrientes de aire helado nocturno en los refugios de polinizadores nativos expuestos a vientos cordilleranos. El sistema rediseñado garantiza la seguridad absoluta de los insectos al entrar o salir, evitando cualquier riesgo de aplastamiento o confinamiento accidental.",
+    "evaluaciones_expertos": {
+      "experto_desarrollo_tecnologico": {
+        "puntuacion": 6.5,
+        "comentario": "Concepto de compuerta inteligente interesante, pero los mecanismos móviles en intemperie extrema tienden a fallar por congelamiento o polvo, requiriendo mantenimiento constante y energía activa."
+      },
+      "experto_entomologia": {
+        "puntuacion": 7.0,
+        "comentario": "Inviable y riesgoso en su versión inicial, pero este rediseño con barrera óptica de paso micro-entomológico y solapas flexibles de silicona resuelve la amenaza física. Aún así, los componentes mecánicos al aire libre requieren una mantención rigurosa."
+      }
+    },
+    "imagen": "images/idea_6.png"
+  },
+  {
+    "id": 7,
+    "modulo": "A",
+    "modulo_nombre": "Oportunidad A: Termorregulación y Refugios de Polinizadores Nativos",
+    "titulo": "Doble Pared de Madera con Cámara de Aire Estanca",
+    "propuesta_tecnica": "Refugio construido mediante técnicas de corte láser de precisión que implementa un diseño de doble envolvente (dos paneles de madera paralelos con un gap o separación hermética de aire sellado perimetralmente).",
+    "justificacion_conservacion": "Aplica el principio físico del doble acristalamiento. El aire confinado en un espacio menor a 2 cm minimiza las corrientes de convección internas, convirtiéndose en una barrera aislante de alta eficiencia que bloquea de forma pasiva la transferencia térmica desde el exterior frío hacia el nido.",
+    "evaluaciones_expertos": {
+      "experto_desarrollo_tecnologico": {
+        "puntuacion": 9.0,
+        "comentario": "Extraordinario en su simplicidad y efectividad. Utiliza principios de aislamiento pasivo probados (cámara de aire) de muy bajo costo y alta durabilidad, ideal para la oscilación térmica en valles chilenos."
+      },
+      "experto_entomologia": {
+        "puntuacion": 9.0,
+        "comentario": "Excepcional por su simplicidad y bajo costo. Emula el aislamiento natural de los troncos huecos, protegiendo del frío extremo andino y calor veraniego a polinizadores nativos sin piezas móviles que fallen."
+      }
+    },
+    "imagen": "images/idea_7.png"
+  },
+  {
+    "id": 8,
+    "modulo": "B",
+    "modulo_nombre": "Oportunidad B: Detección Temprana y Monitoreo de Insectos Clave en la Interfase Silvoagropecuaria",
+    "titulo": "Estación Inteligente de Detección Entomológica mediante Visión Artificial (Edge AI)",
+    "propuesta_tecnica": "Trampa inteligente equipada con una cámara de alta resolución a nivel del suelo, iluminación LED optimizada para insectos y un microcomputador de placa única (SBC) que ejecuta un modelo de clasificación de imágenes (red neuronal convolucional optimizada en el dispositivo, como MobileNet o YOLO Lite) para identificar especies en tiempo real al ingresar al habitáculo.",
+    "justificacion_conservacion": "Permite el monitoreo automatizado y la detección temprana de adultos de insectos barrenadores invasores o brotes de especies nativas destructivas (como coleópteros de las familias Cerambycidae y Scolytinae) en los bordes boscosos de parques nacionales del sur de Chile, transmitiendo alertas en tiempo real vía red celular para aislar la zona antes del daño al dosel forestal.",
+    "evaluaciones_expertos": {
+      "experto_desarrollo_tecnologico": {
+        "puntuacion": 9.5,
+        "comentario": "Impacto crítico y estratégico. Chile depende fuertemente de la agroexportación y tiene barreras fitosanitarias estrictas. Identificar especies invasoras y plagas en tiempo real mediante Edge AI en terreno previene catástrofes ecológicas y económicas."
+      },
+      "experto_entomologia": {
+        "puntuacion": 10.0,
+        "comentario": "Excelente. El uso de visión artificial en el dispositivo para clasificar escarabajos barrenadores en su fase de vuelo adulta permite capturar brotes de plagas forestales de manera instantánea y geolocalizada en el sur de Chile, coordinando con el SAG de manera inédita."
+      }
+    },
+    "imagen": "images/idea_8.png"
+  },
+  {
+    "id": 9,
+    "modulo": "B",
+    "modulo_nombre": "Oportunidad B: Detección Temprana y Monitoreo de Insectos Clave en la Interfase Silvoagropecuaria",
+    "titulo": "Nodos Bioacústicos de Monitoreo Forestal en Red Celular (4G/LTE)",
+    "propuesta_tecnica": "Dispositivos robustos de captura acústica ambiental con micrófonos omnidireccionales de alta sensibilidad y bajo consumo. Los audios se procesan localmente para extraer características acústicas (espectrogramas) y se transmiten ráfagas de telemetría a través de la red celular 4G a un servidor en la nube equipado con una IA de reconocimiento de patrones sonoros.",
+    "justificacion_conservacion": "Detecta firmas de audio críticas como las vibraciones internas o sonidos de masticación generados por insectos barrenadores (plagas que destruyen árboles desde el interior), así como la disminución de la actividad sonora (biofonía) de aves nativas dispersoras de semillas en bosques esclerófilos y templados, permitiendo actuar antes del colapso del ecosistema.",
+    "evaluaciones_expertos": {
+      "experto_desarrollo_tecnologico": {
+        "puntuacion": 9.0,
+        "comentario": "Tecnología bioacústica con alto potencial para detectar plagas forestales (insectos barrenadores) y declives en la biofonía del bosque templado. Aprovecha la excelente infraestructura de red 4G rural en Chile."
+      },
+      "experto_entomologia": {
+        "puntuacion": 9.0,
+        "comentario": "Excelente herramienta entomológica. Las larvas de coleópteros barrenadores (plagas forestales) producen sonidos masticatorios audibles dentro del tronco. Detectar estas vibraciones temprano permite aislar brotes antes de que destruyan bosques de Araucaria o Roble."
+      }
+    },
+    "imagen": "images/idea_9.png"
+  },
+  {
+    "id": 10,
+    "modulo": "B",
+    "modulo_nombre": "Oportunidad B: Detección Temprana y Monitoreo de Insectos Clave en la Interfase Silvoagropecuaria",
+    "titulo": "Detector Optoelectrónico Transversal y Clasificación de Insectos en Vuelo (LiDAR Entomológico)",
+    "propuesta_tecnica": "Monitoreo óptico activo de insectos en vuelo mediante una barrera de luz láser infrarroja o LED de alta frecuencia acoplada a un receptor óptico ultrarrápido de silicio. Al cruzar el haz luminoso, el insecto modula la luz de retorno en base a su frecuencia de aleteo y tamaño corporal. Un procesador embebido a pie de huerto o linde de bosque (ESP32-S3) digitaliza la señal y extrae la firma armónica en tiempo real, transmitiendo los conteos clasificados (abejas nativas, plagas agrícolas como Cydia pomonella o Drosophila suzukii, y avispas invasoras) vía red celular LoRaWAN/4G sin requerir la captura física ni daño del insecto.",
+    "justificacion_conservacion": "Ofrece una alternativa de monitoreo biológico 100% no invasiva e instantánea para evaluar la densidad y biodiversidad de insectos benéficos y plagas forestales/agrícolas en tiempo real. Al registrar el tránsito aéreo a gran escala sin sacrificar especímenes en trampas húmedas tradicionales, permite evaluar el impacto del cambio climático y pesticidas sobre los polinizadores nativos y activar alertas entomológicas tempranas automáticas para proteger cultivos.",
+    "evaluaciones_expertos": {
+      "experto_desarrollo_tecnologico": {
+        "puntuacion": 9.2,
+        "comentario": "Una excelente aplicación de fotónica y procesamiento de señales a bajo costo. Detectar la firma de aleteo por luz retrodispersada es sumamente avanzado y elimina piezas móviles, requiriendo muy poca energía."
+      },
+      "experto_entomologia": {
+        "puntuacion": 9.5,
+        "comentario": "Un salto gigantesco para el monitoreo entomológico en Chile. Permite medir el flujo de insectos polinizadores nativos y plagas sin capturarlos ni matarlos en trampas tradicionales, entregando abundancia y biodiversidad al instante."
+      }
+    },
+    "imagen": "images/idea_10.png"
+  },
+  {
+    "id": 11,
+    "modulo": "B",
+    "modulo_nombre": "Oportunidad B: Detección Temprana y Monitoreo de Insectos Clave en la Interfase Silvoagropecuaria",
+    "titulo": "Estación Inteligente de Muestreo y Selección de Coleópteros Terrestres (Smart-Pitfall)",
+    "propuesta_tecnica": "Trampa de caída (pitfall trap) automatizada de circuito cerrado que sustituye el líquido conservante mortal tradicional por un compartimento de inspección seco y seguro. Cuenta con una rampa de ingreso sensible al peso del artrópodo y un sistema de micro-cámara cenital con iluminación LED difusa controlada por un microcontrolador ESP32-S3. Al ingresar un coleóptero, se toma una imagen que es clasificada instantáneamente en el dispositivo mediante una red neuronal ligera. Si se trata de un insecto nativo benéfico o especie amenazada (como el escarabajo gigante Acanthinodera cumingii o Ceroglossus chilensis), el dispositivo abre una compuerta motorizada de escape lateral para liberarlo vivo al entorno. Si identifica una plaga introducida o barrenadora dañina, lo retiene y envía una alerta fitosanitaria vía LoRaWAN/NB-IoT.",
+    "justificacion_conservacion": "Resuelve el grave problema ecológico de las trampas de caída tradicionales, las cuales actúan de forma indiscriminada ahogando y matando miles de artrópodos nativos protegidos para estudios científicos de plagas. Al seleccionar activamente qué capturar y qué liberar de manera autónoma en bosques del sur o zonas agroforestales, protege la biodiversidad local del suelo mientras monitorea y geolocaliza plagas invasoras críticas para el SAG y CONAF.",
+    "evaluaciones_expertos": {
+      "experto_desarrollo_tecnologico": {
+        "puntuacion": 8.8,
+        "comentario": "Muy ingenioso y viable técnicamente. La combinación de una celda de carga de precisión para detectar ingresos y una cámara macro con ESP32-S3 para clasificar in-situ es perfecta para resolver la trampa de caída pasiva."
+      },
+      "experto_entomologia": {
+        "puntuacion": 9.8,
+        "comentario": "Solución largamente esperada en entomología ecológica. Las trampas pitfall tradicionales causan una mortalidad innecesaria y masiva de coleópteros nativos espectaculares y amenazados en Chile central y sur. Esta trampa selectiva inteligente es una revolución de conservación."
+      }
+    },
+    "imagen": "images/idea_11.png"
+  },
+  {
+    "id": 12,
+    "modulo": "B",
+    "modulo_nombre": "Oportunidad B: Detección Temprana y Monitoreo de Insectos Clave en la Interfase Silvoagropecuaria",
+    "titulo": "Trampas de Feromonas Sintonizables Automáticas y Conteo por Barrera Óptica (SmartPhero-Trap)",
+    "propuesta_tecnica": "Estación de trampeo inteligente dotada de una recámara de cebado dotada con un dosificador de microfluidos controlado electrónicamente que libera pulsos programados de feromonas sintéticas de agregación o atrayentes sexuales específicos de especies plaga silvoagropecuarias (por ejemplo, el escarabajo del pino Hylurgus ligniperda o la avispa chaqueta amarilla). La entrada al habitáculo cuenta con una cortina de micro-barreras infrarrojas activas de alta frecuencia que mide el tamaño relativo del insecto al entrar, registrando e informando el recuento de forma instantánea a través de conectividad celular NB-IoT a la nube del SAG/CONAF sin necesidad de revisiones manuales semanales en terreno.",
+    "justificacion_conservacion": "Permite la geolocalización y cuantificación automatizada de brotes poblacionales de plagas de forma inmediata, permitiendo el despliegue rápido y localizado de controles biológicos mucho antes de la colonización masiva del bosque o plantación. Al digitalizar el monitoreo tradicional por feromonas, reduce en un 90% las misiones de patrullaje rural de guardabosques y optimiza la vida útil del atrayente al liberarse selectivamente según horas de vuelo.",
+    "evaluaciones_expertos": {
+      "experto_desarrollo_tecnologico": {
+        "puntuacion": 9.0,
+        "comentario": "La digitalización del trampeo tradicional con dosificadores electrónicos de feromonas y conteo infrarrojo pasivo es sumamente madura y viable. Ahorra viajes semanales al campo de guardaparques y reduce costos de logística a gran escala."
+      },
+      "experto_entomologia": {
+        "puntuacion": 9.5,
+        "comentario": "Extraordinario. El Carpintero Negro se salvaguarda de arneses invasivos y en su lugar digitalizamos trampas terrestres de feromonas de forma limpia. El conteo instantáneo de capturas de plagas sin requerir que inspectores suban cerros es el estándar moderno que el sector forestal chileno necesita."
+      }
+    },
+    "imagen": "images/idea_12.png"
+  },
+  {
+    "id": 13,
+    "modulo": "B",
+    "modulo_nombre": "Oportunidad B: Detección Temprana y Monitoreo de Insectos Clave en la Interfase Silvoagropecuaria",
+    "titulo": "Nariz Electrónica de Campo para Monitoreo de Feromonas e Infoquímicos Entomológicos (e-Nose Entomológico)",
+    "propuesta_tecnica": "Estación sensora de bio-olfacción instalada en campo que incorpora una matriz de micro-sensores electroquímicos y semiconductores de óxido de metal (MOS) altamente sensibles a trazas de compuestos orgánicos volátiles (VOC) e infoquímicos específicos liberados directamente por los insectos activos, tales como feromonas de agregación emitidas por escarabajos barrenadores colonizadores o compuestos químicos presentes en su aserrín y excreciones frescas. Mediante un microcontrolador ESP32-S3 y un modelo de aprendizaje automático local ligero de clasificación de firmas químicas, el nodo es capaz de diferenciar las feromonas específicas de insectos de otros olores habituales del bosque (como humedad o resinas naturales), enviando alertas fitosanitarias inmediatas vía LoRaWAN al detectar los primeros indicios de colonización en rodales vulnerables.",
+    "justificacion_conservacion": "Permite la alerta temprana ultrafiel ante la colonización inicial de insectos barrenadores destructivos en rodales de difícil acceso mucho antes de que se presenten daños foliares visibles desde tierra o satélites. Esto posibilita actuar localmente con control biológico o trampas selectivas de confusión sexual antes de que la plaga se disemine, protegiendo bosques vulnerables.",
+    "evaluaciones_expertos": {
+      "experto_desarrollo_tecnologico": {
+        "puntuacion": 8.8,
+        "comentario": "El rediseño hacia una nariz electrónica que detecta infoquímicos biológicos directos de los insectos en lugar de simple estrés de suelo es excelente. El uso de machine learning local para separar resinas forestales de feromonas es clave."
+      },
+      "experto_sanidad_forestal": {
+        "puntuacion": 9.2,
+        "comentario": "Brillante rediseño. Las feromonas de agregación de coleópteros barrenadores son muy específicas y volátiles. Monitorear estas moléculas en el aire con un sensor autónomo en el fuste del árbol nos avisa de un ataque en sus primeras horas, algo imposible con métodos tradicionales."
+      }
+    },
+    "imagen": "images/idea_13.png"
+  },
+  {
+    "id": 14,
+    "modulo": "B",
+    "modulo_nombre": "Oportunidad B: Detección Temprana y Monitoreo de Insectos Clave en la Interfase Silvoagropecuaria",
+    "titulo": "Plataforma Ciudadana de Monitoreo de Barrenadores y Alertas de Plagas Forestales 4G",
+    "propuesta_tecnica": "Aplicación móvil multiplataforma nativa que utiliza la cobertura 4G rural en Chile para el reporte ciudadano de signos de plagas forestales. El usuario (senderista, arriero, guardabosques) fotografía acumulaciones de aserrín fresco en troncos, galerías expuestas en corteza o ejemplares adultos de coleópteros barrenadores. La imagen geoetiquetada se procesa en un backend con una API de visión computacional especializada en entomología forestal.",
+    "justificacion_conservacion": "Empodera a la comunidad local y turistas en parques nacionales del sur como sensores de bioseguridad activos. Provee datos geolocalizados tempranos sobre el avance de plagas barrenadoras (nativas como el escarabajo de la Araucaria, o exóticas como el barrenador del pino), alimentando de forma inmediata los catastros epidemiológicos de CONAF y el SAG en áreas de difícil acceso.",
+    "evaluaciones_expertos": {
+      "experto_desarrollo_tecnologico": {
+        "puntuacion": 9.2,
+        "comentario": "Proyecto de ciencia ciudadana altamente viable y de bajísimo costo. Aprovecha la masiva cobertura digital móvil de Chile para empoderar a la comunidad y crear mapas epidemiológicos dinámicos en tiempo real para el SAG o CONAF."
+      },
+      "experto_entomologia": {
+        "puntuacion": 9.5,
+        "comentario": "Extraordinario potencial. El involucramiento ciudadano de senderistas y guardaparques en los parques del sur permite mapear en tiempo real la dispersión de escarabajos barrenadores nativos y exóticos, alimentando bases de datos cruciales para el SAG y CONAF antes de que los brotes sean incontrolables."
+      }
+    },
+    "imagen": "images/idea_14.png"
+  },
+  {
+    "id": 15,
+    "modulo": "C",
+    "modulo_nombre": "Oportunidad C: Infraestructura Verde y Corredores Biológicos",
+    "titulo": "Red de \"Hoteles de Insectos\" Modulares e Inteligentes",
+    "propuesta_tecnica": "Estructuras nido modulares diseñadas con materiales biodegradables impresos en 3D instaladas estratégicamente en fachadas de edificios urbanos. Cuentan con micro-cámaras de visión nocturna y sensores ambientales (temperatura, humedad e impacto de vibraciones mecánicas) que transmiten datos históricos mediante redes de bajo consumo a una plataforma de analítica urbana.",
+    "justificacion_conservacion": "Frena la fragmentación de hábitats y la pérdida de biodiversidad en comunas altamente densificadas (selvas de cemento). Proporciona refugios seguros y monitoreados para polinizadores solitarios y pequeños artrópodos nativos, permitiendo evaluar científicamente el estado biológico de la fauna urbana.",
+    "evaluaciones_expertos": {
+      "experto_desarrollo_tecnologico": {
+        "puntuacion": 7.2,
+        "comentario": "Excelente valor educativo y estético urbano. Sin embargo, su escalabilidad práctica y su impacto real en la conservación masiva de biodiversidad urbana es menor en comparación con el costo del hardware de monitoreo en cada nodo."
+      },
+      "experto_planificacion_urbana": {
+        "puntuacion": 8.8,
+        "comentario": "Un aporte estético y ecológico precioso para plazas urbanas en comunas con poco presupuesto en Santiago. Sirve como un excelente hito pedagógico sobre biodiversidad, y el hardware nos da datos reales sobre colonización de microfauna."
+      }
+    },
+    "imagen": "images/idea_15.png"
+  },
+  {
+    "id": 16,
+    "modulo": "C",
+    "modulo_nombre": "Oportunidad C: Infraestructura Verde y Corredores Biológicos",
+    "titulo": "Paraderos de Transporte Público con Techos Verdes Biomonitoreados",
+    "propuesta_tecnica": "Transformación estructural de los techos de refugios peatonales en parches de infraestructura verde sembrados con flora nativa xerófita (resistente a sequías). Integra sensores ópticos de presencia de polinizadores, estaciones meteorológicas compactas y un sistema de microrriego automatizado alimentado por recolección de aguas lluvias.",
+    "justificacion_conservacion": "Funciona como conectores biológicos o \"trampolines ecológicos\" (stepping stones) que mitigan el efecto isla de calor en vialidades urbanas y facilitan el tránsito seguro de insectos polinizadores a través de corredores de transporte hostiles.",
+    "evaluaciones_expertos": {
+      "experto_desarrollo_tecnologico": {
+        "puntuacion": 8.2,
+        "comentario": "Gran integración de arquitectura verde y sensores IoT en paraderos de transporte público. Reduce el efecto de isla de calor y sirve de conector biológico, aunque el vandalismo urbano y el mantenimiento representan desafíos operativos en Chile."
+      },
+      "experto_planificacion_urbana": {
+        "puntuacion": 9.0,
+        "comentario": "Excelente concepto de acupuntura urbana. Al dotar de techos verdes xerófitos a paraderos peatonales en avenidas de alto tráfico, creamos corredores biológicos urbanos ('stepping stones') continuos, reduciendo además la temperatura del aire a nivel de peatón de forma pasiva."
+      }
+    },
+    "imagen": "images/idea_16.png"
+  },
+  {
+    "id": 17,
+    "modulo": "C",
+    "modulo_nombre": "Oportunidad C: Infraestructura Verde y Corredores Biológicos",
+    "titulo": "Cunetas Verdes Sensorizadas y Drenajes Ecológicos Urbanos",
+    "propuesta_tecnica": "Zanjas de infiltración vegetadas (bio-swales) construidas en los bordes de calzadas con sensores de humedad de suelo, nivel de agua e indicadores químicos de escorrentía (pH, salinidad y presencia de metales pesados).",
+    "justificacion_conservacion": "Actúa como un micro-refugio húmedo y corredor de tránsito terrestre para artrópodos caminadores nativos (coleópteros, miriápodos). Disminuye la temperatura superficial del pavimento, filtra las aguas pluviales contaminadas y restaura la capacidad natural de absorción hídrica del suelo urbano.",
+    "evaluaciones_expertos": {
+      "experto_desarrollo_tecnologico": {
+        "puntuacion": 7.8,
+        "comentario": "Muy valioso para la gestión de aguas de lluvia y filtración de contaminantes en ciudades lluviosas de la zona centro-sur. Funciona como micro-refugio húmedo y corredor para artrópodos terrestres nativos."
+      },
+      "experto_planificacion_urbana": {
+        "puntuacion": 8.5,
+        "comentario": "Excelente solución de infraestructura urbana sostenible para ciudades de la zona sur (ej. Concepción, Valdivia). Ayuda a filtrar contaminantes vehiculares de las escorrentías antes de que infiltren el acuífero, y funciona como micro-refugio húmedo para artrópodos caminadores."
+      }
+    },
+    "imagen": "images/idea_17.png"
+  },
+  {
+    "id": 18,
+    "modulo": "C",
+    "modulo_nombre": "Oportunidad C: Infraestructura Verde y Corredores Biológicos",
+    "titulo": "Plataforma \"Plazas de Bolsillo Ecológicas\" con Algoritmia Urbana (GIS)",
+    "propuesta_tecnica": "Software de planificación territorial basado en Sistemas de Información Geográfica (GIS) y Machine Learning que analiza de forma automática imágenes satelitales y catastros municipales para detectar sitios eriazos u abandonados, diseñando instantáneamente microbosques urbanos densos (método Miyawaki) optimizados según el microclima circundante.",
+    "justificacion_conservacion": "Permite la reconversión ágil y automatizada de pasivos urbanos en nodos de infraestructura verde. Mitiga severamente las islas de calor y crea nuevos nichos ecológicos estables contra la pérdida de biodiversidad a escala comunal.",
+    "evaluaciones_expertos": {
+      "experto_desarrollo_tecnologico": {
+        "puntuacion": 9.0,
+        "comentario": "Innovación territorial indispensable. En comunas con alta segregación socioambiental en Chile, automatizar mediante GIS y machine learning la identificación de sitios eriazos para microbosques Miyawaki democratiza las áreas verdes urbanas eficientemente."
+      },
+      "experto_planificacion_urbana": {
+        "puntuacion": 9.5,
+        "comentario": "Una herramienta de planificación indispensable para mitigar la segregación verde urbana. Automatizar la identificación de pasivos ambientales (sitios eriazos abandonados) para transformarlos en microbosques urbanos con el método Miyawaki optimiza enormemente el uso de recursos municipales."
+      }
+    },
+    "imagen": "images/idea_18.png"
+  },
+  {
+    "id": 19,
+    "modulo": "C",
+    "modulo_nombre": "Oportunidad C: Infraestructura Verde y Corredores Biológicos",
+    "titulo": "Postes de Alumbrado Público con Atractores Lumínicos Selectivos e IA",
+    "propuesta_tecnica": "Luminarias LED municipales dotadas de controladores inteligentes que regulan la emisión de frecuencias de luz y espectro lumínico (evitando la luz azul de alta energía). Incorporan sensores acústicos de ultrasonido para la detección de murciélagos y sensores ópticos para registrar vuelos de insectos, atenuando dinámicamente el flujo según la presencia de fauna.",
+    "justificacion_conservacion": "Protege a los polinizadores y depredadores nocturnos silvestres (polillas nativas, coleópteros, murciélagos insectívoros) de la desorientación y el agotamiento provocados por la contaminación lumínica urbana, asegurando la continuidad de los servicios de control biológico y reproducción vegetal silvestre.",
+    "evaluaciones_expertos": {
+      "experto_desarrollo_tecnologico": {
+        "puntuacion": 9.4,
+        "comentario": "Sobresaliente. De enorme relevancia para zonas como el norte de Chile (coexistencia con astronomía científica de nivel mundial) y áreas costeras de migración de aves marinas (ej. Fardela Negra) vulnerables a la desorientación lumínica."
+      },
+      "experto_planificacion_urbana": {
+        "puntuacion": 9.5,
+        "comentario": "De enorme relevancia para la coexistencia con la astronomía en el norte de Chile y la protección de aves y murciélagos nocturnos vulnerables en zonas costeras. El ahorro energético municipal al atenuar luces en ausencia de tráfico es un beneficio económico directo."
+      }
+    },
+    "imagen": "images/idea_19.png"
+  },
+  {
+    "id": 20,
+    "modulo": "C",
+    "modulo_nombre": "Oportunidad C: Infraestructura Verde y Corredores Biológicos",
+    "titulo": "Red IoT de Huertos Urbanos Comunitarios para Control Biológico",
+    "propuesta_tecnica": "Red mallada (mesh) de sensores de suelo y microclima instalada en huertos comunitarios vecinales. La plataforma procesa las variables de humedad y temperatura foliar para predecir proliferaciones de insectos herbívoros dañinos y enviar notificaciones móviles a los agricultores urbanos.",
+    "justificacion_conservacion": "Fomenta la atracción selectiva y protección de insectos controladores de plagas benéficos nativos (como chinitas, sírfidos y avispas parasitoides) indicando el momento óptimo para ajustar la cobertura vegetal o liberar feromonas biológicas, eliminando la necesidad de plaguicidas sintéticos en el entorno residencial.",
+    "evaluaciones_expertos": {
+      "experto_desarrollo_tecnologico": {
+        "puntuacion": 7.6,
+        "comentario": "Iniciativa con alta rentabilidad social y comunitaria que fomenta el control biológico sin pesticidas. Sin embargo, su impacto cuantitativo general a escala país frente a amenazas de conservación es más moderado."
+      },
+      "experto_planificacion_urbana": {
+        "puntuacion": 8.2,
+        "comentario": "Excelente para fomentar el tejido social y la agricultura ecológica urbana. El uso de sensórica de bajo costo empodera a los vecinos para prescindir de plaguicidas industriales y cuidar de los insectos benéficos locales (chinitas y microavispas)."
+      }
+    },
+    "imagen": "images/idea_20.png"
+  },
+  {
+    "id": 21,
+    "modulo": "C",
+    "modulo_nombre": "Oportunidad C: Infraestructura Verde y Corredores Biológicos",
+    "titulo": "Sistema de Incentivos Verdes y Gamificación \"Balcones Biológicos\"",
+    "propuesta_tecnica": "Aplicación móvil interactiva integrada con una red neuronal de visión por computadora para dispositivos móviles que identifica y valida especies de plantas nativas floridas cultivadas por ciudadanos en balcones, terrazas y ventanas. Los registros validados otorgan puntos canjeables por beneficios municipales (ej. rebaja en patentes o aseo).",
+    "justificacion_conservacion": "Convierte la propiedad privada vertical en una red descentralizada masiva de infraestructura verde. Genera un mapa dinámico en tiempo real de los corredores ecológicos verticales urbanos de la comuna y fomenta la participación ciudadana activa en la conservación de polinizadores.",
+    "evaluaciones_expertos": {
+      "experto_desarrollo_tecnologico": {
+        "puntuacion": 8.4,
+        "comentario": "Gran propuesta de gamificación ambiental urbana que incentiva la creación de corredores biológicos verticales. La viabilidad técnica de la visión por computadora móvil es excelente, requiriendo convenios con municipios chilenos."
+      },
+      "experto_planificacion_urbana": {
+        "puntuacion": 9.2,
+        "comentario": "Una excelente iniciativa de gamificación ciudadana que incentiva la creación de corredores de polinización verticales. Fomenta el compromiso vecinal y ayuda a cartografiar de forma masiva la biodiversidad de terrazas urbanas."
+      }
+    },
+    "imagen": "images/idea_21.png"
+  }
+]
