@@ -206,7 +206,7 @@
         "comentario": "Solución largamente esperada en entomología ecológica. Las trampas pitfall tradicionales causan una mortalidad innecesaria y masiva de coleópteros nativos espectaculares y amenazados en Chile central y sur. Esta trampa selectiva inteligente es una revolución de conservación."
       }
     },
-    "imagen": "images/idea_11.png"
+    "imagen": "images/escarabajo_pino.png"
   },
   {
     "id": 12,
@@ -225,7 +225,7 @@
         "comentario": "Extraordinario. El Carpintero Negro se salvaguarda de arneses invasivos y en su lugar digitalizamos trampas terrestres de feromonas de forma limpia. El conteo instantáneo de capturas de plagas sin requerir que inspectores suban cerros es el estándar moderno que el sector forestal chileno necesita."
       }
     },
-    "imagen": "images/idea_12.png"
+    "imagen": "images/avispa_chaqueta_amarilla.png"
   },
   {
     "id": 13,
@@ -396,6 +396,6 @@
         "comentario": "Una excelente iniciativa de gamificación ciudadana que incentiva la creación de corredores de polinización verticales. Fomenta el compromiso vecinal y ayuda a cartografiar de forma masiva la biodiversidad de terrazas urbanas."
       }
     },
-    "imagen": "images/idea_21.png"
+    "imagen": "images/abejorro_comparativa.png"
   }
 ]
