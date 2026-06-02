@@ -13,6 +13,9 @@
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+  <!-- html2canvas for PDF screenshots -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
   <style>
     /* ==========================================================================
        1. VARIABLES DEL SISTEMA DE DISEÑO (Científico, Botánico y de Producto)
@@ -3407,11 +3410,6 @@
       <!-- Botón de Presentación -->
       <button class="toggle-btn" id="btn-start-presentation" onclick="startPresentation()" style="background: var(--gradient-a); color: #fff; border: none; font-weight: 700; box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25);">
         <i class="fa-solid fa-play"></i> Presentación
-      </button>
-
-      <!-- Botón Exportar PDF -->
-      <button class="toggle-btn" id="btn-export-pdf" onclick="exportPresentationPDF()" style="background: var(--gradient-hub); color: #fff; border: none; font-weight: 700; box-shadow: 0 4px 12px rgba(194, 65, 12, 0.25);">
-        <i class="fa-solid fa-file-pdf"></i> PDF
       </button>
     </div>
   </header>
@@ -6970,15 +6968,133 @@
     };
 
     // ==========================================================================
-    // 11. EXPORTACIÓN DE PRESENTACIÓN A PDF (IMPRESIÓN PREMIUM VECTORIAL)
+    // 11. EXPORTACIÓN DE PRESENTACIÓN A PDF (IMPRESIÓN PREMIUM DE CAPTURAS HORIZONTALES)
     // ==========================================================================
-    window.exportPresentationPDF = function() {
+    window.exportPresentationPDF = async function() {
       if (!ideasData || ideasData.length === 0) {
         alert("Los datos de las propuestas de diseño aún no se han cargado por completo.");
         return;
       }
 
-      // Crear un iframe temporal oculto para impresión limpia
+      // Guardar estado original para restaurarlo después
+      const originalStep = currentPresentationStep;
+      const originalPaused = isPresentationPaused;
+
+      // Forzar pausa temporal para evitar que el autoplay avance mientras capturamos
+      isPresentationPaused = true;
+      stopPresentationTimer();
+      const playPauseBtn = document.getElementById('btn-pres-play-pause');
+      if (playPauseBtn) {
+        playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+        playPauseBtn.title = "Reanudar";
+      }
+
+      // Crear/mostrar overlay de carga
+      let overlay = document.getElementById('pdf-loading-overlay');
+      if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'pdf-loading-overlay';
+        overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; font-family: "Space Grotesk", sans-serif;';
+        overlay.innerHTML = `
+          <div style="background: rgba(30, 41, 59, 0.75); border: 1px solid rgba(255, 255, 255, 0.1); padding: 2.5rem; border-radius: 24px; text-align: center; max-width: 420px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); width: 90%;">
+            <i class="fa-solid fa-file-pdf fa-bounce" style="font-size: 3.5rem; color: #f97316; margin-bottom: 1.5rem; display: inline-block;"></i>
+            <h3 style="margin: 0 0 0.5rem 0; font-size: 1.25rem; font-weight: 700; color: #fff;">Generando PDF de la Presentación</h3>
+            <p id="pdf-loading-text" style="margin: 0 0 1.5rem 0; font-size: 0.85rem; color: #94a3b8; font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.5;">Iniciando proceso de captura...</p>
+            <div style="width: 100%; background: rgba(255,255,255,0.1); height: 6px; border-radius: 99px; overflow: hidden;">
+              <div id="pdf-loading-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #f97316, #ef4444); transition: width 0.2s ease;"></div>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(overlay);
+      }
+      overlay.style.display = 'flex';
+      const loadingText = document.getElementById('pdf-loading-text');
+      const loadingBar = document.getElementById('pdf-loading-bar');
+
+      const slides = [];
+      const totalSteps = presentationSteps.length;
+
+      // Recorrer y fotografiar secuencialmente cada diapositiva
+      for (let i = 0; i < totalSteps; i++) {
+        loadingText.innerText = `Capturando diapositiva ${i + 1} de ${totalSteps}...`;
+        loadingBar.style.width = `${((i) / totalSteps) * 100}%`;
+
+        // Ir al paso i
+        runStep(i);
+
+        // Esperar 400ms para permitir que las transiciones de CSS, SVGs de Vis.js y pestañas se acomoden
+        await new Promise(resolve => setTimeout(resolve, 400));
+
+        // Determinar qué contenedor está activo en este paso para capturarlo limpiamente
+        let captureElement = null;
+        if (i >= 0 && i <= 3) {
+          // Vista de mapa
+          captureElement = document.querySelector('.map-outer-container');
+        } else if (i === 4) {
+          // Vista de matriz de consenso
+          captureElement = document.querySelector('.matrix-outer-container');
+        } else if (i === 5) {
+          // Vista de tabla de ideas
+          captureElement = document.querySelector('#table-view');
+        } else if (i === 6) {
+          // Vista de Pugh
+          captureElement = document.querySelector('#pugh-section-container');
+        } else if (i >= 7 && i <= 11) {
+          // Vista de proyecto ganador (distintas pestañas)
+          captureElement = document.querySelector('#winner-section-container');
+        } else if (i === 12) {
+          // Vista de referencias
+          captureElement = document.querySelector('#references-section-container');
+        }
+
+        if (!captureElement) {
+          captureElement = document.body;
+        }
+
+        try {
+          // Tomar captura
+          const canvas = await html2canvas(captureElement, {
+            scale: 2, // Doble resolución para nitidez vectorial de textos e imágenes
+            useCORS: true,
+            backgroundColor: '#0f172a',
+            logging: false
+          });
+          const imgData = canvas.toDataURL('image/png');
+          slides.push(imgData);
+        } catch (err) {
+          console.error(`Error capturando diapositiva ${i + 1}:`, err);
+        }
+      }
+
+      // Finalizar visualización de progreso
+      loadingText.innerText = "Preparando vista previa del documento...";
+      loadingBar.style.width = "100%";
+      await new Promise(resolve => setTimeout(resolve, 300));
+
+      // Restaurar estado inicial de la presentación
+      isPresentationPaused = originalPaused;
+      runStep(originalStep);
+
+      // Si no estaba pausado originalmente, reanudar
+      if (!originalPaused) {
+        isPresentationPaused = false;
+        startTime = Date.now();
+        startStepTimer();
+        if (playPauseBtn) {
+          playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+          playPauseBtn.title = "Pausar";
+        }
+      } else {
+        if (playPauseBtn) {
+          playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+          playPauseBtn.title = "Reanudar";
+        }
+      }
+
+      // Esconder overlay
+      overlay.style.display = 'none';
+
+      // Crear iframe para impresión limpia y formateada
       const iframe = document.createElement('iframe');
       iframe.style.position = 'fixed';
       iframe.style.right = '0';
@@ -6989,1161 +7105,69 @@
       iframe.style.pointerEvents = 'none';
       document.body.appendChild(iframe);
 
-      const doc = iframe.contentWindow.document || iframe.contentDocument;
-      doc.open();
+      const printDoc = iframe.contentWindow.document || iframe.contentDocument;
+      printDoc.open();
 
-      const currentDate = new Date().toLocaleDateString('es-CL', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
+      const imagesHtml = slides.map((imgSrc, idx) => `
+        <div class="slide-page">
+          <img class="slide-img" src="${imgSrc}" alt="Diapositiva ${idx + 1}">
+        </div>
+      `).join('');
 
-      // Filtrar ideas
-      const ideasA = ideasData.filter(i => i.modulo === 'A');
-      const ideasB = ideasData.filter(i => i.modulo === 'B');
-      const ideasC = ideasData.filter(i => i.modulo === 'C');
-
-      // Calcular Matriz de Pugh actual dinámicamente
-      let pughRowsHtml = '';
-      let totals = { alt1: 0, alt2: 0, alt3: 0, alt4: 0 };
-      let maxPossible = 0;
-
-      pughData.forEach((row) => {
-        const w1 = row.weight * row.scores.alt1;
-        const w2 = row.weight * row.scores.alt2;
-        const w3 = row.weight * row.scores.alt3;
-        const w4 = row.weight * row.scores.alt4;
-        
-        totals.alt1 += w1;
-        totals.alt2 += w2;
-        totals.alt3 += w3;
-        totals.alt4 += w4;
-        maxPossible += row.weight * 5;
-
-        pughRowsHtml += `
-          <tr>
-            <td class="criterion-col">
-              <strong>${row.name}</strong>
-              <div class="criterion-desc">${row.description}</div>
-            </td>
-            <td class="weight-col">${row.weight}</td>
-            <td class="score-col">${row.scores.alt1} <span class="pond-sub">(Pond: ${w1})</span></td>
-            <td class="score-col">${row.scores.alt2} <span class="pond-sub">(Pond: ${w2})</span></td>
-            <td class="score-col">${row.scores.alt3} <span class="pond-sub">(Pond: ${w3})</span></td>
-            <td class="score-col">${row.scores.alt4} <span class="pond-sub">(Pond: ${w4})</span></td>
-          </tr>
-        `;
-      });
-
-      let winnerKey = 'alt1';
-      let maxScore = Math.max(totals.alt1, totals.alt2, totals.alt3, totals.alt4);
-      if (maxScore === totals.alt1) winnerKey = 'alt1';
-      else if (maxScore === totals.alt2) winnerKey = 'alt2';
-      else if (maxScore === totals.alt3) winnerKey = 'alt3';
-      else winnerKey = 'alt4';
-
-      const altNames = {
-        alt1: 'Alt 1: Estación Edge AI (Idea 8)',
-        alt2: 'Alt 2: Postes Alumbrado IA (Idea 19)',
-        alt3: 'Alt 3: LiDAR Entomológico (Idea 10)',
-        alt4: 'Alt 4: Plataforma Citizen (Idea 14)'
-      };
-      const winnerName = altNames[winnerKey];
-
-      // Formatear catálogo de propuestas
-      const renderIdeaList = (ideas, color) => {
-        return ideas.map(idea => `
-          <div class="idea-item">
-            <div class="idea-item-header">
-              <span class="idea-item-id" style="background: ${color};">${idea.id}</span>
-              <span class="idea-item-title">${idea.titulo}</span>
-            </div>
-            <p class="idea-item-proposal">${idea.propuesta_tecnica}</p>
-            <p class="idea-item-just"><strong>Impacto:</strong> ${idea.justificacion_conservacion}</p>
-          </div>
-        `).join('');
-      };
-
-      // Obtener referencias de la sección
-      const refCards = Array.from(document.querySelectorAll('#references-section-container .reference-card'));
-      const refsHtml = refCards.map(card => {
-        const title = card.querySelector('h3').innerText;
-        const desc = card.querySelector('p').innerText;
-        const details = Array.from(card.querySelectorAll('.reference-detail-item')).map(item => item.innerHTML).join('<br><br>');
-        const badge = card.querySelector('.reference-card-badge').innerText;
-        return `
-          <div class="ref-item">
-            <div class="ref-header">
-              <span class="ref-title">${title}</span>
-              <span class="ref-badge">${badge}</span>
-            </div>
-            <p class="ref-desc">${desc}</p>
-            <div class="ref-details">${details}</div>
-          </div>
-        `;
-      }).join('');
-
-      // Plantilla HTML con estilos optimizados para impresión
       const htmlContent = `
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>BICHOS - Dossier de Proyecto</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Presentación BICHOS - Capturas</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
-    
-    * {
-      box-sizing: border-box;
+    @page {
+      size: A4 landscape;
+      margin: 0;
     }
-    
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      color: #1e293b;
-      background: #ffffff;
+    html, body {
       margin: 0;
       padding: 0;
-      line-height: 1.5;
-      font-size: 10pt;
+      width: 100%;
+      height: 100%;
+      background: #0f172a;
     }
-    
-    h1, h2, h3, h4, h5, .title-font {
-      font-family: 'Space Grotesk', sans-serif;
-      color: #0f172a;
-    }
-    
-    @page {
-      size: letter;
-      margin: 1.5cm;
-    }
-    
-    .print-page {
-      page-break-after: always;
-      position: relative;
-      min-height: 25cm;
+    .slide-page {
+      width: 100vw;
+      height: 100vh;
       display: flex;
-      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      page-break-after: always;
+      box-sizing: border-box;
+      background: #0f172a;
     }
-    
-    .print-page:last-child {
+    .slide-page:last-child {
       page-break-after: avoid;
     }
-    
-    /* Portada */
-    .cover {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      height: 25cm;
-      padding: 2cm 0;
-    }
-    
-    .cover-badge {
-      background: rgba(15, 118, 110, 0.06);
-      color: #0f766e;
-      border: 1px solid rgba(15, 118, 110, 0.15);
-      padding: 0.5rem 1.25rem;
-      border-radius: 9999px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin-bottom: 2rem;
-    }
-    
-    .cover h1 {
-      font-size: 3.25rem;
-      font-weight: 700;
-      margin: 0 0 1rem 0;
-      line-height: 1.1;
-      color: #0f172a;
-      letter-spacing: -1.5px;
-    }
-    
-    .cover-subtitle {
-      font-size: 1.15rem;
-      color: #475569;
-      max-width: 650px;
-      margin: 0 0 3rem 0;
-      line-height: 1.45;
-    }
-    
-    .cover-image-container {
-      width: 100%;
-      max-width: 500px;
-      height: 250px;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-      margin-bottom: 3rem;
-    }
-    
-    .cover-image-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    .cover-metadata {
-      margin-top: auto;
-      border-top: 1px solid #e2e8f0;
-      padding-top: 1.5rem;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      color: #64748b;
-      font-size: 0.85rem;
-    }
-    
-    /* Cabecera y Pie */
-    .page-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 2px solid #0f766e;
-      padding-bottom: 0.4rem;
-      margin-bottom: 1.5rem;
-    }
-    
-    .page-header span {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: #0f766e;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    
-    .page-header .doc-type {
-      color: #64748b;
-      font-weight: 500;
-    }
-    
-    .page-footer {
-      margin-top: auto;
-      border-top: 1px solid #e2e8f0;
-      padding-top: 0.5rem;
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.75rem;
-      color: #94a3b8;
-    }
-    
-    /* Secciones */
-    .section-title-block {
-      margin-bottom: 1.25rem;
-    }
-    
-    .section-title-block h2 {
-      font-size: 1.6rem;
-      margin: 0 0 0.25rem 0;
-      color: #0f172a;
-    }
-    
-    .section-title-block p {
-      margin: 0;
-      color: #64748b;
-      font-size: 0.85rem;
-    }
-    
-    /* Retos/Oportunidades */
-    .opp-block {
-      background: #f8fafc;
-      border-left: 4px solid #0f766e;
-      border-radius: 0 8px 8px 0;
-      padding: 0.85rem 1.25rem;
-      margin-bottom: 1.25rem;
-    }
-    
-    .opp-block.opp-B {
-      border-left-color: #1d4ed8;
-    }
-    
-    .opp-block.opp-C {
-      border-left-color: #6d28d9;
-    }
-    
-    .opp-block h3 {
-      font-size: 1.05rem;
-      margin: 0 0 0.35rem 0;
-      font-weight: 700;
-      color: #0f172a;
-    }
-    
-    .opp-block p {
-      font-style: italic;
-      color: #334155;
-      font-size: 0.85rem;
-      line-height: 1.45;
-      margin: 0;
-    }
-    
-    /* Catálogo */
-    .ideas-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-    
-    .idea-item {
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 0.85rem;
-    }
-    
-    .idea-item-header {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.4rem;
-    }
-    
-    .idea-item-id {
-      color: #fff;
-      font-weight: 700;
-      font-size: 0.72rem;
-      padding: 0.15rem 0.4rem;
-      border-radius: 4px;
-      font-family: 'Space Grotesk', sans-serif;
-    }
-    
-    .idea-item-title {
-      font-weight: 700;
-      font-size: 0.85rem;
-      color: #0f172a;
-    }
-    
-    .idea-item-proposal {
-      font-size: 0.75rem;
-      color: #475569;
-      line-height: 1.4;
-      margin: 0 0 0.4rem 0;
-    }
-    
-    .idea-item-just {
-      font-size: 0.72rem;
-      color: #64748b;
-      margin: 0;
-      border-top: 1px dashed #e2e8f0;
-      padding-top: 0.4rem;
-    }
-    
-    /* Tabla Pugh */
-    .pugh-table-container {
-      width: 100%;
-      margin-top: 0.5rem;
-    }
-    
-    .pdf-pugh-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.78rem;
-    }
-    
-    .pdf-pugh-table th, .pdf-pugh-table td {
-      border: 1px solid #cbd5e1;
-      padding: 0.5rem 0.6rem;
-      text-align: center;
-      line-height: 1.3;
-    }
-    
-    .pdf-pugh-table th {
-      background: #f1f5f9;
-      color: #0f172a;
-      font-weight: 700;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.8rem;
-    }
-    
-    .pdf-pugh-table td.criterion-col {
-      text-align: left;
-      font-size: 0.75rem;
-    }
-    
-    .pdf-pugh-table td.criterion-col strong {
+    .slide-img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
       display: block;
-      color: #0f172a;
-    }
-    
-    .pdf-pugh-table td.criterion-col .criterion-desc {
-      font-size: 0.65rem;
-      color: #64748b;
-      margin-top: 0.15rem;
-    }
-    
-    .pdf-pugh-table .pond-sub {
-      display: block;
-      font-size: 0.65rem;
-      color: #64748b;
-      margin-top: 0.15rem;
-    }
-    
-    .pdf-pugh-table .weight-col {
-      font-weight: 600;
-      background: #f8fafc;
-    }
-    
-    .pugh-winner-panel {
-      margin-top: 1.5rem;
-      background: rgba(194, 65, 12, 0.04);
-      border: 1px solid rgba(194, 65, 12, 0.12);
-      border-radius: 12px;
-      padding: 1rem 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-    }
-    
-    .pugh-winner-icon {
-      font-size: 2.25rem;
-      color: #c2410c;
-    }
-    
-    .pugh-winner-details h4 {
-      margin: 0 0 0.2rem 0;
-      font-size: 0.95rem;
-      color: #c2410c;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    
-    .pugh-winner-details p {
-      margin: 0;
-      font-size: 0.85rem;
-      color: #475569;
-      line-height: 1.4;
-    }
-    
-    /* Ganador */
-    .winner-banner {
-      display: flex;
-      gap: 1.5rem;
-      margin-bottom: 1.5rem;
-      align-items: flex-start;
-    }
-    
-    .winner-banner-text {
-      flex: 3;
-    }
-    
-    .winner-banner-text h1 {
-      font-size: 1.8rem;
-      margin: 0 0 0.5rem 0;
-      color: #0f172a;
-      line-height: 1.2;
-    }
-    
-    .winner-banner-text p {
-      margin: 0;
-      font-size: 0.9rem;
-      color: #475569;
-      line-height: 1.45;
-    }
-    
-    .winner-banner-img {
-      flex: 1.5;
-      height: 120px;
-      border-radius: 8px;
-      border: 1px solid #cbd5e1;
-      overflow: hidden;
-    }
-    
-    .winner-banner-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    .winner-metrics-container {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-    
-    .winner-metric-card {
-      flex: 1;
-      background: #f8fafc;
-      border-bottom: 3px solid #0f766e;
-      border-radius: 6px;
-      padding: 0.65rem 0.85rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    
-    .winner-metric-card.orange {
-      border-bottom-color: #c2410c;
-    }
-    
-    .winner-metric-card.blue {
-      border-bottom-color: #1d4ed8;
-    }
-    
-    .winner-metric-card i {
-      font-size: 1.5rem;
-      color: #0f766e;
-    }
-    
-    .winner-metric-card.orange i {
-      color: #c2410c;
-    }
-    
-    .winner-metric-card.blue i {
-      color: #1d4ed8;
-    }
-    
-    .winner-metric-info span {
-      display: block;
-      font-size: 0.7rem;
-      color: #64748b;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    
-    .winner-metric-info strong {
-      display: block;
-      font-size: 0.85rem;
-      color: #0f172a;
-    }
-    
-    .winner-dossier-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 1.5rem;
-    }
-    
-    .pdf-card {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 1.15rem;
-      margin-bottom: 1.25rem;
-    }
-    
-    .pdf-card-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-      margin: 0 0 0.75rem 0;
-      border-bottom: 1px solid #e2e8f0;
-      padding-bottom: 0.4rem;
-      color: #0f172a;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    
-    .pdf-card-title i {
-      color: #0f766e;
-    }
-    
-    .pdf-card p {
-      font-size: 0.78rem;
-      color: #475569;
-      line-height: 1.5;
-      margin: 0 0 0.75rem 0;
-    }
-    
-    .pdf-card p:last-child {
-      margin-bottom: 0;
-    }
-    
-    .pdf-card ul {
-      margin: 0;
-      padding-left: 1.25rem;
-      font-size: 0.78rem;
-      color: #475569;
-    }
-    
-    .pdf-card li {
-      margin-bottom: 0.4rem;
-    }
-    
-    .meta-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-    
-    .meta-item {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.75rem;
-      color: #475569;
-    }
-    
-    .meta-item i {
-      color: #0f766e;
-    }
-    
-    .expert-comment-row {
-      display: flex;
-      gap: 1rem;
-      border-bottom: 1px dashed #e2e8f0;
-      padding-bottom: 0.75rem;
-      margin-bottom: 0.75rem;
-      align-items: flex-start;
-    }
-    
-    .expert-comment-row:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-      margin-bottom: 0;
-    }
-    
-    .expert-score-circle {
-      background: #f1f5f9;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 700;
-      font-size: 0.85rem;
-      color: #0f766e;
-      flex-shrink: 0;
-    }
-    
-    .expert-comment-info h5 {
-      margin: 0 0 0.15rem 0;
-      font-size: 0.78rem;
-      color: #0f172a;
-    }
-    
-    .expert-comment-info p {
-      font-style: italic;
-      font-size: 0.72rem;
-      margin: 0;
-      color: #475569;
-    }
-    
-    /* Planos */
-    .blueprint-pdf-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 1rem;
-      margin-top: 0.5rem;
-    }
-    
-    .blueprint-pdf-card {
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      overflow: hidden;
-      background: #fff;
-    }
-    
-    .blueprint-pdf-card img {
-      width: 100%;
-      height: 120px;
-      object-fit: cover;
-      border-bottom: 1px solid #cbd5e1;
-    }
-    
-    .blueprint-pdf-info {
-      padding: 0.65rem;
-    }
-    
-    .blueprint-pdf-info h4 {
-      margin: 0 0 0.25rem 0;
-      font-size: 0.8rem;
-      font-weight: 700;
-    }
-    
-    .blueprint-pdf-info p {
-      margin: 0;
-      font-size: 0.68rem;
-      color: #64748b;
-      line-height: 1.3;
-    }
-    
-    .blueprint-pdf-meta {
-      padding: 0.4rem 0.65rem;
-      background: #f8fafc;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.6rem;
-      font-weight: 700;
-      display: flex;
-      justify-content: space-between;
-      border-top: 1px solid #e2e8f0;
-      color: #64748b;
-    }
-    
-    /* Referencias */
-    .ref-list-container {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    
-    .ref-item {
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 1rem;
-      background: #ffffff;
-    }
-    
-    .ref-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.5rem;
-    }
-    
-    .ref-title {
-      font-weight: 700;
-      font-size: 0.9rem;
-      color: #0f172a;
-    }
-    
-    .ref-badge {
-      background: rgba(15, 118, 110, 0.08);
-      color: #0f766e;
-      font-size: 0.7rem;
-      padding: 0.15rem 0.5rem;
-      border-radius: 4px;
-      font-weight: 700;
-    }
-    
-    .ref-desc {
-      font-size: 0.78rem;
-      color: #475569;
-      margin: 0 0 0.5rem 0;
-      line-height: 1.4;
-    }
-    
-    .ref-details {
-      font-size: 0.72rem;
-      color: #64748b;
-      background: #f8fafc;
-      padding: 0.5rem 0.75rem;
-      border-radius: 4px;
-      border-left: 3px solid #cbd5e1;
-      line-height: 1.4;
     }
   </style>
 </head>
 <body>
-
-  <!-- PÁGINA 1: PORTADA -->
-  <div class="print-page">
-    <div class="cover">
-      <div class="cover-badge">Catálogo Técnico de Biodiseño</div>
-      <h1>RESILIENCIA<br>INTERESPECIE</h1>
-      <p class="cover-subtitle">Catálogo de Oportunidades y Red de Propuestas Tecnológicas para la Conservación y Coexistencia Activa de Artrópodos en Chile Central</p>
-      
-      <div class="cover-image-container">
-        <img src="images/idea_8.png" alt="Prototipo BICHOS">
-      </div>
-      
-      <div class="cover-metadata">
-        <span>Taller de Diseño Industrial • Estudio de Ecosistemas</span>
-        <span>${currentDate}</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- PÁGINA 2: OPORTUNIDADES Y CATÁLOGO DE IDEAS -->
-  <div class="print-page">
-    <div class="page-header">
-      <span>1. Red de Resiliencia</span>
-      <span class="doc-type">Reporte de Innovación</span>
-    </div>
-    
-    <div class="section-title-block">
-      <h2>Oportunidades Ecosistémicas Prioritarias</h2>
-      <p>Retos de diseño definidos en base a la oscilación térmica, la interfase forestal y la fragmentación urbana de Chile Central.</p>
-    </div>
-
-    <div class="opp-block opp-A">
-      <h3>Oportunidad A: Termorregulación y Refugios (Nidos Térmicos)</h3>
-      <p>"¿Cómo podríamos proteger a los insectos polinizadores nativos de las reservas andinas y valles interiores de Chile central frente a las heladas extremas invernales causadas por el cambio climático...?"</p>
-    </div>
-
-    <div class="opp-block opp-B">
-      <h3>Oportunidad B: Detección Temprana y Monitoreo IoT (Borde Silvoagropecuario)</h3>
-      <p>"¿Cómo podríamos implementar una red de monitoreo entomológico inteligente de Chile central y sur que identifique insectos clave (plagas, vectores y polinizadores) para la detección temprana de brotes...?"</p>
-    </div>
-
-    <div class="opp-block opp-C">
-      <h3>Oportunidad C: Infraestructura Verde y Corredores (Mitigación Urbana)</h3>
-      <p>"¿Cómo podríamos integrar micro-refugios de infraestructura verde sensorizada y herramientas digitales en comunas chilenas altamente densificadas para mitigar las islas de calor...?"</p>
-    </div>
-
-    <div style="margin-top: 1.5rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; font-size: 0.8rem; line-height: 1.5;">
-      <strong>Catálogo de Soluciones:</strong> 
-      A continuación, se evalúan 21 propuestas técnicas organizadas bajo estos 3 ejes prioritarios. Cada propuesta integra herramientas digitales (sensores IoT, inteligencia artificial y recolección de energía) con la selección de maderas locales y bio-compuestos para validar experimentalmente su respuesta biológica en terreno.
-    </div>
-
-    <div class="page-footer">
-      <span>BICHOS • Reporte de Biodiseño</span>
-      <span>Página 2</span>
-    </div>
-  </div>
-
-  <!-- PÁGINA 3: TABLA DE PROPUESTAS A Y B -->
-  <div class="print-page">
-    <div class="page-header">
-      <span>1. Red de Resiliencia (Módulos A y B)</span>
-      <span class="doc-type">Catálogo de Ideas</span>
-    </div>
-    
-    <div class="section-title-block">
-      <h2>Propuestas de Diseño - Termorregulación y Monitoreo</h2>
-      <p>Detalle de soluciones técnicas y justificación ecológica para las Oportunidades A y B.</p>
-    </div>
-
-    <h4 style="margin: 0 0 0.5rem 0; color: #0f766e; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.25rem;">Oportunidad A: Soluciones Térmicas Pasivas y Activas</h4>
-    <div class="ideas-layout" style="margin-bottom: 1.5rem;">
-      ${renderIdeaList(ideasA.slice(0, 4), '#0f766e')}
-    </div>
-
-    <h4 style="margin: 0 0 0.5rem 0; color: #1d4ed8; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.25rem;">Oportunidad B: Monitoreo Entomológico y Alarmas</h4>
-    <div class="ideas-layout">
-      ${renderIdeaList(ideasB.slice(0, 4), '#1d4ed8')}
-    </div>
-
-    <div class="page-footer">
-      <span>BICHOS • Reporte de Biodiseño</span>
-      <span>Página 3</span>
-    </div>
-  </div>
-
-  <!-- PÁGINA 4: TABLA DE PROPUESTAS C Y RESTANTES -->
-  <div class="print-page">
-    <div class="page-header">
-      <span>1. Red de Resiliencia (Módulos B y C)</span>
-      <span class="doc-type">Catálogo de Ideas</span>
-    </div>
-    
-    <div class="section-title-block">
-      <h2>Propuestas de Diseño - Infraestructura Verde</h2>
-      <p>Detalle de soluciones técnicas dirigidas a la coexistencia urbana y el biocontrol.</p>
-    </div>
-
-    <h4 style="margin: 0 0 0.5rem 0; color: #1d4ed8; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.25rem;">Oportunidad B: Monitoreo (Continuación)</h4>
-    <div class="ideas-layout" style="margin-bottom: 1.5rem;">
-      ${renderIdeaList(ideasB.slice(4), '#1d4ed8')}
-    </div>
-
-    <h4 style="margin: 0 0 0.5rem 0; color: #6d28d9; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.25rem;">Oportunidad C: Infraestructura Verde y Corredores</h4>
-    <div class="ideas-layout">
-      ${renderIdeaList(ideasC.slice(0, 4), '#6d28d9')}
-    </div>
-
-    <div class="page-footer">
-      <span>BICHOS • Reporte de Biodiseño</span>
-      <span>Página 4</span>
-    </div>
-  </div>
-
-  <!-- PÁGINA 5: MATRIZ DE PUGH Y CONSENSO -->
-  <div class="print-page">
-    <div class="page-header">
-      <span>2. Matriz de Pugh</span>
-      <span class="doc-type">Evaluación de Alternativas</span>
-    </div>
-    
-    <div class="section-title-block">
-      <h2>Matriz de Pugh y Selección de Propuestas</h2>
-      <p>Evaluación ponderada multicriterio que compara las 4 mejores alternativas de diseño frente a requerimientos y bases del concurso.</p>
-    </div>
-
-    <div class="pugh-table-container">
-      <table class="pdf-pugh-table">
-        <thead>
-          <tr>
-            <th style="width: 35%;">Criterio de Evaluación</th>
-            <th style="width: 8%;">Peso</th>
-            <th style="width: 14%; background: rgba(194, 65, 12, 0.05);">Alt 1: Edge AI<br>(Idea 8)</th>
-            <th style="width: 14%; background: rgba(20, 184, 166, 0.05);">Alt 2: Postes Luz<br>(Idea 19)</th>
-            <th style="width: 14%; background: rgba(29, 78, 216, 0.05);">Alt 3: LiDAR<br>(Idea 10)</th>
-            <th style="width: 14%; background: rgba(109, 40, 217, 0.05);">Alt 4: Citizen App<br>(Idea 14)</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${pughRowsHtml}
-        </tbody>
-        <tfoot>
-          <tr style="background: #f1f5f9; font-weight: 800; font-size: 0.85rem;">
-            <td style="text-align: left; padding: 0.75rem;">TOTAL PONDERADO</td>
-            <td>-</td>
-            <td style="color: #c2410c; background: rgba(194, 65, 12, 0.08);">${totals.alt1}</td>
-            <td style="color: #0f766e;">${totals.alt2}</td>
-            <td style="color: #1d4ed8;">${totals.alt3}</td>
-            <td style="color: #6d28d9;">${totals.alt4}</td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-
-    <div class="pugh-winner-panel">
-      <div class="pugh-winner-icon">
-        <i class="fa-solid fa-crown"></i>
-      </div>
-      <div class="pugh-winner-details">
-        <h4>Alternativa Seleccionada: ${winnerName}</h4>
-        <p>
-          Con un puntaje total ponderado de <strong>${maxScore} puntos</strong> sobre un máximo posible de ${maxPossible} (${((maxScore/maxPossible)*100).toFixed(0)}%), la estación inteligente basada en Edge AI se corona como el proyecto ganador debido a su altísima relevancia biológica, precisión de monitoreo temprano y factibilidad técnica y económica en zonas forestales extremas.
-        </p>
-      </div>
-    </div>
-
-    <div class="page-footer">
-      <span>BICHOS • Reporte de Biodiseño</span>
-      <span>Página 5</span>
-    </div>
-  </div>
-
-  <!-- PÁGINA 6: PROYECTO GANADOR - CONTEXTO Y EXPERTOS -->
-  <div class="print-page">
-    <div class="page-header">
-      <span>3. Proyecto Ganador</span>
-      <span class="doc-type">Ficha Técnica Oficial</span>
-    </div>
-    
-    <div class="winner-banner">
-      <div class="winner-banner-text">
-        <h1>Estación Inteligente de Detección Entomológica mediante Visión Artificial (Edge AI)</h1>
-        <p>Monitoreo automatizado y protección de biodiversidad forestal frente a plagas destructivas en la interfase silvoagropecuaria.</p>
-      </div>
-      <div class="winner-banner-img">
-        <img src="images/idea_8.png" alt="Edge AI Render">
-      </div>
-    </div>
-
-    <div class="winner-metrics-container">
-      <div class="winner-metric-card">
-        <i class="fa-solid fa-microchip"></i>
-        <div class="winner-metric-info">
-          <span>Clasificación</span>
-          <strong>Edge AI Local</strong>
-        </div>
-      </div>
-      <div class="winner-metric-card orange">
-        <i class="fa-solid fa-star"></i>
-        <div class="winner-metric-info">
-          <span>Consenso Científico</span>
-          <strong>9.75 / 10.0</strong>
-        </div>
-      </div>
-      <div class="winner-metric-card blue">
-        <i class="fa-solid fa-sun"></i>
-        <div class="winner-metric-info">
-          <span>Alimentación</span>
-          <strong>100% Solar</strong>
-        </div>
-      </div>
-    </div>
-
-    <div class="winner-dossier-grid">
-      <div>
-        <div class="pdf-card">
-          <div class="pdf-card-title"><i class="fa-solid fa-compass"></i> Área de Oportunidad</div>
-          <p>
-            Monitorear activamente e <em>in situ</em> los bordes boscosos de Chile central y sur, identificando insectos clave (plagas invasoras y polinizadores) de forma temprana mediante Inteligencia Artificial local.
-          </p>
-          <div class="meta-list" style="margin-top: 0.75rem;">
-            <div class="meta-item"><i class="fa-solid fa-map-pin"></i> Centro y Sur de Chile (Bordes Boscosos)</div>
-            <div class="meta-item"><i class="fa-solid fa-triangle-exclamation"></i> Prevención de daños al dosel forestal</div>
-            <div class="meta-item"><i class="fa-solid fa-satellite-dish"></i> Monitoreo remoto y alertas SAG / CONAF</div>
-          </div>
-        </div>
-
-        <div class="pdf-card">
-          <div class="pdf-card-title"><i class="fa-solid fa-circle-info"></i> Contexto y Enfoque</div>
-          <p>
-            <strong>Foco Territorial:</strong> La interfaz silvoagropecuaria del sur de Chile, donde los bosques templados se topan con plantaciones comerciales y huertos.
-          </p>
-          <p>
-            <strong>Mitigación:</strong> En lugar de registrar la plaga cuando el árbol ya presenta defoliación letal y muerte del dosel, la estación inteligente detecta a los insectos adultos en su fase inicial de vuelo y colonización activa.
-          </p>
-        </div>
-      </div>
-
-      <div>
-        <div class="pdf-card" style="height: calc(100% - 1.25rem);">
-          <div class="pdf-card-title"><i class="fa-solid fa-users-viewfinder"></i> Evaluaciones del Panel Científico</div>
-          
-          <div class="expert-comment-row">
-            <div class="expert-score-circle">9.5</div>
-            <div class="expert-comment-info">
-              <h5>Experto en Desarrollo Tecnológico</h5>
-              <p>"Impacto crítico y estratégico. Chile depende fuertemente de la agroexportación y tiene barreras fitosanitarias estrictas. Identificar especies invasoras y plagas en tiempo real mediante Edge AI en terreno previene catástrofes ecológicas y económicas."</p>
-            </div>
-          </div>
-
-          <div class="expert-comment-row">
-            <div class="expert-score-circle" style="color: #c2410c;">10.0</div>
-            <div class="expert-comment-info">
-              <h5>Experto en Entomología / Ecología de Campo</h5>
-              <p>"Excelente. El uso de visión artificial en el dispositivo para clasificar escarabajos barrenadores en su fase de vuelo adulta permite capturar brotes de plagas forestales de manera instantánea y geolocalizada en el sur de Chile, coordinando con el SAG de manera inédita."</p>
-            </div>
-          </div>
-
-          <p style="margin-top: 1rem; font-size: 0.72rem; color: #64748b; line-height: 1.4;">
-            <strong>Justificación de Conservación:</strong> 
-            Permite la alerta temprana ultrafiel ante la colonización inicial de insectos barrenadores destructivos en rodales de difícil acceso mucho antes de que se presenten daños foliares visibles desde tierra o satélites. Esto posibilita actuar localmente con control biológico o trampas selectivas de confusión sexual antes de que la plaga se disemine, protegiendo bosques vulnerables.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div class="page-footer">
-      <span>BICHOS • Reporte de Biodiseño</span>
-      <span>Página 6</span>
-    </div>
-  </div>
-
-  <!-- PÁGINA 7: PROYECTO GANADOR - MODULAR Y BIOMECÁNICA -->
-  <div class="print-page">
-    <div class="page-header">
-      <span>4. Especificaciones Técnicas</span>
-      <span class="doc-type">Diseño y Biomecánica</span>
-    </div>
-
-    <div class="section-title-block">
-      <h2>Estructura Modular e Ingeniería Biomecánica</h2>
-      <p>Detalle de los subsistemas y componentes físicos que permiten el monitoreo y protección de polinizadores.</p>
-    </div>
-
-    <div class="pdf-card">
-      <div class="pdf-card-title"><i class="fa-solid fa-cubes"></i> Trampas Intercambiables (Modularidad)</div>
-      <p>
-        La estación se concibe como un <strong>sistema modular de libre configuración</strong>. Dependiendo de los requerimientos de monitoreo o de la estación del año, la base del chasis estanco puede acoplarse con tres tipologías de trampas físicas distintas:
-      </p>
-      <ul>
-        <li><strong>Módulo de Intercepción de Vuelo (Ventana)</strong>: Panel transparente de policarbonato con embudo colector, ideal para coleópteros y vespidos forestales en vuelo activo.</li>
-        <li><strong>Módulo de Atracción Lumínica Cromática</strong>: Emisores LED UV y espectros selectivos programados para muestreo nocturno de lepidópteros sin desorientar murciélagos.</li>
-        <li><strong>Módulo de Atracción Bioquímica (Feromonas)</strong>: Compartimento con difusor de feromonas sintéticas de dosificación microfluídica controlada electrónicamente para capturas ultrafieles de plagas específicas.</li>
-      </ul>
-    </div>
-
-    <div class="pdf-card">
-      <div class="pdf-card-title"><i class="fa-solid fa-leaf"></i> Especificaciones Biomecánicas y Coexistencia</div>
-      <p>
-        El diseño del cono de tránsito y la recámara de inspección incorpora adaptaciones físicas críticas para asegurar la selectividad y evitar el daño incidental a la biodiversidad local:
-      </p>
-      <ul>
-        <li><strong>Geometría Cónica de Ingreso</strong>: Ángulo de inclinación de 45° con tratamiento rugoso interior que facilita el aterrizaje e ingreso del insecto, reduciendo el escape antes del registro óptico.</li>
-        <li><strong>Malla de Exclusión Metálica</strong>: Barrera mecánica de acero inoxidable con luces de paso de 8mm que bloquea el ingreso de micromamíferos, aves nativas o insectos gigantes como el coleóptero <em>Acanthinodera cumingii</em>, evitando confinamientos accidentales.</li>
-        <li><strong>Control No Invasivo y Liberación Activa</strong>: Compartimento de inspección seco y sombreado que reduce el estrés térmico del insecto. Las compuertas motorizadas de escape lateral operan en base a la identificación de la IA, liberando de forma inmediata a los polinizadores y coleópteros benéficos nativos, reteniendo únicamente las plagas invasoras registradas.</li>
-      </ul>
-    </div>
-
-    <div class="page-footer">
-      <span>BICHOS • Reporte de Biodiseño</span>
-      <span>Página 7</span>
-    </div>
-  </div>
-
-  <!-- PÁGINA 8: PLANOS E INGENIERÍA 3D -->
-  <div class="print-page">
-    <div class="page-header">
-      <span>5. Ingeniería 3D y Planos</span>
-      <span class="doc-type">Planos de Detalle</span>
-    </div>
-
-    <div class="section-title-block">
-      <h2>Ingeniería Dimensional y Prototipado 3D</h2>
-      <p>Visualización estructural de ensambles y cortes mecánicos del chasis de la estación.</p>
-    </div>
-
-    <div class="blueprint-pdf-grid">
-      <div class="blueprint-pdf-card">
-        <img src="images/winner_isometric.png" alt="Vista Isométrica">
-        <div class="blueprint-pdf-info">
-          <h4>PLANO 01: VISTA GENERAL</h4>
-          <p>Diagrama tridimensional que detalla el acoplamiento no invasivo a árboles mediante cinchas elásticas y la orientación del panel solar superior.</p>
-        </div>
-        <div class="blueprint-pdf-meta">
-          <span>ESCALA: 1:10</span>
-          <span>FORMATO: A3</span>
-        </div>
-      </div>
-
-      <div class="blueprint-pdf-card">
-        <img src="images/winner_enclosure.png" alt="Caja Técnica">
-        <div class="blueprint-pdf-info">
-          <h4>PLANO 02: CAJA TÉCNICA</h4>
-          <p>Corte mecánico del habitáculo estanco IP66. Distribución de la Raspberry Pi, acelerador Coral TPU y aislamiento de corcho contra heladas.</p>
-        </div>
-        <div class="blueprint-pdf-meta">
-          <span>ESCALA: 1:2</span>
-          <span>FORMATO: A3</span>
-        </div>
-      </div>
-
-      <div class="blueprint-pdf-card">
-        <img src="images/winner_optical.png" alt="Sistema Óptico">
-        <div class="blueprint-pdf-info">
-          <h4>PLANO 03: TÚNEL ÓPTICO</h4>
-          <p>Detalle de la recámara de tránsito de borosilicato. Muestra la alineación cenital de la cámara macro Sony IMX219 y los emisores LED UV.</p>
-        </div>
-        <div class="blueprint-pdf-meta">
-          <span>ESCALA: 1:1</span>
-          <span>FORMATO: A3</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="pdf-card" style="margin-top: 1.5rem;">
-      <div class="pdf-card-title"><i class="fa-solid fa-tree"></i> Materialidad y Técnicas de Fabricación</div>
-      <p>
-        <strong>Maderas Nativas Sostenibles:</strong> El chasis exterior se fabrica en madera de Roble Hualo certificada, elegida por su alta inercia térmica, elasticidad mecánica en intemperie y resistencia biológica natural a hongos e insectos taladradores. Se trata con aceites protectores biodegradables de base linaza.
-      </p>
-      <p>
-        <strong>PETG Impreso en 3D:</strong> El cono de ingreso y la estructura interna del túnel óptico se imprimen en plástico PETG reciclado debido a su alta resistencia al impacto mecánico, estabilidad ante radiación UV y baja absorción de humedad en climas forestales templados lluviosos.
-      </p>
-    </div>
-
-    <div class="page-footer">
-      <span>BICHOS • Reporte de Biodiseño</span>
-      <span>Página 8</span>
-    </div>
-  </div>
-
-  <!-- PÁGINA 9: REFERENCIAS -->
-  <div class="print-page">
-    <div class="page-header">
-      <span>6. Referencias Bibliográficas</span>
-      <span class="doc-type">Antecedentes Científicos</span>
-    </div>
-
-    <div class="section-title-block">
-      <h2>Referencias y Antecedentes Tecnológicos</h2>
-      <p>Proyectos de código abierto, literatura científica y plataformas IoT que validan el diseño tecnológico de BICHOS.</p>
-    </div>
-
-    <div class="ref-list-container">
-      ${refsHtml}
-    </div>
-
-    <div class="page-footer">
-      <span>BICHOS • Reporte de Biodiseño</span>
-      <span>Página 9</span>
-    </div>
-  </div>
-
+  ${imagesHtml}
 </body>
 </html>
       `;
 
-      doc.write(htmlContent);
-      doc.close();
+      printDoc.write(htmlContent);
+      printDoc.close();
 
-      // Esperar a que se carguen las imágenes y fuentes, luego imprimir
+      // Esperar a que se procese e imprimir
       setTimeout(() => {
         iframe.contentWindow.focus();
         iframe.contentWindow.print();
-        
-        // Limpieza: remover el iframe después de imprimir
         setTimeout(() => {
           document.body.removeChild(iframe);
         }, 1000);
