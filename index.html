@@ -3523,52 +3523,7 @@
     </div>
   </div>
 
-  <!-- Guía Interactiva (Onboarding Card) -->
-  <div class="onboarding-card" id="onboarding-card" style="display: none;">
-    <div class="onboarding-close" onclick="closeOnboarding()">
-      <i class="fa-solid fa-xmark"></i>
-    </div>
-    <div class="onboarding-header">
-      <i class="fa-solid fa-compass" style="color: var(--accent-hub); font-size: 1.35rem;"></i>
-      <h2>Guía del Ecosistema de Bichos</h2>
-    </div>
-    <p style="font-size: 0.82rem; color: var(--text-muted); max-width: 900px; margin-bottom: 0.5rem;">
-      Esta herramienta interactiva permite a científicos y diseñadores explorar propuestas ecológicas para la protección de la fauna nativa chilena.
-    </p>
-    
-    <div class="onboarding-steps">
-      <div class="onboarding-step">
-        <span class="step-num step-hub">1</span>
-        <div>
-          <strong>Núcleo de Resiliencia</strong>
-          <p>Unión e interacción interespecie. Haz clic en las tarjetas de oportunidades para focalizar.</p>
-        </div>
-      </div>
-      <div class="onboarding-step">
-        <span class="step-num step-mod">2</span>
-        <div>
-          <strong>Oportunidades de Diseño</strong>
-          <p>Desafíos prioritarios de conservación. Explora las ideas asociadas en cada área temática.</p>
-        </div>
-      </div>
-      <div class="onboarding-step">
-        <span class="step-num step-idea">3</span>
-        <div>
-          <strong>Fichas Técnicas</strong>
-          <p>Análisis y evaluaciones científicas. Haz clic en cualquier idea para ver desgloses y evaluaciones.</p>
-        </div>
-      </div>
-    </div>
-    
-    <div class="onboarding-actions">
-      <button class="btn-tour-primary" onclick="startGuidedTour()">
-        <i class="fa-solid fa-route"></i> Iniciar Recorrido Guiado
-      </button>
-      <button class="btn-tour-secondary" onclick="closeOnboarding()">
-        Explorar libremente
-      </button>
-    </div>
-  </div>
+
 
   <!-- Panel de Oportunidad Enfocada -->
   <div class="opportunity-panel" id="opportunity-panel" style="display: none;">
@@ -3990,7 +3945,7 @@
           <i class="fa-solid fa-leaf"></i> Especificaciones Biomecánicas
         </button>
         <button class="winner-subtab-btn" id="btn-winner-tab-blueprints" onclick="switchWinnerSubTab('blueprints')">
-          <i class="fa-solid fa-pencil-ruler"></i> Planos Técnicos e Ingeniería 3D
+          <i class="fa-solid fa-pencil-ruler"></i> Planos, Croquis y Vistas 3D
         </button>
         <button class="winner-subtab-btn" id="btn-winner-tab-resources" onclick="switchWinnerSubTab('resources')">
           <i class="fa-solid fa-tree"></i> Materiales y Técnicas
@@ -4945,7 +4900,7 @@
     <!-- CONTENIDO PESTAÑA 2: PLANOS TÉCNICOS E INGENIERÍA 3D -->
     <div class="winner-tab-content" id="winner-tab-blueprints">
       <div class="winner-card" style="margin-bottom: 1.5rem;">
-        <h3 class="winner-card-title"><i class="fa-solid fa-pencil-ruler"></i> Ingeniería de Detalles y Prototipado 3D</h3>
+        <h3 class="winner-card-title"><i class="fa-solid fa-pencil-ruler"></i> Planos, Croquis y Vistas 3D</h3>
         <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0; line-height: 1.6;">
           Esquemas de fabricación e ingeniería dimensional generados para la validación y ensamble de la Estación Entomológica Inteligente. La estación combina materiales bio-compuestos con aislamiento térmico pasivo de alta inercia para asegurar la protección activa del hardware en condiciones de intemperie forestal severa. <strong>Haz clic en cualquier croquis técnico para abrir la vista en alta definición.</strong>
         </p>
@@ -4970,10 +4925,6 @@
             <h4>Módulo Superior (Componentes Internos)</h4>
             <p>Vista explosionada y corte esquemático que detalla la distribución de los componentes electrónicos internos: microcomputador, acelerador de IA y sensores ópticos.</p>
           </div>
-          <div class="blueprint-tech-specs">
-            <span>ESCALA: 1:2</span>
-            <span>FORMATO: ISO A3</span>
-          </div>
         </div>
 
         <!-- Tarjeta Plano 2: Panel Solar con Cable -->
@@ -4993,10 +4944,6 @@
           <div class="blueprint-info-area">
             <h4>Panel Solar con Cableado</h4>
             <p>Detalle del sistema de alimentación fotovoltaico, soporte de inclinación regulable y cableado de salida estanco de alta resistencia climática.</p>
-          </div>
-          <div class="blueprint-tech-specs">
-            <span>ESCALA: 1:5</span>
-            <span>FORMATO: ISO A3</span>
           </div>
         </div>
 
@@ -5018,10 +4965,6 @@
             <h4>Módulo Inferior (Abejas)</h4>
             <p>Estructura de la trampa adaptada para el monitoreo pasivo de abejas y abejorros nativos mediante thigmotaxis y mimetismo cromático UV.</p>
           </div>
-          <div class="blueprint-tech-specs">
-            <span>ESCALA: 1:1</span>
-            <span>FORMATO: ISO A3</span>
-          </div>
         </div>
 
         <!-- Tarjeta Plano 4: Módulo Inferior para Escarabajos -->
@@ -5041,10 +4984,6 @@
           <div class="blueprint-info-area">
             <h4>Módulo Inferior (Escarabajos)</h4>
             <p>Diseño del embudo de caída seco (Simple-Pitfall) con ranura de difusión de feromonas, optimizado para la detección del escarabajo del pino.</p>
-          </div>
-          <div class="blueprint-tech-specs">
-            <span>ESCALA: 1:1</span>
-            <span>FORMATO: ISO A3</span>
           </div>
         </div>
 
@@ -5066,10 +5005,6 @@
             <h4>Módulo Inferior (Chaqueta Amarilla)</h4>
             <p>Detalle del cono unidireccional de entrada y cámara de cebado proteico para la captura selectiva de la avispa chaqueta amarilla.</p>
           </div>
-          <div class="blueprint-tech-specs">
-            <span>ESCALA: 1:1</span>
-            <span>FORMATO: ISO A3</span>
-          </div>
         </div>
 
         <!-- Tarjeta Plano 6: Ejemplo de Instalación -->
@@ -5089,10 +5024,6 @@
           <div class="blueprint-info-area">
             <h4>Ejemplo de Instalación</h4>
             <p>Esquema de instalación en campo que ilustra la colocación de la estación entomológica en el tronco del árbol a una altura sugerida mediante cinchas de sujeción.</p>
-          </div>
-          <div class="blueprint-tech-specs">
-            <span>ESCALA: N/A</span>
-            <span>FORMATO: ISO A3</span>
           </div>
         </div>
       </div>
@@ -5503,7 +5434,7 @@
     const statusMessage = document.getElementById('status-message');
     const dashboardStats = document.getElementById('dashboard-stats');
     const controlsContainer = document.getElementById('controls-container');
-    const onboardingCard = document.getElementById('onboarding-card');
+
     
     const mapView = document.getElementById('map-view');
     const matrixView = document.getElementById('matrix-view');
@@ -7309,6 +7240,20 @@
     };
     loadData();
   </script>
+
+  <!-- Lightbox Modal para Planos Técnicos -->
+  <div id="blueprint-lightbox" class="blueprint-lightbox">
+    <div class="lightbox-content-container">
+      <button class="lightbox-close-btn" onclick="closeBlueprintLightbox()" title="Cerrar"><i class="fa-solid fa-xmark"></i></button>
+      <div class="lightbox-image-wrapper">
+        <img id="lightbox-img" src="" alt="Vista ampliada del plano">
+      </div>
+      <div class="lightbox-caption">
+        <h4 id="lightbox-title">Título del Plano</h4>
+        <p id="lightbox-desc">Descripción detallada del plano técnico.</p>
+      </div>
+    </div>
+  </div>
 
   <!-- BARRA DE CONTROL DE LA PRESENTACIÓN AUTOPLAY -->
   <div class="presentation-bar" id="presentation-bar">
