@@ -4977,25 +4977,11 @@
         </div>
       </div>
     </div>
-
-    <!-- CONTENIDO PESTAÑA 3: MATERIALES Y TÉCNICAS -->
-    <div class="winner-tab-content" id="winner-tab-resources">
-      <!-- Sección de Materiales -->
-      <div class="winner-card" style="margin-bottom: 1.5rem;">
-        <h3 class="winner-card-title"><i class="fa-solid fa-print"></i> Selección de Materiales para el Prototipo</h3>
-        <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0; line-height: 1.6;">
-          Análisis de la materialidad del dispositivo. Estructura optimizada para fabricación aditiva (impresión 3D) con filamentos de alta resistencia a la intemperie y de bajo impacto ecológico.
-        </p>
-      </div>
-
       <div class="resource-grid" style="margin-bottom: 2.5rem;">
         <!-- Filamentos PETG Estructurales -->
         <div class="resource-card petg">
           <div class="resource-card-header">
             <div class="resource-icon-wrapper"><i class="fa-solid fa-cubes"></i></div>
-            <span class="resource-badge-editable" onclick="alert('Material configurable en el código fuente')">
-              <i class="fa-solid fa-lock"></i> Fijo
-            </span>
           </div>
           <h4>PETG de Alta Resistencia (Chasis Principal)</h4>
           <p>Material principal del chasis exterior y soporte estructural superior. Posee alta tenacidad, resistencia al impacto y aditivos protectores UV para soportar la intemperie forestal extrema.</p>
@@ -5011,9 +4997,6 @@
         <div class="resource-card cork">
           <div class="resource-card-header">
             <div class="resource-icon-wrapper"><i class="fa-solid fa-shield-heart"></i></div>
-            <span class="resource-badge-editable" onclick="alert('Material configurable en el código fuente')">
-              <i class="fa-solid fa-lock"></i> Fijo
-            </span>
           </div>
           <h4>Corcho Natural Aglomerado</h4>
           <p>Recubrimiento interior térmico del habitáculo electrónico. Proporciona un coeficiente de aislamiento superior, protegiendo la Raspberry Pi y las baterías LiFePO4 de heladas extremas invernales y calor intenso.</p>
@@ -5025,21 +5008,18 @@
           </div>
         </div>
 
-        <!-- Vidrio Borosilicato -->
+        <!-- Acrílico Transparente -->
         <div class="resource-card glass">
           <div class="resource-card-header">
             <div class="resource-icon-wrapper"><i class="fa-solid fa-eye"></i></div>
-            <span class="resource-badge-editable" onclick="alert('Material configurable en el código fuente')">
-              <i class="fa-solid fa-lock"></i> Fijo
-            </span>
           </div>
-          <h4>Vidrio de Borosilicato Templado</h4>
-          <p>Lente protectora y ventana de tránsito óptico para la cámara. Cuenta con tratamiento antirreflejo y antiempañante para garantizar capturas ultra nítidas e inalteradas por la condensación matutina.</p>
+          <h4>Acrílico Transparente (Ventana Óptica)</h4>
+          <p>Lente protectora y ventana de tránsito óptico para la cámara. Se utiliza acrílico transparente de alta transmisión lumínica, lo que permite un corte por láser preciso y económico para ajustar las dimensiones de la ventana, garantizando un sellado hermético contra la humedad.</p>
           
           <div class="resource-tags">
-            <span class="resource-tag-pill">Antireflejo</span>
-            <span class="resource-tag-pill">Sin Deformación</span>
-            <span class="resource-tag-pill">Alta Dureza</span>
+            <span class="resource-tag-pill">Corte Láser</span>
+            <span class="resource-tag-pill">Transmisión Lumínica</span>
+            <span class="resource-tag-pill">Económico</span>
           </div>
         </div>
 
@@ -5047,9 +5027,6 @@
         <div class="resource-card pla">
           <div class="resource-card-header">
             <div class="resource-icon-wrapper"><i class="fa-solid fa-leaf"></i></div>
-            <span class="resource-badge-editable" onclick="alert('Material configurable en el código fuente')">
-              <i class="fa-solid fa-lock"></i> Fijo
-            </span>
           </div>
           <h4>PLA de Grado Técnico (Trampas Intercambiables)</h4>
           <p>Utilizado para la fabricación aditiva de los módulos inferiores y trampas de captura. Es un termoplástico de alta tenacidad y resistencia mecánica que facilita la personalización de las trampas mediante impresión 3D, garantizando estabilidad dimensional y una larga vida útil en la intemperie.</p>
@@ -5065,9 +5042,6 @@
         <div class="resource-card wood">
           <div class="resource-card-header">
             <div class="resource-icon-wrapper"><i class="fa-solid fa-tree"></i></div>
-            <span class="resource-badge-editable" onclick="alert('Material configurable en el código fuente')">
-              <i class="fa-solid fa-lock"></i> Fijo
-            </span>
           </div>
           <h4>Recubrimiento de Madera con Epóxica</h4>
           <p>Revestimiento exterior de madera nativa tratada con resina epóxica. Su función es mimetizar el dispositivo en el tronco de los árboles para disminuir el impacto visual y evitar robos o vandalismo, mientras que el sellado epóxico garantiza una impermeabilidad y durabilidad de años ante la intemperie forestal.</p>
@@ -5083,9 +5057,6 @@
         <div class="resource-card metal">
           <div class="resource-card-header">
             <div class="resource-icon-wrapper"><i class="fa-solid fa-gears"></i></div>
-            <span class="resource-badge-editable" onclick="alert('Material configurable en el código fuente')">
-              <i class="fa-solid fa-lock"></i> Fijo
-            </span>
           </div>
           <h4>Aluminio y Pernos Inoxidables SUS316</h4>
           <p>Anclajes de fijación a troncos no invasivos mediante correas de poliuretano, bisagras y tornillería de sellado del compartimento principal. Evita la corrosión salina e hidrológica forestal.</p>
@@ -5111,20 +5082,9 @@
         <div class="resource-card technique">
           <div class="resource-card-header">
             <div class="resource-icon-wrapper"><i class="fa-solid fa-computer"></i></div>
-            <span class="resource-badge-editable" onclick="alert('Técnica de fabricación del prototipo')"><i class="fa-solid fa-lock"></i> Fijo</span>
           </div>
           <h4>Modelado 3D y Diseño CAD</h4>
           <p>Modelado tridimensional digital de los encajes machihembrados y guías mecánicas de las trampas intercambiables. Asegura un acoplamiento perfecto mediante imanes y guías deslizantes.</p>
-          <div class="spec-meters-list">
-            <div class="spec-meter-container">
-              <div class="spec-meter-label"><span>Precisión Dimensional</span><span>99%</span></div>
-              <div class="spec-meter"><div class="spec-fill" style="width: 99%;"></div></div>
-            </div>
-            <div class="spec-meter-container">
-              <div class="spec-meter-label"><span>Complejidad Técnica</span><span>75%</span></div>
-              <div class="spec-meter"><div class="spec-fill" style="width: 75%;"></div></div>
-            </div>
-          </div>
           <div class="resource-tags">
             <span class="resource-tag-pill">Modelado Paramétrico</span>
             <span class="resource-tag-pill">Ajuste de Tolerancias</span>
@@ -5135,20 +5095,9 @@
         <div class="resource-card technique">
           <div class="resource-card-header">
             <div class="resource-icon-wrapper"><i class="fa-solid fa-spray-can"></i></div>
-            <span class="resource-badge-editable" onclick="alert('Técnica de fabricación del prototipo')"><i class="fa-solid fa-lock"></i> Fijo</span>
           </div>
           <h4>Post-procesado y Sellado Térmico</h4>
           <p>Tratamiento térmico superficial y aplicación de recubrimientos hidrófugos de sellado para tapar la microporosidad natural de la impresión 3D, garantizando una impermeabilidad total en condiciones de lluvia severa.</p>
-          <div class="spec-meters-list">
-            <div class="spec-meter-container">
-              <div class="spec-meter-label"><span>Impermeabilidad</span><span>98%</span></div>
-              <div class="spec-meter"><div class="spec-fill" style="width: 98%;"></div></div>
-            </div>
-            <div class="spec-meter-container">
-              <div class="spec-meter-label"><span>Durabilidad Superficial</span><span>90%</span></div>
-              <div class="spec-meter"><div class="spec-fill" style="width: 90%;"></div></div>
-            </div>
-          </div>
           <div class="resource-tags">
             <span class="resource-tag-pill">Canales Herméticos</span>
             <span class="resource-tag-pill">Acabado Liso</span>
@@ -5159,20 +5108,9 @@
         <div class="resource-card technique">
           <div class="resource-card-header">
             <div class="resource-icon-wrapper"><i class="fa-solid fa-print"></i></div>
-            <span class="resource-badge-editable" onclick="alert('Técnica de fabricación del prototipo')"><i class="fa-solid fa-lock"></i> Fijo</span>
           </div>
           <h4>Impresión 3D por FDM (Deposición Fundida)</h4>
           <p>Utilizada para fabricar tanto el chasis estructural exterior como los conductos cónicos internos y soportes ópticos. Permite crear formas aerodinámicas optimizadas para el tránsito de insectos sin necesidad de moldes costosos.</p>
-          <div class="spec-meters-list">
-            <div class="spec-meter-container">
-              <div class="spec-meter-label"><span>Complejidad Geométrica</span><span>95%</span></div>
-              <div class="spec-meter"><div class="spec-fill" style="width: 95%;"></div></div>
-            </div>
-            <div class="spec-meter-container">
-              <div class="spec-meter-label"><span>Rapidez de Iteración</span><span>85%</span></div>
-              <div class="spec-meter"><div class="spec-fill" style="width: 85%;"></div></div>
-            </div>
-          </div>
           <div class="resource-tags">
             <span class="resource-tag-pill">Aditiva</span>
             <span class="resource-tag-pill">Impresión In-House</span>
@@ -5183,28 +5121,17 @@
         <div class="resource-card technique">
           <div class="resource-card-header">
             <div class="resource-icon-wrapper"><i class="fa-solid fa-screwdriver"></i></div>
-            <span class="resource-badge-editable" onclick="alert('Técnica de fabricación del prototipo')"><i class="fa-solid fa-lock"></i> Fijo</span>
           </div>
           <h4>Ensamble e Inserción Mecánica</h4>
           <p>Instalación por calor de insertos roscados de bronce en el chasis impreso, ensamble de bisagras metálicas y colocación manual de sellos de goma de silicona para garantizar la estanqueidad hermética IP66 final.</p>
-          <div class="spec-meters-list">
-            <div class="spec-meter-container">
-              <div class="spec-meter-label"><span>Fijación Mecánica</span><span>100%</span></div>
-              <div class="spec-meter"><div class="spec-fill" style="width: 100%;"></div></div>
-            </div>
-            <div class="spec-meter-container">
-              <div class="spec-meter-label"><span>Hermeticidad IP66</span><span>95%</span></div>
-              <div class="spec-meter"><div class="spec-fill" style="width: 95%;"></div></div>
-            </div>
-          </div>
           <div class="resource-tags">
             <span class="resource-tag-pill">Insertos Roscados</span>
             <span class="resource-tag-pill">Sellado de Silicona</span>
           </div>
         </div>
-    </div>
+      </div>
 
-  </div>
+    </div>
   </div>
 
   <!-- MODAL DRAWER AVANZADO (Detalles de Propuesta) -->
