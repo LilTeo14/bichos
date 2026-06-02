@@ -3,7 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bichos - Ecosistema de Innovación y Conservación de Artrópodos</title>
+  <title>Bichos - Ecosistema de Innovación y Conservación de Insectos</title>
+  <meta name="description" content="Plataforma de innovación y conservación de insectos. Diseño de producto, ciencias biológicas y monitoreo inteligente de ecosistemas.">
+  
+  <!-- Open Graph / WhatsApp sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Bichos - Ecosistema de Innovación y Conservación de Insectos">
+  <meta property="og:description" content="Plataforma de innovación y conservación de insectos. Diseño de producto, ciencias biológicas y monitoreo inteligente de ecosistemas.">
   
   <!-- Google Fonts: Space Grotesk (Tech) & Plus Jakarta Sans (Reading) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -5655,10 +5661,7 @@
         dashboardStats.style.display = 'grid';
         controlsContainer.style.display = 'flex';
         
-        // Gestionar Onboarding en localStorage
-        if (localStorage.getItem('bichos-onboarding-dismissed-v2') !== 'true') {
-          onboardingCard.style.display = 'block';
-        }
+
         
         // Calcular estadísticas y renderizar vista inicial
         calculateGlobalStats();
@@ -5835,16 +5838,7 @@
     // ==========================================================================
     // 4. CONTROL DE RECORRIDO GUIADO (Onboarding y Focus)
     // ==========================================================================
-    function closeOnboarding() {
-      onboardingCard.style.display = 'none';
-      localStorage.setItem('bichos-onboarding-dismissed-v2', 'true');
-    }
-    
-    function startGuidedTour() {
-      onboardingCard.style.display = 'none';
-      switchView('map');
-      selectOpportunityFocus('A');
-    }
+
 
     function scrollToElement(id) {
       const el = document.getElementById(id);

@@ -3,7 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bichos - Ecosistema de Innovación y Conservación de Artrópodos</title>
+  <title>Bichos - Ecosistema de Innovación y Conservación de Insectos</title>
+  <meta name="description" content="Plataforma de innovación y conservación de insectos. Diseño de producto, ciencias biológicas y monitoreo inteligente de ecosistemas.">
+  
+  <!-- Open Graph / WhatsApp sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Bichos - Ecosistema de Innovación y Conservación de Insectos">
+  <meta property="og:description" content="Plataforma de innovación y conservación de insectos. Diseño de producto, ciencias biológicas y monitoreo inteligente de ecosistemas.">
   
   <!-- Google Fonts: Space Grotesk (Tech) & Plus Jakarta Sans (Reading) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -3525,52 +3531,7 @@
     </div>
   </div>
 
-  <!-- Guía Interactiva (Onboarding Card) -->
-  <div class="onboarding-card" id="onboarding-card" style="display: none;">
-    <div class="onboarding-close" onclick="closeOnboarding()">
-      <i class="fa-solid fa-xmark"></i>
-    </div>
-    <div class="onboarding-header">
-      <i class="fa-solid fa-compass" style="color: var(--accent-hub); font-size: 1.35rem;"></i>
-      <h2>Guía del Ecosistema de Bichos</h2>
-    </div>
-    <p style="font-size: 0.82rem; color: var(--text-muted); max-width: 900px; margin-bottom: 0.5rem;">
-      Esta herramienta interactiva permite a científicos y diseñadores explorar propuestas ecológicas para la protección de la fauna nativa chilena.
-    </p>
-    
-    <div class="onboarding-steps">
-      <div class="onboarding-step">
-        <span class="step-num step-hub">1</span>
-        <div>
-          <strong>Núcleo de Resiliencia</strong>
-          <p>Unión e interacción interespecie. Haz clic en las tarjetas de oportunidades para focalizar.</p>
-        </div>
-      </div>
-      <div class="onboarding-step">
-        <span class="step-num step-mod">2</span>
-        <div>
-          <strong>Oportunidades de Diseño</strong>
-          <p>Desafíos prioritarios de conservación. Explora las ideas asociadas en cada área temática.</p>
-        </div>
-      </div>
-      <div class="onboarding-step">
-        <span class="step-num step-idea">3</span>
-        <div>
-          <strong>Fichas Técnicas</strong>
-          <p>Análisis y evaluaciones científicas. Haz clic en cualquier idea para ver desgloses y evaluaciones.</p>
-        </div>
-      </div>
-    </div>
-    
-    <div class="onboarding-actions">
-      <button class="btn-tour-primary" onclick="startGuidedTour()">
-        <i class="fa-solid fa-route"></i> Iniciar Recorrido Guiado
-      </button>
-      <button class="btn-tour-secondary" onclick="closeOnboarding()">
-        Explorar libremente
-      </button>
-    </div>
-  </div>
+
 
   <!-- Panel de Oportunidad Enfocada -->
   <div class="opportunity-panel" id="opportunity-panel" style="display: none;">
@@ -5481,7 +5442,7 @@
     const statusMessage = document.getElementById('status-message');
     const dashboardStats = document.getElementById('dashboard-stats');
     const controlsContainer = document.getElementById('controls-container');
-    const onboardingCard = document.getElementById('onboarding-card');
+
     
     const mapView = document.getElementById('map-view');
     const matrixView = document.getElementById('matrix-view');
@@ -5702,10 +5663,7 @@
         dashboardStats.style.display = 'grid';
         controlsContainer.style.display = 'flex';
         
-        // Gestionar Onboarding en localStorage
-        if (localStorage.getItem('bichos-onboarding-dismissed-v2') !== 'true') {
-          onboardingCard.style.display = 'block';
-        }
+
         
         // Calcular estadísticas y renderizar vista inicial
         calculateGlobalStats();
@@ -5882,16 +5840,7 @@
     // ==========================================================================
     // 4. CONTROL DE RECORRIDO GUIADO (Onboarding y Focus)
     // ==========================================================================
-    function closeOnboarding() {
-      onboardingCard.style.display = 'none';
-      localStorage.setItem('bichos-onboarding-dismissed-v2', 'true');
-    }
-    
-    function startGuidedTour() {
-      onboardingCard.style.display = 'none';
-      switchView('map');
-      selectOpportunityFocus('A');
-    }
+
 
     function scrollToElement(id) {
       const el = document.getElementById(id);
