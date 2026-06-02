@@ -2792,7 +2792,7 @@
       margin-bottom: 0.25rem;
     }
 
-    /* Hide selector elements when winner or references are active */
+    /* Hide selector elements when winner, references or pugh are active */
     body.winner-active #dashboard-stats,
     body.winner-active #controls-container,
     body.winner-active #onboarding-card,
@@ -2808,7 +2808,15 @@
     body.references-active .map-outer-container,
     body.references-active .matrix-outer-container,
     body.references-active .grid-outer-container,
-    body.references-active #table-view {
+    body.references-active #table-view,
+    body.pugh-active #dashboard-stats,
+    body.pugh-active #controls-container,
+    body.pugh-active #onboarding-card,
+    body.pugh-active #opportunity-panel,
+    body.pugh-active .map-outer-container,
+    body.pugh-active .matrix-outer-container,
+    body.pugh-active .grid-outer-container,
+    body.pugh-active #table-view {
       display: none !important;
     }
 
@@ -3099,6 +3107,256 @@
       transform: translateY(-1px);
     }
 
+    /* ==========================================================================
+       PUGH MATRIX STYLE SHEETS
+       ========================================================================== */
+    .pugh-table th, .pugh-table td {
+      border: 1px solid var(--border-light);
+      padding: 0.75rem 1rem;
+      vertical-align: middle;
+    }
+    .pugh-table tr:hover {
+      background: rgba(15, 23, 42, 0.015);
+    }
+    .pugh-category-row {
+      background: rgba(15, 23, 42, 0.03);
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .pugh-btn-adjust {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      border: 1px solid var(--border-light);
+      background: #ffffff;
+      color: var(--text-main);
+      font-size: 0.75rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition-base);
+    }
+    .pugh-btn-adjust:hover {
+      background: rgba(15, 23, 42, 0.05);
+      border-color: rgba(15, 23, 42, 0.2);
+    }
+    .pugh-btn-adjust:active {
+      transform: scale(0.9);
+    }
+    .pugh-control-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      justify-content: center;
+      width: 100%;
+    }
+    .pugh-score-val {
+      font-weight: 700;
+      font-size: 0.85rem;
+      min-width: 14px;
+      text-align: center;
+    }
+    .pugh-total-row {
+      background: rgba(15, 23, 42, 0.04);
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      color: var(--text-main);
+      font-size: 0.9rem;
+    }
+    .pugh-total-row td {
+      border-top: 2px solid var(--text-main);
+    }
+    .pugh-bar-container {
+      background: rgba(15, 23, 42, 0.05);
+      height: 12px;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 0.35rem;
+      position: relative;
+    }
+    .pugh-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .pugh-result-card {
+      background: rgba(15, 23, 42, 0.01);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 1rem;
+      transition: var(--transition-base);
+      position: relative;
+    }
+    .pugh-result-card.winner {
+      border-color: var(--accent-hub);
+      background: rgba(194, 65, 12, 0.02);
+      box-shadow: 0 4px 15px rgba(194, 65, 12, 0.06);
+    }
+    .pugh-result-card.winner::before {
+      content: '\f521';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      color: var(--accent-hub);
+      font-size: 1.1rem;
+      animation: crownFloat 2s infinite ease-in-out;
+    }
+    @keyframes crownFloat {
+      0%, 100% { transform: translateY(0) rotate(5deg); }
+      50% { transform: translateY(-4px) rotate(-5deg); }
+    }
+
+    /* ==========================================================================
+       18. MODO PRESENTACIÓN (AUTOPLAY) Y PANEL DE CONTROL
+       ========================================================================== */
+    .presentation-bar {
+      position: fixed;
+      bottom: -150px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 800px;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 1rem 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 40px rgba(20, 184, 166, 0.1);
+      z-index: 1000;
+      color: #fff;
+      transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .presentation-bar.active {
+      bottom: 24px;
+    }
+
+    .presentation-progress-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 4px;
+      width: 0%;
+      background: var(--gradient-a);
+      border-radius: 20px 20px 0 0;
+      transition: width 0.1s linear;
+    }
+
+    .presentation-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .presentation-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 0.5rem;
+    }
+
+    .presentation-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: #14b8a6;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .presentation-step-indicator {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 0.15rem 0.6rem;
+      border-radius: 99px;
+    }
+
+    .presentation-body {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .presentation-description {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.4;
+      flex-grow: 1;
+    }
+
+    .presentation-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .presentation-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: #fff;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+    }
+
+    .presentation-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.05);
+    }
+
+    .presentation-btn.btn-play-pause {
+      background: #14b8a6;
+      color: #0f172a;
+    }
+
+    .presentation-btn.btn-play-pause:hover {
+      background: #2dd4bf;
+      color: #0f172a;
+    }
+
+    .presentation-btn.btn-stop {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    .presentation-btn.btn-stop:hover {
+      background: rgba(239, 68, 68, 0.4);
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .presentation-body {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+      .presentation-controls {
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -3120,6 +3378,9 @@
       <button class="toggle-btn active" id="btn-section-selection" onclick="switchMainSection('selection')">
         <i class="fa-solid fa-square-poll-horizontal"></i> Selección de Idea
       </button>
+      <button class="toggle-btn" id="btn-section-pugh" onclick="switchMainSection('pugh')">
+        <i class="fa-solid fa-table-list" style="color: var(--accent-a);"></i> Matriz de Pugh
+      </button>
       <button class="toggle-btn" id="btn-section-winner" onclick="switchMainSection('winner')">
         <i class="fa-solid fa-crown" style="color: var(--accent-hub);"></i> Proyecto Ganador
       </button>
@@ -3128,19 +3389,24 @@
       </button>
     </div>
 
-    <!-- Pestañas de Cambio de Vista (Secundarias, se ocultan cuando el Proyecto Ganador está activo) -->
-    <div class="view-toggles">
-      <button class="toggle-btn active" id="btn-view-map">
-        <i class="fa-solid fa-diagram-project"></i> Red
-      </button>
-      <button class="toggle-btn" id="btn-view-matrix">
-        <i class="fa-solid fa-chart-simple"></i> Matriz
-      </button>
-      <button class="toggle-btn" id="btn-view-grid">
-        <i class="fa-solid fa-table-cells-large"></i> Cuadrícula
-      </button>
-      <button class="toggle-btn" id="btn-view-table">
-        <i class="fa-solid fa-list-check"></i> Tabla
+    <!-- Contenedor de acciones derechas -->
+    <div class="header-right-actions" style="display: flex; gap: 0.5rem; align-items: center;">
+      <!-- Pestañas de Cambio de Vista (Secundarias, se ocultan cuando el Proyecto Ganador está activo) -->
+      <div class="view-toggles">
+        <button class="toggle-btn active" id="btn-view-map">
+          <i class="fa-solid fa-diagram-project"></i> Red
+        </button>
+        <button class="toggle-btn" id="btn-view-matrix">
+          <i class="fa-solid fa-chart-simple"></i> Matriz
+        </button>
+        <button class="toggle-btn" id="btn-view-table">
+          <i class="fa-solid fa-list-check"></i> Tabla
+        </button>
+      </div>
+
+      <!-- Botón de Presentación -->
+      <button class="toggle-btn" id="btn-start-presentation" onclick="startPresentation()" style="background: var(--gradient-a); color: #fff; border: none; font-weight: 700; box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25);">
+        <i class="fa-solid fa-play"></i> Presentación
       </button>
     </div>
   </header>
@@ -3323,12 +3589,7 @@
     </div>
   </div>
 
-  <!-- VISTA 3: EXPLORADOR DE TARJETAS (Grid View) -->
-  <div class="grid-outer-container">
-    <div class="ideas-grid" id="grid-view" style="display: none;">
-      <!-- Se llena dinámicamente con JS -->
-    </div>
-  </div>
+  <!-- VISTA 3: EXPLORADOR DE TARJETAS (Grid View) ELIMINADA -->
 
   <!-- VISTA 4: TABLA DE DATOS ANALÍTICA -->
   <div class="table-outer-container" id="table-view" style="display: none;">
@@ -3525,6 +3786,91 @@
     </div>
   </div>
 
+  <!-- SECCIÓN: MATRIZ DE PUGH (Decisión del Proyecto) -->
+  <div class="pugh-section" id="pugh-section-container" style="display: none; max-width: 1400px; margin: 0 auto; padding: 0 2rem 3rem 2rem;">
+    <div class="pugh-hero" style="background: linear-gradient(135deg, rgba(15, 118, 110, 0.05) 0%, rgba(29, 78, 216, 0.05) 100%); border: 1px solid var(--border-light); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.05); margin-top: 1.5rem;">
+      <span class="pugh-hero-badge" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 6px; letter-spacing: 0.5px; text-transform: uppercase; background: rgba(15, 118, 110, 0.08); color: var(--accent-a); border: 1px solid rgba(15, 118, 110, 0.2);"><i class="fa-solid fa-table-list"></i> Evaluación de Alternativas</span>
+      <h1 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.85rem; font-weight: 700; color: var(--text-main); margin-top: 0.75rem; margin-bottom: 0.5rem;">Matriz de Decisiones Pugh</h1>
+      <p style="font-size: 0.9rem; color: var(--text-muted); max-width: 900px; line-height: 1.6;">
+        Evaluación y ponderación de alternativas de diseño frente a los criterios recomendados, las bases oficiales del concurso <strong>TISDC 2026</strong> (Resiliencia), las restricciones técnicas del <strong>Brief de Diseño</strong>, y factores de resiliencia interespecie y de fabricación. Ajusta los pesos y puntajes para simular la toma de decisiones en tiempo real.
+      </p>
+    </div>
+
+    <!-- Layout Grid: Tabla de un lado, explicaciones y resultados dinámicos del otro -->
+    <div class="pugh-layout" style="display: grid; grid-template-columns: 2.2fr 1fr; gap: 2rem; align-items: start;">
+      
+      <!-- Panel de la Tabla de Pugh -->
+      <div class="pugh-card" style="background: #ffffff; border: 1px solid var(--border-light); border-radius: 20px; padding: 1.5rem; box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.05); overflow-x: auto;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+          <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--text-main);"><i class="fa-solid fa-list-check" style="color: var(--accent-a);"></i> Criterios y Puntuaciones</h2>
+          <button class="btn-tour-secondary" onclick="resetPughMatrix()" style="padding: 0.45rem 1rem; font-size: 0.76rem; font-weight: 600; display: flex; align-items: center; gap: 0.4rem; border-radius: 8px;">
+            <i class="fa-solid fa-rotate-left"></i> Restablecer Valores
+          </button>
+        </div>
+
+        <table class="pugh-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.82rem;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--border-light); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; font-weight: 700; background: rgba(15, 23, 42, 0.02);">
+              <th style="padding: 1rem; width: 32%;">Criterio de Evaluación</th>
+              <th style="padding: 1rem; width: 12%; text-align: center;">Peso (Pond.)</th>
+              <th style="padding: 1rem; width: 14%; text-align: center; background: rgba(194, 65, 12, 0.015); border-left: 2px solid rgba(194, 65, 12, 0.15); border-right: 2px solid rgba(194, 65, 12, 0.15);">Alt 1: Estación Edge AI (Ganador)</th>
+              <th style="padding: 1rem; width: 14%; text-align: center; background: rgba(15, 118, 110, 0.015);">Alt 2: Postes IA</th>
+              <th style="padding: 1rem; width: 14%; text-align: center; background: rgba(29, 78, 216, 0.015);">Alt 3: LiDAR</th>
+              <th style="padding: 1rem; width: 14%; text-align: center; background: rgba(109, 40, 217, 0.015);">Alt 4: Plataforma 4G</th>
+            </tr>
+          </thead>
+          <tbody id="pugh-table-body">
+            <!-- Rellenado dinámicamente con JS -->
+          </tbody>
+          <tfoot>
+            <!-- Fila de Puntuación Total Ponderada -->
+          </tfoot>
+        </table>
+      </div>
+
+      <!-- Panel Lateral de Resumen y Resultados -->
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        
+        <!-- Tarjeta de Resultados Dinámicos -->
+        <div class="pugh-card" style="background: #ffffff; border: 1px solid var(--border-light); border-radius: 20px; padding: 1.5rem; box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.05);">
+          <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 1rem; border-bottom: 1px solid var(--border-light); padding-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fa-solid fa-square-poll-vertical" style="color: var(--accent-hub);"></i> Puntuación Ponderada
+          </h3>
+          
+          <div style="display: flex; flex-direction: column; gap: 1.25rem;" id="pugh-results-container">
+            <!-- Se llena dinámicamente con JS -->
+          </div>
+        </div>
+
+        <!-- Tarjeta Informativa de Glosario / Alternativas -->
+        <div class="pugh-card" style="background: #ffffff; border: 1px solid var(--border-light); border-radius: 20px; padding: 1.5rem; box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.05); font-size: 0.78rem; line-height: 1.5; color: var(--text-muted);">
+          <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fa-solid fa-circle-info" style="color: var(--accent-b);"></i> Glosario de Alternativas
+          </h3>
+          <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.75rem;">
+            <li>
+              <strong style="color: var(--accent-hub); display: block;"><i class="fa-solid fa-crown"></i> Alt 1: Estación Edge AI (Idea 8)</strong>
+              Estación de monitoreo entomológico autónomo con visión de inteligencia artificial local (Edge AI). Alternativa seleccionada por su alto impacto.
+            </li>
+            <li>
+              <strong style="color: var(--accent-a); display: block;"><i class="fa-solid fa-circle-dot"></i> Alt 2: Postes Alumbrado IA (Idea 19)</strong>
+              Luminarias LED inteligentes que regulan su espectro y flujo lumínico de forma dinámica según la detección de aves y murciélagos.
+            </li>
+            <li>
+              <strong style="color: var(--accent-b); display: block;"><i class="fa-solid fa-circle-dot"></i> Alt 3: LiDAR Entomológico (Idea 10)</strong>
+              Monitoreo óptico activo de insectos en vuelo por retrodispersión de haz láser (frecuencia de aleteo) 100% no invasivo.
+            </li>
+            <li>
+              <strong style="color: var(--accent-c); display: block;"><i class="fa-solid fa-circle-dot"></i> Alt 4: Plataforma Citizen (Idea 14)</strong>
+              Aplicación móvil para el mapeo epidemiológico geolocalizado de plagas forestales mediante reportes de senderistas y guardabosques.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <!-- SECCIÓN 2: PROYECTO GANADOR (Estación Inteligente Edge AI) -->
   <div class="winner-section" id="winner-section-container" style="display: none;">
     <!-- Banner Hero del Proyecto -->
@@ -3577,6 +3923,9 @@
         <button class="winner-subtab-btn active" id="btn-winner-tab-general" onclick="switchWinnerSubTab('general')">
           <i class="fa-solid fa-circle-info"></i> Visión General y Contexto
         </button>
+        <button class="winner-subtab-btn" id="btn-winner-tab-modular" onclick="switchWinnerSubTab('modular')">
+          <i class="fa-solid fa-cubes"></i> Trampas Intercambiables (Modular)
+        </button>
         <button class="winner-subtab-btn" id="btn-winner-tab-biology" onclick="switchWinnerSubTab('biology')">
           <i class="fa-solid fa-leaf"></i> Especificaciones Biomecánicas
         </button>
@@ -3586,7 +3935,6 @@
         <button class="winner-subtab-btn" id="btn-winner-tab-resources" onclick="switchWinnerSubTab('resources')">
           <i class="fa-solid fa-tree"></i> Materiales y Técnicas
         </button>
-
       </div>
     </div>
 
@@ -3646,11 +3994,11 @@
             </p>
             <div class="matrix-citation-scores">
               <div class="matrix-citation-score-box">
-                <span>Entomología</span>
+                <span class="matrix-label">Entomología</span>
                 <strong>10.0 <i class="fa-solid fa-star"></i></strong>
               </div>
               <div class="matrix-citation-score-box tech">
-                <span>Tecnología</span>
+                <span class="matrix-label">Tecnología</span>
                 <strong>9.5 <i class="fa-solid fa-star"></i></strong>
               </div>
             </div>
@@ -3683,10 +4031,10 @@
                 <div class="qa-question"><i class="fa-solid fa-microchip"></i> ¿Qué es la Estación Inteligente?</div>
                 <div class="qa-answer">
                   <p>
-                    Es una trampa inteligente in situ de precisión científica. Cuenta con una cámara de alta resolución a nivel del suelo o tronco, iluminación LED optimizada con espectros específicos para atraer insectos y un microcomputador en el dispositivo (Edge AI, como Raspberry Pi y el acelerador de hardware Google Coral TPU). 
+                    Es una estación de monitoreo entomológico inteligente <em>in situ</em> de precisión científica con <strong>diseño modular en dos partes</strong>. Se compone de un <strong>Módulo Superior Universal</strong> (que integra la cámara macro de alta resolución, la iluminación LED de inspección, el procesamiento Edge AI local con Raspberry Pi + Coral TPU y la alimentación solar) y un <strong>Módulo Inferior Intercambiable</strong> (una trampa física sintonizable cromática y olfativamente para atraer y guiar especies específicas).
                   </p>
                   <p>
-                    Esta arquitectura le permite ejecutar de forma autónoma redes neuronales convolucionales optimizadas (YOLO Lite, MobileNet) para la clasificación de imágenes entomológicas en tiempo real, operando sin necesidad de conexión permanente a la nube o costosos envíos de datos pesados.
+                    Esta arquitectura desacoplada permite ejecutar de forma autónoma redes neuronales convolucionales optimizadas (YOLO Lite, MobileNet) en el módulo superior para la clasificación de imágenes en tiempo real, mientras que el módulo inferior se puede sustituir en segundos para adaptar la trampa a la especie objetivo del territorio sin alterar la electrónica.
                   </p>
                 </div>
               </div>
@@ -3719,10 +4067,10 @@
                 <div class="qa-question"><i class="fa-solid fa-gamepad"></i> ¿Cómo se utiliza el dispositivo?</div>
                 <div class="qa-answer">
                   <p>
-                    La estación se fija a postes, estacas o troncos. Funciona de manera 100% autónoma alimentada por energía solar. Los insectos son atraídos al compartimento de tránsito por la iluminación LED. Al ingresar, la cámara toma capturas rápidas, y el chip Edge AI las clasifica de inmediato. 
+                    El Módulo Superior Universal se fija de manera semipermanente a postes o troncos mediante cinchas no invasivas, alimentado por su panel solar. Luego, se desliza e inserta la trampa específica correspondiente en el módulo inferior. Los insectos son atraídos a la trampa mediante cromo-atrayentes o feromonas específicas de agregación. Al subir por la rampa geotáctica e ingresar al plano óptico del Módulo Superior, la cámara toma capturas cenitales y la IA local las clasifica de inmediato.
                   </p>
                   <p>
-                    Si identifica una especie objetivo (invasora o plaga), envía una alerta geolocalizada con la imagen adjunta vía red celular 4G LTE o LoRaWAN al centro de control. Si detecta fauna nativa benéfica, solo registra el metadato estadístico para ciencia ciudadana y libera al insecto, optimizando el uso de energía y ancho de banda al mínimo.
+                    Si la IA detecta la especie invasora o plaga objetivo de esa trampa, el sistema la retiene y envía una alerta fitosanitaria en tiempo real vía 4G LTE/LoRaWAN al centro de control. Si detecta fauna nativa o polinizadores accidentales, el dispositivo activa mecanismos mecánicos en la trampa para liberarlos vivos de inmediato, registrando únicamente el metadato estadístico para ciencia ciudadana.
                   </p>
                 </div>
               </div>
@@ -3737,6 +4085,573 @@
                     Al proveer alertas geolocalizadas automáticas en tiempo real en áreas de difícil acceso rural, permite al SAG y CONAF coordinar aislamientos biológicos preventivos en días en vez de meses, reduciendo drásticamente la huella de carbono y los recursos económicos requeridos para el control de plagas forestales.
                   </p>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTENIDO PESTAÑA 2: ARQUITECTURA MODULAR Y TRAMPAS INTERCAMBIABLES -->
+    <div class="winner-tab-content" id="winner-tab-modular">
+      <style>
+        .modular-banner {
+          background: linear-gradient(135deg, rgba(20, 184, 166, 0.05) 0%, rgba(29, 78, 216, 0.05) 100%);
+          border: 1px solid rgba(20, 184, 166, 0.15);
+          border-radius: 24px;
+          padding: 2rem;
+          margin-bottom: 2rem;
+          display: flex;
+          align-items: center;
+          gap: 2rem;
+        }
+
+        .modular-banner-icon {
+          font-size: 3rem;
+          color: var(--accent-a);
+          background: rgba(20, 184, 166, 0.1);
+          width: 80px;
+          height: 80px;
+          border-radius: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          box-shadow: 0 8px 24px rgba(20, 184, 166, 0.15);
+        }
+
+        .modular-banner-text h3 {
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: 1.35rem;
+          font-weight: 700;
+          color: var(--text-main);
+          margin: 0 0 0.5rem 0;
+          display: flex;
+          align-items: center;
+          gap: 0.65rem;
+        }
+
+        .modular-banner-text p {
+          font-size: 0.85rem;
+          color: var(--text-muted);
+          line-height: 1.55;
+          margin: 0;
+        }
+
+        .architecture-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 2rem;
+          margin-bottom: 2.5rem;
+        }
+
+        .arch-card {
+          background: #ffffff;
+          border: 1px solid var(--border-light);
+          border-radius: 24px;
+          padding: 2rem;
+          box-shadow: 0 10px 30px -15px rgba(15, 23, 42, 0.04);
+          transition: var(--transition-base);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .arch-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 15px 35px -10px rgba(15, 23, 42, 0.08);
+          border-color: rgba(20, 184, 166, 0.25);
+        }
+
+        .arch-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 6px;
+          height: 100%;
+          background: var(--gradient-b);
+        }
+
+        .arch-card.lower::before {
+          background: linear-gradient(to bottom, #f59e0b, #d97706);
+        }
+
+        .arch-card h4 {
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: 1.15rem;
+          font-weight: 700;
+          color: var(--text-main);
+          margin: 0 0 1rem 0;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .arch-card-intro {
+          font-size: 0.82rem;
+          color: var(--text-muted);
+          line-height: 1.5;
+          margin-bottom: 1.25rem;
+        }
+
+        .arch-spec-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0.85rem;
+        }
+
+        .arch-spec-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 0.75rem;
+          font-size: 0.76rem;
+          color: var(--text-muted);
+          line-height: 1.4;
+        }
+
+        .arch-spec-item i {
+          color: var(--accent-a);
+          margin-top: 0.15rem;
+          font-size: 0.85rem;
+        }
+
+        .arch-card.lower .arch-spec-item i {
+          color: #f59e0b;
+        }
+
+        .expert-guidelines-box {
+          background: linear-gradient(135deg, rgba(15, 23, 42, 0.01) 0%, rgba(15, 23, 42, 0.03) 100%);
+          border: 1px dashed var(--border-light);
+          border-radius: 20px;
+          padding: 1.75rem;
+          margin-bottom: 2.5rem;
+        }
+
+        .guideline-header {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          margin-bottom: 1rem;
+        }
+
+        .guideline-header h4 {
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: 1.05rem;
+          font-weight: 700;
+          color: var(--text-main);
+          margin: 0;
+        }
+
+        .guideline-cols {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1.5rem;
+        }
+
+        .guideline-col p {
+          font-size: 0.8rem;
+          color: var(--text-muted);
+          line-height: 1.55;
+          margin: 0 0 0.5rem 0;
+        }
+
+        .guideline-highlight-tag {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: 0.74rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          padding: 0.25rem 0.65rem;
+          border-radius: 6px;
+          margin-bottom: 0.75rem;
+        }
+
+        .guideline-highlight-tag.impact {
+          background: rgba(239, 68, 68, 0.06);
+          color: #ef4444;
+          border: 1px solid rgba(239, 68, 68, 0.15);
+        }
+
+        .guideline-highlight-tag.recognition {
+          background: rgba(59, 130, 246, 0.06);
+          color: #3b82f6;
+          border: 1px solid rgba(59, 130, 246, 0.15);
+        }
+
+        .traps-section-title {
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: var(--text-main);
+          margin-bottom: 1.5rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .traps-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+          gap: 2rem;
+        }
+
+        .trap-card {
+          background: #ffffff;
+          border: 1px solid var(--border-light);
+          border-radius: 24px;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          box-shadow: 0 8px 24px rgba(15, 23, 42, 0.02);
+          transition: var(--transition-base);
+        }
+
+        .trap-card:hover {
+          transform: translateY(-8px);
+          box-shadow: 0 16px 36px rgba(15, 23, 42, 0.06);
+          border-color: rgba(15, 23, 42, 0.15);
+        }
+
+        .trap-card-image-wrapper {
+          position: relative;
+          height: 180px;
+          background: #f8fafc;
+          border-bottom: 1px solid var(--border-light);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+        }
+
+        .trap-card-image-wrapper img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .trap-card:hover .trap-card-image-wrapper img {
+          transform: scale(1.04);
+        }
+
+        .trap-badge {
+          position: absolute;
+          top: 1rem;
+          left: 1rem;
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: 0.65rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          padding: 0.3rem 0.65rem;
+          border-radius: 6px;
+          z-index: 5;
+          backdrop-filter: blur(12px);
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .trap-badge.bee { background: rgba(245, 158, 11, 0.9); color: #ffffff; }
+        .trap-badge.beetle { background: rgba(16, 185, 129, 0.9); color: #ffffff; }
+        .trap-badge.wasp { background: rgba(239, 68, 68, 0.9); color: #ffffff; }
+
+        .trap-card-body {
+          padding: 1.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          flex-grow: 1;
+        }
+
+        .trap-card-body h5 {
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: 1.15rem;
+          font-weight: 700;
+          color: var(--text-main);
+          margin: 0;
+          line-height: 1.3;
+        }
+
+        .trap-species-tag {
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: 0.72rem;
+          font-style: italic;
+          color: var(--text-muted);
+          background: rgba(15, 23, 42, 0.025);
+          padding: 0.2rem 0.5rem;
+          border-radius: 6px;
+          width: fit-content;
+        }
+
+        .trap-card-desc {
+          font-size: 0.8rem;
+          color: var(--text-muted);
+          line-height: 1.5;
+          margin: 0;
+        }
+
+        .trap-metrics-box {
+          display: flex;
+          flex-direction: column;
+          gap: 0.65rem;
+          background: rgba(15, 23, 42, 0.01);
+          border: 1px solid var(--border-light);
+          padding: 1rem;
+          border-radius: 16px;
+          margin-top: auto;
+        }
+
+        .trap-metric-row {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+
+        .trap-metric-label {
+          display: flex;
+          justify-content: space-between;
+          font-size: 0.7rem;
+          font-weight: 700;
+          color: var(--text-muted);
+        }
+
+        .trap-metric-bar {
+          height: 6px;
+          background: rgba(15, 23, 42, 0.05);
+          border-radius: 3px;
+          overflow: hidden;
+        }
+
+        .trap-metric-fill {
+          height: 100%;
+          border-radius: 3px;
+          background: var(--accent-a);
+        }
+
+        .trap-metric-fill.amber { background: #f59e0b; }
+        .trap-metric-fill.emerald { background: #10b981; }
+        .trap-metric-fill.red { background: #ef4444; }
+
+        @media (max-width: 768px) {
+          .architecture-grid, .guideline-cols {
+            grid-template-columns: 1fr;
+          }
+          .modular-banner {
+            flex-direction: column;
+            text-align: center;
+            padding: 1.5rem;
+          }
+        }
+      </style>
+
+      <!-- Banner Superior -->
+      <div class="modular-banner">
+        <div class="modular-banner-icon">
+          <i class="fa-solid fa-cubes"></i>
+        </div>
+        <div class="modular-banner-text">
+          <h3>Arquitectura Modular en Dos Partes</h3>
+          <p>
+            Para optimizar los costos de despliegue y ofrecer una flexibilidad entomológica inédita, rediseñamos la estación inteligente BICHOS en dos subsistemas desacoplables. El costoso instrumental de procesamiento óptico y Edge AI reside en una cubierta universal permanente, mientras que las trampas mecánicas de captura y guiado biológico son módulos económicos intercambiables adaptados a especies específicas.
+          </p>
+        </div>
+      </div>
+
+      <!-- Cuadrícula de la Arquitectura Modular -->
+      <div class="architecture-grid">
+        <!-- Tarjeta Módulo Superior -->
+        <div class="arch-card">
+          <h4><i class="fa-solid fa-microchip" style="color: var(--accent-a);"></i> 1. Módulo Superior Universal (El Cerebro)</h4>
+          <p class="arch-card-intro">
+            Chasis hermético IP66 fijo, fabricado en aluminio de alta durabilidad y corcho aislante térmico perimetral. Protege el núcleo tecnológico que no requiere modificaciones en campo:
+          </p>
+          <div class="arch-spec-list">
+            <div class="arch-spec-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <div>
+                <strong>Sensorización Óptica Premium:</strong> Lente Sony IMX219 macro calibrada para profundidad de campo confinada de 8 mm y enfoque a alta velocidad.
+              </div>
+            </div>
+            <div class="arch-spec-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <div>
+                <strong>Procesamiento Edge AI:</strong> Microcomputadora Single Board acoplada a un acelerador neuronal de silicio Google Coral TPU (4 TOPS de inferencia en terreno).
+              </div>
+            </div>
+            <div class="arch-spec-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <div>
+                <strong>Autonomía Solar Extrema:</strong> Baterías LiFePO4 aisladas del frío y panel solar monocristalino superior ajustable de 80W.
+              </div>
+            </div>
+            <div class="arch-spec-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <div>
+                <strong>Comunicaciones IoT:</strong> Conectividad rural combinada 4G/LTE y LoRaWAN de largo alcance para envío de telemetría y alertas fitosanitarias.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta Módulo Inferior -->
+        <div class="arch-card lower">
+          <h4><i class="fa-solid fa-arrows-spin" style="color: #f59e0b;"></i> 2. Módulo Inferior Intercambiable (La Trampa)</h4>
+          <p class="arch-card-intro">
+            Caja adaptadora de inserción rápida mecánica mediante guías ranuradas deslizantes e imanes de neodimio. Habilita una conservación de bajo costo, 100% pasiva y adaptada al territorio:
+          </p>
+          <div class="arch-spec-list">
+            <div class="arch-spec-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <div>
+                <strong>Despliegue Económico:</strong> Fabricada en plástico de alta densidad reciclable (HDPE y PETG) mediante moldeo o impresión 3D local, con un costo unitario ultra-reducido.
+              </div>
+            </div>
+            <div class="arch-spec-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <div>
+                <strong>Estructura 100% Pasiva:</strong> Sin electrónica, motores, ni componentes móviles complejos en la parte inferior, eliminando fallas mecánicas en campo y manteniendo un costo de reemplazo mínimo.
+              </div>
+            </div>
+            <div class="arch-spec-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <div>
+                <strong>Atracción Física y Química:</strong> Alojamiento para cebos de evaporación pasiva (feromonas) o formas geométricas tridimensionales (como pétalos y flores artificiales con guía táctil).
+              </div>
+            </div>
+            <div class="arch-spec-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <div>
+                <strong>Mantenimiento Ágil:</strong> Permite que guardaparques o agricultores extraigan la trampa deslizándola para limpieza o reposición de cebos en segundos sin apagar ni desinstalar el chasis IoT universal.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Guías Científicas de Selección de Especies -->
+      <div class="expert-guidelines-box">
+        <div class="guideline-header">
+          <i class="fa-solid fa-user-doctor" style="color: var(--accent-a); font-size: 1.25rem;"></i>
+          <h4>Criterio Fitosanitario de Selección de Especies</h4>
+        </div>
+        <div class="guideline-cols">
+          <div class="guideline-col">
+            <span class="guideline-highlight-tag impact"><i class="fa-solid fa-circle-exclamation"></i> 1. Alto Impacto Ecológico</span>
+            <p>
+              Nos enfocamos estrictamente en insectos que presenten un peligro devastador inmediato para los ecosistemas nativos o la producción agroforestal. Las trampas priorizan la captura o monitoreo de especies invasoras agresivas o el seguimiento crítico de insectos endémicos amenazados.
+            </p>
+            <p style="font-weight: 700; color: var(--text-main);">
+              Ejemplo: El abejorro europeo (*Bombus terrestris*), especie invasora introducida que propaga patógenos y desplaza competitivamente al abejorro nativo chileno (*Bombus dahlbomi*) hacia su extinción.
+            </p>
+          </div>
+          <div class="guideline-col">
+            <span class="guideline-highlight-tag recognition"><i class="fa-solid fa-eye"></i> 2. Facilidad de Reconocimiento Visual</span>
+            <p>
+              No todos los insectos pueden clasificarse con certeza únicamente por cámara en terreno. Seleccionamos grupos taxonómicos que posean características visuales (patrones de rayas, colores llamativos, formas corporales únicas) altamente discriminables.
+            </p>
+            <p>
+              Esto permite que redes neuronales convolucionales ligeras (Edge AI) logren un porcentaje de acierto del **98% al 99.8%** en la clasificación en microsegundos dentro de la estación, elminando falsos positivos fitosanitarios sin enviar pesadas ráfagas de fotos a la nube.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid de Trampas Intercambiables -->
+      <h4 class="traps-section-title"><i class="fa-solid fa-boxes-stacked" style="color: var(--accent-a);"></i> Módulos de Trampas Disponibles y Diseñados</h4>
+      <div class="traps-grid">
+        <!-- Trampa 1: Bombus -->
+        <div class="trap-card">
+          <div class="trap-card-image-wrapper">
+            <span class="trap-badge bee">Abejorro</span>
+            <img src="images/idea_21.png" alt="Flor falsa mimética" onerror="this.src='https://placehold.co/600x300/f59e0b/ffffff?text=Mimic+Flower+Trap'; this.onerror=null;">
+          </div>
+          <div class="trap-card-body">
+            <h5>Módulo Flor Mimética</h5>
+            <span class="trap-species-tag">Monitoreo pasivo de Bombus terrestris</span>
+            <p class="trap-card-desc">
+              Estructura plástica pasiva que imita una flor tridimensional de gran tamaño con pétalos amarillos y azules reflectantes al espectro UV. Cuenta con guías visuales y micro-estrías físicas que conducen por thigmotaxis al insecto directo al canal óptico superior.
+            </p>
+            <p class="trap-card-desc" style="font-size: 0.76rem; border-left: 2px solid #f59e0b; padding-left: 0.5rem; background: rgba(245,158,11,0.02);">
+              <strong>Acción Selectiva:</strong> Los abejorros (*Bombus terrestris* y *Bombus dahlbomi*) aterrizan por atracción cromática directa en los pétalos y gatean al centro. El sistema registra las imágenes sin dañarlos ni retenerlos si son nativos, operando de forma 100% pasiva y limpia.
+            </p>
+            <div class="trap-metrics-box">
+              <div class="trap-metric-row">
+                <div class="trap-metric-label"><span>Impacto Ambiental del Blanco</span><span>98%</span></div>
+                <div class="trap-metric-bar"><div class="trap-metric-fill amber" style="width: 98%;"></div></div>
+              </div>
+              <div class="trap-metric-row">
+                <div class="trap-metric-label"><span>Facilidad de Reconocimiento IA</span><span>96%</span></div>
+                <div class="trap-metric-bar"><div class="trap-metric-fill amber" style="width: 96%;"></div></div>
+              </div>
+              <div class="trap-metric-row">
+                <div class="trap-metric-label"><span>Selectividad Biomecánica</span><span>90%</span></div>
+                <div class="trap-metric-bar"><div class="trap-metric-fill amber" style="width: 90%;"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trampa 2: Simple-Pitfall -->
+        <div class="trap-card">
+          <div class="trap-card-image-wrapper">
+            <span class="trap-badge beetle">Coleópteros</span>
+            <img src="images/idea_11.png" alt="Embudo seco simple" onerror="this.src='https://placehold.co/600x300/10b981/ffffff?text=Simple+Pitfall'; this.onerror=null;">
+          </div>
+          <div class="trap-card-body">
+            <h5>Módulo Simple-Pitfall</h5>
+            <span class="trap-species-tag">Monitoreo de escarabajo del pino</span>
+            <p class="trap-card-desc">
+              Embudo de caída seco con textura exterior rugosa que imita corteza y una ranura simple para una tira comercial de feromonas de agregación pasiva. Los insectos resbalan por la pendiente interna de teflón y pasan por gravedad frente al sensor.
+            </p>
+            <p class="trap-card-desc" style="font-size: 0.76rem; border-left: 2px solid #10b981; padding-left: 0.5rem; background: rgba(16,185,129,0.02);">
+              <strong>Acción Selectiva:</strong> El escarabajo barrenador del pino (*Hylurgus ligniperda*) cae y es detectado. La ausencia de líquidos ahogantes protege a coleópteros nativos incidentes que caigan por accidente, permitiendo su registro y liberación manual en terreno.
+            </p>
+            <div class="trap-metrics-box">
+              <div class="trap-metric-row">
+                <div class="trap-metric-label"><span>Impacto Ambiental del Blanco</span><span>92%</span></div>
+                <div class="trap-metric-bar"><div class="trap-metric-fill emerald" style="width: 92%;"></div></div>
+              </div>
+              <div class="trap-metric-row">
+                <div class="trap-metric-label"><span>Facilidad de Reconocimiento IA</span><span>98%</span></div>
+                <div class="trap-metric-bar"><div class="trap-metric-fill emerald" style="width: 98%;"></div></div>
+              </div>
+              <div class="trap-metric-row">
+                <div class="trap-metric-label"><span>Selectividad Biomecánica</span><span>94%</span></div>
+                <div class="trap-metric-bar"><div class="trap-metric-fill emerald" style="width: 94%;"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trampa 3: Vespula-Cup -->
+        <div class="trap-card">
+          <div class="trap-card-image-wrapper">
+            <span class="trap-badge wasp">Avispas</span>
+            <img src="images/idea_12.png" alt="Copa de cebado selectiva" onerror="this.src='https://placehold.co/600x300/ef4444/ffffff?text=Vespula+Cup+Trap'; this.onerror=null;">
+          </div>
+          <div class="trap-card-body">
+            <h5>Módulo Vespula-Cup</h5>
+            <span class="trap-species-tag">Control pasivo de Vespula germanica</span>
+            <p class="trap-card-desc">
+              Copa de cebado física dotada de un túnel cónico de entrada única. Utiliza un cebo alimenticio proteico (como carne molida o jugo químico específico para avispas que no atrae abejas de miel), forzando el tránsito directo al canal del sensor.
+            </p>
+            <p class="trap-card-desc" style="font-size: 0.76rem; border-left: 2px solid #ef4444; padding-left: 0.5rem; background: rgba(239,68,68,0.02);">
+              <strong>Acción Selectiva:</strong> El cebo proteico atrae exclusivamente a la chaqueta amarilla (*Vespula germanica*), impidiendo la entrada accidental de polinizadores. El diseño cónico unidireccional confina a la avispa para su conteo por la IA local.
+            </p>
+            <div class="trap-metrics-box">
+              <div class="trap-metric-row">
+                <div class="trap-metric-label"><span>Impacto Ambiental del Blanco</span><span>96%</span></div>
+                <div class="trap-metric-bar"><div class="trap-metric-fill red" style="width: 96%;"></div></div>
+              </div>
+              <div class="trap-metric-row">
+                <div class="trap-metric-label"><span>Facilidad de Reconocimiento IA</span><span>95%</span></div>
+                <div class="trap-metric-bar"><div class="trap-metric-fill red" style="width: 95%;"></div></div>
+              </div>
+              <div class="trap-metric-row">
+                <div class="trap-metric-label"><span>Selectividad Biomecánica</span><span>97%</span></div>
+                <div class="trap-metric-bar"><div class="trap-metric-fill red" style="width: 97%;"></div></div>
               </div>
             </div>
           </div>
@@ -3838,18 +4753,18 @@
             <div class="winner-card" style="padding: 1.5rem; transition: var(--transition-base);">
               <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
                 <h4 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem;">
-                  <i class="fa-solid fa-crop-simple" style="color: var(--accent-hub);"></i> 1. La Estructura de Captura (El Chasis)
+                  <i class="fa-solid fa-crop-simple" style="color: var(--accent-hub);"></i> 1. Acoplamiento de Paso Cenital (Cerebro + Trampa)
                 </h4>
                 <span class="opp-badge-detail" style="font-size: 0.6rem; color: var(--accent-hub); background: rgba(194, 65, 12, 0.06); border-color: rgba(194, 65, 12, 0.15); margin: 0;">Mecánica Focal</span>
               </div>
               <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;">
-                El chasis exterior es un túnel vertical abierto de HDPE o aluminio anodizado. El conducto interno está optimizado para obligar al insecto a transitar a través del plano focal cerrado del sistema macro.
+                El chasis del módulo superior universal mantiene un túnel de paso óptico. A este se acopla el canal de la trampa inferior intercambiable, guiando al insecto de manera fluida hacia el plano focal del sistema macro.
               </p>
               
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                 <div style="background: rgba(15, 23, 42, 0.015); border: 1px solid var(--border-light); padding: 0.85rem; border-radius: 12px;">
                   <strong style="display: block; font-size: 0.78rem; color: var(--text-main); margin-bottom: 0.25rem;"><i class="fa-solid fa-arrows-up-to-line" style="color: var(--accent-hub);"></i> Canal de Paso Geotáctico:</strong>
-                  <span style="font-size: 0.72rem; color: var(--text-muted); line-height: 1.4; display: block;">Canal vertical o inclinado a 60 grados. Los insectos terrestres y voladores que se posen ascenderán de forma natural impulsados por geotaxis negativa.</span>
+                  <span style="font-size: 0.72rem; color: var(--text-muted); line-height: 1.4; display: block;">El canal de tránsito de la trampa inferior está inclinado a 60 grados o vertical absoluto. Especies terrestres y voladoras ascenderán hacia el túnel de visualización superior empujados por geotaxis negativa.</span>
                 </div>
                 <div style="background: rgba(15, 23, 42, 0.015); border: 1px solid var(--border-light); padding: 0.85rem; border-radius: 12px;">
                   <strong style="display: block; font-size: 0.78rem; color: var(--text-main); margin-bottom: 0.25rem;"><i class="fa-solid fa-camera-retro" style="color: var(--accent-hub);"></i> Plano Focal Confinado:</strong>
@@ -3912,8 +4827,8 @@
               
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                 <div style="background: rgba(15, 23, 42, 0.015); border: 1px solid var(--border-light); padding: 0.85rem; border-radius: 12px;">
-                  <strong style="display: block; font-size: 0.78rem; color: var(--text-main); margin-bottom: 0.25rem;"><i class="fa-solid fa-door-open" style="color: var(--accent-a);"></i> Extremos Abiertos:</strong>
-                  <span style="font-size: 0.72rem; color: var(--text-muted); line-height: 1.4; display: block;">El canal de paso de la estación permanece completamente abierto tanto en el extremo superior como en el inferior, facilitando la circulación cruzada.</span>
+                  <strong style="display: block; font-size: 0.78rem; color: var(--text-main); margin-bottom: 0.25rem;"><i class="fa-solid fa-door-open" style="color: var(--accent-a);"></i> Ventilación del Canal:</strong>
+                  <span style="font-size: 0.72rem; color: var(--text-muted); line-height: 1.4; display: block;">El canal de paso del módulo superior mantiene un flujo de aire abierto hacia las ventilaciones y el ingreso de la trampa inferior, facilitando la circulación cruzada.</span>
                 </div>
                 <div style="background: rgba(15, 23, 42, 0.015); border: 1px solid var(--border-light); padding: 0.85rem; border-radius: 12px;">
                   <strong style="display: block; font-size: 0.78rem; color: var(--text-main); margin-bottom: 0.25rem;"><i class="fa-solid fa-wind" style="color: var(--accent-a);"></i> Disuasión Convectiva:</strong>
@@ -4318,10 +5233,9 @@
             <span class="resource-tag-pill">Protección Natural</span>
           </div>
         </div>
-      </div>
     </div>
 
-
+  </div>
   </div>
 
   <!-- MODAL DRAWER AVANZADO (Detalles de Propuesta) -->
@@ -4446,7 +5360,6 @@
     
     const mapView = document.getElementById('map-view');
     const matrixView = document.getElementById('matrix-view');
-    const gridView = document.getElementById('grid-view');
     const tableView = document.getElementById('table-view');
     const tableBody = document.getElementById('table-body');
     const searchInput = document.getElementById('search-input');
@@ -4458,9 +5371,10 @@
 
     const btnViewMap = document.getElementById('btn-view-map');
     const btnViewMatrix = document.getElementById('btn-view-matrix');
-    const btnViewGrid = document.getElementById('btn-view-grid');
     const btnViewTable = document.getElementById('btn-view-table');
 
+    const pughContainer = document.getElementById('pugh-section-container');
+    const btnSectionPugh = document.getElementById('btn-section-pugh');
 
     const modalOverlay = document.getElementById('modal-overlay');
     const modalContainer = document.getElementById('modal-container');
@@ -4475,46 +5389,68 @@
       const btnSelection = document.getElementById('btn-section-selection');
       const btnWinner = document.getElementById('btn-section-winner');
       const btnReferences = document.getElementById('btn-section-references');
+      const btnPugh = document.getElementById('btn-section-pugh');
       
       const winnerContainer = document.getElementById('winner-section-container');
       const referencesContainer = document.getElementById('references-section-container');
       const viewToggles = document.querySelector('.view-toggles');
 
       if (section === 'selection') {
-        document.body.classList.remove('winner-active', 'references-active');
+        document.body.classList.remove('winner-active', 'references-active', 'pugh-active');
         winnerContainer.style.display = 'none';
         referencesContainer.style.display = 'none';
+        if (pughContainer) pughContainer.style.display = 'none';
         
         btnSelection.classList.add('active');
         btnWinner.classList.remove('active');
         if (btnReferences) btnReferences.classList.remove('active');
+        if (btnPugh) btnPugh.classList.remove('active');
         if (viewToggles) viewToggles.style.display = 'flex';
         
         // Reactivar y redibujar conexiones y grids
         triggerViewRender();
       } else if (section === 'winner') {
         document.body.classList.add('winner-active');
-        document.body.classList.remove('references-active');
+        document.body.classList.remove('references-active', 'pugh-active');
         winnerContainer.style.display = 'block';
         referencesContainer.style.display = 'none';
+        if (pughContainer) pughContainer.style.display = 'none';
         
         btnSelection.classList.remove('active');
         btnWinner.classList.add('active');
         if (btnReferences) btnReferences.classList.remove('active');
+        if (btnPugh) btnPugh.classList.remove('active');
         if (viewToggles) viewToggles.style.display = 'none';
         
         // Inicializar sub-pestaña por defecto
         switchWinnerSubTab('general');
       } else if (section === 'references') {
         document.body.classList.add('references-active');
-        document.body.classList.remove('winner-active');
+        document.body.classList.remove('winner-active', 'pugh-active');
         winnerContainer.style.display = 'none';
         referencesContainer.style.display = 'block';
+        if (pughContainer) pughContainer.style.display = 'none';
         
         btnSelection.classList.remove('active');
         btnWinner.classList.remove('active');
         if (btnReferences) btnReferences.classList.add('active');
+        if (btnPugh) btnPugh.classList.remove('active');
         if (viewToggles) viewToggles.style.display = 'none';
+      } else if (section === 'pugh') {
+        document.body.classList.add('pugh-active');
+        document.body.classList.remove('winner-active', 'references-active');
+        winnerContainer.style.display = 'none';
+        referencesContainer.style.display = 'none';
+        if (pughContainer) pughContainer.style.display = 'block';
+        
+        btnSelection.classList.remove('active');
+        btnWinner.classList.remove('active');
+        if (btnReferences) btnReferences.classList.remove('active');
+        if (btnPugh) btnPugh.classList.add('active');
+        if (viewToggles) viewToggles.style.display = 'none';
+        
+        // Renderizar la tabla de Pugh
+        renderPugh();
       }
     }
 
@@ -4785,8 +5721,6 @@
         drawAllConnections();
       } else if (currentView === 'matrix') {
         renderMatrix();
-      } else if (currentView === 'grid') {
-        renderGrid();
       } else if (currentView === 'table') {
         renderTable();
       }
@@ -4824,6 +5758,20 @@
       onboardingCard.style.display = 'none';
       switchView('map');
       selectOpportunityFocus('A');
+    }
+
+    function scrollToElement(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        const elementTop = rect.top + window.pageYOffset - 100;
+        window.scrollTo({
+          top: elementTop,
+          behavior: 'smooth'
+        });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
 
     function selectOpportunityFocus(opp) {
@@ -4867,6 +5815,11 @@
       
       // Sincronizar los filtros rápidos
       filterByModule(opp);
+
+      // Desplazarse al nodo de la oportunidad correspondiente de forma suave
+      setTimeout(() => {
+        scrollToElement(`module-node-${opp}`);
+      }, 100);
     }
     
     function resetOpportunityFocus() {
@@ -4900,13 +5853,11 @@
       // Resetear clases de botones
       btnViewMap.classList.remove('active');
       btnViewMatrix.classList.remove('active');
-      btnViewGrid.classList.remove('active');
       btnViewTable.classList.remove('active');
       
       // Ocultar todas las vistas
       mapView.style.display = 'none';
       matrixView.style.display = 'none';
-      gridView.style.display = 'none';
       tableView.style.display = 'none';
 
       // Mostrar y renderizar vista activa
@@ -4919,10 +5870,6 @@
         btnViewMatrix.classList.add('active');
         matrixView.style.display = 'grid';
         renderMatrix();
-      } else if (view === 'grid') {
-        btnViewGrid.classList.add('active');
-        gridView.style.display = 'grid';
-        renderGrid();
       } else if (view === 'table') {
         btnViewTable.classList.add('active');
         tableView.style.display = 'block';
@@ -4943,6 +5890,10 @@
       filtered.forEach(idea => {
         const node = document.createElement('div');
         node.classList.add('idea-node');
+        // Si hay una oportunidad enfocada y la idea pertenece a ella, se mantiene visible
+        if (activeTourOpp && idea.modulo === activeTourOpp) {
+          node.classList.add('focused');
+        }
         node.setAttribute('data-module', idea.modulo);
         node.setAttribute('id', `idea-node-${idea.id}`);
         
@@ -5156,61 +6107,7 @@
       });
     }
 
-    // --------------------------------------------------------------------------
-    // VISTA 3: Explorador de Tarjetas (Grid View)
-    // --------------------------------------------------------------------------
-    function renderGrid() {
-      gridView.innerHTML = '';
-      const filtered = getFilteredData();
-
-      if (filtered.length === 0) {
-        gridView.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align: center; padding: 5rem 2rem; color: var(--text-muted);">
-            <i class="fa-solid fa-folder-open" style="font-size: 2rem; color: var(--text-dim); margin-bottom: 1rem;"></i>
-            <p style="font-size: 0.95rem;">No se encontraron propuestas con los criterios definidos.</p>
-          </div>
-        `;
-        return;
-      }
-
-      filtered.forEach(idea => {
-        let scoreAvg = getAverageScore(idea);
-        const card = document.createElement('div');
-        card.classList.add('grid-card');
-        card.setAttribute('data-module', idea.modulo);
-        card.addEventListener('click', () => openModal(idea.id));
-        
-        const imagePath = idea.imagen || `images/idea_${idea.id}.png`;
-        const techs = extractTechTags(idea);
-        let techHtml = "";
-        
-        techs.forEach(t => {
-          techHtml += `<span class="tech-pill"><i class="fa-solid fa-microchip"></i> ${t}</span>`;
-        });
-
-        card.innerHTML = `
-          <div class="grid-card-hero-container">
-            <img src="${imagePath}" class="grid-card-hero" onerror="this.src='https://placehold.co/400x175?text=Idea'; this.onerror=null;">
-            <div class="grid-card-overlay"></div>
-            <div class="grid-card-header-tags">
-              <span class="grid-card-badge">Oportunidad ${idea.modulo}</span>
-              <span class="grid-card-id">#${idea.id.toString().padStart(2, '0')}</span>
-            </div>
-          </div>
-          <div class="grid-card-body">
-            <h3>${idea.titulo}</h3>
-            <p>${idea.propuesta_tecnica}</p>
-            <div class="grid-card-techs">
-              ${techHtml}
-            </div>
-          </div>
-          <div class="grid-card-footer" style="justify-content: center;">
-            <span><i class="fa-solid fa-star" style="color: ${scoreAvg ? '#c2410c' : 'var(--text-dim)'};"></i> ${scoreAvg ? 'Consenso: ' + scoreAvg + ' / 10' : 'Sin evaluar'}</span>
-          </div>
-        `;
-        gridView.appendChild(card);
-      });
-    }
+    // VISTA 3: Explorador de Tarjetas (Grid View) ELIMINADA
 
     // --------------------------------------------------------------------------
     // VISTA 4: Tabla de Datos Analítica
@@ -5481,6 +6378,24 @@
     });
     
     document.addEventListener('keydown', (e) => {
+      // Si la presentación está activa y el modal NO está activo, controlamos con las flechas del teclado
+      const bar = document.getElementById('presentation-bar');
+      const isPresentationActive = bar && bar.classList.contains('active');
+      const isModalActive = modalOverlay && modalOverlay.classList.contains('active');
+      
+      if (isPresentationActive && !isModalActive) {
+        if (e.key === 'ArrowRight') {
+          nextStep();
+          e.preventDefault();
+        } else if (e.key === 'ArrowLeft') {
+          prevStep();
+          e.preventDefault();
+        } else if (e.key === 'Escape') {
+          stopPresentation();
+          e.preventDefault();
+        }
+      }
+
       if (e.key === 'Escape') closeModal();
       if (modalOverlay.classList.contains('active')) {
         if (e.key === 'ArrowLeft') navigateModal(-1);
@@ -5499,12 +6414,573 @@
       resetOpportunityFocus();
       switchView('matrix');
     });
-    btnViewGrid.addEventListener('click', () => switchView('grid'));
     btnViewTable.addEventListener('click', () => switchView('table'));
+
+    // ==========================================================================
+    // 9. LÓGICA DE LA MATRIZ DE PUGH INTERACTIVA
+    // ==========================================================================
+    const initialPughData = [
+      {
+        id: "creatividad",
+        category: "Criterios Iniciales (Recomendados)",
+        name: "Creatividad (Original, novedoso, ¿ya existe?)",
+        description: "Evaluación de originalidad, novedad y existencia previa de la solución en el mercado.",
+        weight: 3,
+        scores: { alt1: 4, alt2: 5, alt3: 5, alt4: 3 }
+      },
+      {
+        id: "fabricacion",
+        category: "Criterios Iniciales (Recomendados)",
+        name: "Fabricación (Costos, complejidad, etc.)",
+        description: "Complejidad técnica de ensamble, costos de componentes y requisitos de conocimiento técnico previo.",
+        weight: 3,
+        scores: { alt1: 3, alt2: 2, alt3: 2, alt4: 5 }
+      },
+      {
+        id: "materiales",
+        category: "Criterios Iniciales (Recomendados)",
+        name: "Materiales (Disponibilidad y características)",
+        description: "Disponibilidad física local de las materias primas y características mecánicas en intemperie extrema.",
+        weight: 2,
+        scores: { alt1: 3, alt2: 2, alt3: 2, alt4: 5 }
+      },
+      {
+        id: "entorno",
+        category: "Criterios Iniciales (Recomendados)",
+        name: "Entorno Macro / Contexto",
+        description: "Adaptabilidad e impacto dentro del contexto y macroentorno donde se emplazará el producto.",
+        weight: 1,
+        scores: { alt1: 4, alt2: 4, alt3: 3, alt4: 4 }
+      },
+      {
+        id: "concurso_tematica",
+        category: "Criterios del Concurso (Bases TISDC)",
+        name: "Temática / Interpretación del Tema (Resiliencia)",
+        description: "Alineación con el tema central 'Resiliencia' del concurso TISDC 2026 y la flexibilidad frente a situaciones límite.",
+        weight: 3,
+        scores: { alt1: 5, alt2: 4, alt3: 4, alt4: 3 }
+      },
+      {
+        id: "concurso_presentacion",
+        category: "Criterios del Concurso (Bases TISDC)",
+        name: "Presentación del Diseño / Comunicación",
+        description: "Claridad en la comunicación gráfica de la propuesta, renderizado 3D y planos de fabricación.",
+        weight: 1,
+        scores: { alt1: 5, alt2: 4, alt3: 4, alt4: 3 }
+      },
+      {
+        id: "resiliencia_interespecie",
+        category: "Criterios de Coexistencia",
+        name: "Resiliencia Interespecie (Coexistencia)",
+        description: "Capacidad de fomentar la coexistencia activa y beneficio ecológico mutuo entre humanos y artrópodos.",
+        weight: 3,
+        scores: { alt1: 5, alt2: 5, alt3: 5, alt4: 4 }
+      },
+      {
+        id: "brief_materiales",
+        category: "Restricciones del Brief de Diseño",
+        name: "Materialidad (Presencia de Madera)",
+        description: "Cumplimiento de la restricción del taller de integrar obligatoriamente madera combinada con otros materiales.",
+        weight: 2,
+        scores: { alt1: 4, alt2: 2, alt3: 2, alt4: 1 }
+      },
+      {
+        id: "brief_escala",
+        category: "Restricciones del Brief de Diseño",
+        name: "Escala, Portabilidad y Montaje",
+        description: "Capacidad del prototipo físico para ser transportado, manipulado y montado con éxito en las dependencias del taller.",
+        weight: 2,
+        scores: { alt1: 5, alt2: 2, alt3: 4, alt4: 5 }
+      },
+      {
+        id: "brief_nacional",
+        category: "Restricciones del Brief de Diseño",
+        name: "Problemática Nacional / Territorial",
+        description: "Problemáticas nacionales chilenas y biodiversidad local frente a crisis ecológica (crisis hídrica, incendios, urbanización).",
+        weight: 2,
+        scores: { alt1: 5, alt2: 4, alt3: 4, alt4: 4 }
+      }
+    ];
+
+    let pughData = JSON.parse(JSON.stringify(initialPughData));
+
+    window.adjustPughWeight = function(index, delta) {
+      const val = pughData[index].weight + delta;
+      if (val >= 1 && val <= 5) {
+        pughData[index].weight = val;
+        document.getElementById(`pugh-weight-${index}`).innerText = val;
+        ['alt1', 'alt2', 'alt3', 'alt4'].forEach(alt => {
+          const w = val * pughData[index].scores[alt];
+          document.getElementById(`pugh-weighted-${index}-${alt}`).innerText = w;
+        });
+        updatePughTotals();
+      }
+    };
+
+    window.adjustPughScore = function(index, alt, delta) {
+      const val = pughData[index].scores[alt] + delta;
+      if (val >= 1 && val <= 5) {
+        pughData[index].scores[alt] = val;
+        document.getElementById(`pugh-score-${index}-${alt}`).innerText = val;
+        const w = pughData[index].weight * val;
+        document.getElementById(`pugh-weighted-${index}-${alt}`).innerText = w;
+        updatePughTotals();
+      }
+    };
+
+    window.resetPughMatrix = function() {
+      pughData = JSON.parse(JSON.stringify(initialPughData));
+      renderPugh();
+    };
+
+    function renderPugh() {
+      const tbody = document.getElementById('pugh-table-body');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      let currentCategory = '';
+
+      pughData.forEach((row, index) => {
+        if (row.category !== currentCategory) {
+          currentCategory = row.category;
+          const catTr = document.createElement('tr');
+          catTr.classList.add('pugh-category-row');
+          catTr.innerHTML = `<td colspan="6" style="padding: 0.6rem 1rem; font-weight: 700;">${currentCategory}</td>`;
+          tbody.appendChild(catTr);
+        }
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="padding: 0.75rem 1rem; border-bottom: 1px solid var(--border-light);" title="${row.description}">
+            <strong style="color: var(--text-main); font-size: 0.85rem;">${row.name}</strong>
+            <span style="display: block; font-size: 0.72rem; color: var(--text-dim); margin-top: 0.15rem; font-weight: 400; line-height: 1.4;">${row.description}</span>
+          </td>
+          <td style="padding: 0.75rem 1rem; text-align: center; border-bottom: 1px solid var(--border-light);">
+            <div class="pugh-control-wrap">
+              <button class="pugh-btn-adjust" onclick="adjustPughWeight(${index}, -1)">-</button>
+              <span class="pugh-score-val" id="pugh-weight-${index}">${row.weight}</span>
+              <button class="pugh-btn-adjust" onclick="adjustPughWeight(${index}, 1)">+</button>
+            </div>
+          </td>
+          <td style="padding: 0.75rem 1rem; text-align: center; border-bottom: 1px solid var(--border-light); background: rgba(194, 65, 12, 0.005); border-left: 2px solid rgba(194, 65, 12, 0.08); border-right: 2px solid rgba(194, 65, 12, 0.08);">
+            <div class="pugh-control-wrap">
+              <button class="pugh-btn-adjust" onclick="adjustPughScore(${index}, 'alt1', -1)">-</button>
+              <span class="pugh-score-val" id="pugh-score-${index}-alt1">${row.scores.alt1}</span>
+              <button class="pugh-btn-adjust" onclick="adjustPughScore(${index}, 'alt1', 1)">+</button>
+            </div>
+            <span style="font-size: 0.65rem; color: var(--text-dim); display: block; margin-top: 0.25rem;">Pond: <strong id="pugh-weighted-${index}-alt1">${row.weight * row.scores.alt1}</strong></span>
+          </td>
+          <td style="padding: 0.75rem 1rem; text-align: center; border-bottom: 1px solid var(--border-light); background: rgba(15, 118, 110, 0.005);">
+            <div class="pugh-control-wrap">
+              <button class="pugh-btn-adjust" onclick="adjustPughScore(${index}, 'alt2', -1)">-</button>
+              <span class="pugh-score-val" id="pugh-score-${index}-alt2">${row.scores.alt2}</span>
+              <button class="pugh-btn-adjust" onclick="adjustPughScore(${index}, 'alt2', 1)">+</button>
+            </div>
+            <span style="font-size: 0.65rem; color: var(--text-dim); display: block; margin-top: 0.25rem;">Pond: <strong id="pugh-weighted-${index}-alt2">${row.weight * row.scores.alt2}</strong></span>
+          </td>
+          <td style="padding: 0.75rem 1rem; text-align: center; border-bottom: 1px solid var(--border-light); background: rgba(29, 78, 216, 0.005);">
+            <div class="pugh-control-wrap">
+              <button class="pugh-btn-adjust" onclick="adjustPughScore(${index}, 'alt3', -1)">-</button>
+              <span class="pugh-score-val" id="pugh-score-${index}-alt3">${row.scores.alt3}</span>
+              <button class="pugh-btn-adjust" onclick="adjustPughScore(${index}, 'alt3', 1)">+</button>
+            </div>
+            <span style="font-size: 0.65rem; color: var(--text-dim); display: block; margin-top: 0.25rem;">Pond: <strong id="pugh-weighted-${index}-alt3">${row.weight * row.scores.alt3}</strong></span>
+          </td>
+          <td style="padding: 0.75rem 1rem; text-align: center; border-bottom: 1px solid var(--border-light); background: rgba(109, 40, 217, 0.005);">
+            <div class="pugh-control-wrap">
+              <button class="pugh-btn-adjust" onclick="adjustPughScore(${index}, 'alt4', -1)">-</button>
+              <span class="pugh-score-val" id="pugh-score-${index}-alt4">${row.scores.alt4}</span>
+              <button class="pugh-btn-adjust" onclick="adjustPughScore(${index}, 'alt4', 1)">+</button>
+            </div>
+            <span style="font-size: 0.65rem; color: var(--text-dim); display: block; margin-top: 0.25rem;">Pond: <strong id="pugh-weighted-${index}-alt4">${row.weight * row.scores.alt4}</strong></span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      updatePughTotals();
+    }
+
+    function updatePughTotals() {
+      let totalAlt1 = 0;
+      let totalAlt2 = 0;
+      let totalAlt3 = 0;
+      let totalAlt4 = 0;
+      let maxPossibleScore = 0;
+
+      pughData.forEach(row => {
+        totalAlt1 += row.weight * row.scores.alt1;
+        totalAlt2 += row.weight * row.scores.alt2;
+        totalAlt3 += row.weight * row.scores.alt3;
+        totalAlt4 += row.weight * row.scores.alt4;
+        maxPossibleScore += row.weight * 5;
+      });
+
+      let tfoot = document.querySelector('.pugh-table tfoot');
+      if (!tfoot) {
+        tfoot = document.createElement('tfoot');
+        document.querySelector('.pugh-table').appendChild(tfoot);
+      }
+      
+      tfoot.innerHTML = `
+        <tr class="pugh-total-row" style="background: rgba(15, 23, 42, 0.05); font-weight: 800;">
+          <td style="padding: 1rem; border-top: 2px solid var(--border-light);">TOTAL PONDERADO</td>
+          <td style="padding: 1rem; border-top: 2px solid var(--border-light); text-align: center; color: var(--text-dim); font-size: 0.75rem;">(Suma Pond.)</td>
+          <td style="padding: 1rem; border-top: 2px solid var(--border-light); text-align: center; color: var(--accent-hub); font-size: 1.1rem; border-left: 2px solid rgba(194, 65, 12, 0.2); border-right: 2px solid rgba(194, 65, 12, 0.2); background: rgba(194, 65, 12, 0.02);">${totalAlt1}</td>
+          <td style="padding: 1rem; border-top: 2px solid var(--border-light); text-align: center; color: var(--accent-a); font-size: 1rem;">${totalAlt2}</td>
+          <td style="padding: 1rem; border-top: 2px solid var(--border-light); text-align: center; color: var(--accent-b); font-size: 1rem;">${totalAlt3}</td>
+          <td style="padding: 1rem; border-top: 2px solid var(--border-light); text-align: center; color: var(--accent-c); font-size: 1rem;">${totalAlt4}</td>
+        </tr>
+      `;
+
+      const resultsContainer = document.getElementById('pugh-results-container');
+      if (!resultsContainer) return;
+
+      const altDetails = [
+        {
+          key: 'alt1',
+          name: 'Alt 1: Estación Edge AI (Idea 8)',
+          total: totalAlt1,
+          color: 'var(--accent-hub)',
+          desc: 'Estación de monitoreo entomológico autónomo con Edge AI local.'
+        },
+        {
+          key: 'alt2',
+          name: 'Alt 2: Postes Alumbrado IA (Idea 19)',
+          total: totalAlt2,
+          color: 'var(--accent-a)',
+          desc: 'Luminarias inteligentes que regulan su luz según la fauna voladora.'
+        },
+        {
+          key: 'alt3',
+          name: 'Alt 3: LiDAR Entomológico (Idea 10)',
+          total: totalAlt3,
+          color: 'var(--accent-b)',
+          desc: 'Monitoreo óptico activo de insectos en vuelo por haz láser.'
+        },
+        {
+          key: 'alt4',
+          name: 'Alt 4: Plataforma Citizen (Idea 14)',
+          total: totalAlt4,
+          color: 'var(--accent-c)',
+          desc: 'Aplicación móvil para reporte y mapeo epidemiológico de plagas.'
+        }
+      ];
+
+      let winnerKey = 'alt1';
+      let maxScore = Math.max(totalAlt1, totalAlt2, totalAlt3, totalAlt4);
+      if (maxScore === totalAlt1) winnerKey = 'alt1';
+      else if (maxScore === totalAlt2) winnerKey = 'alt2';
+      else if (maxScore === totalAlt3) winnerKey = 'alt3';
+      else winnerKey = 'alt4';
+
+      resultsContainer.innerHTML = altDetails.map(alt => {
+        const pct = ((alt.total / maxPossibleScore) * 100).toFixed(0);
+        const isWinner = alt.key === winnerKey;
+        
+        return `
+          <div class="pugh-result-card ${isWinner ? 'winner' : ''}" style="margin-bottom: 0.5rem;">
+            <div style="display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 0.25rem; font-size: 0.82rem; color: var(--text-main);">
+              <span>${alt.name}</span>
+              <span style="color: ${alt.color};">${alt.total} pts (${pct}%)</span>
+            </div>
+            <p style="font-size: 0.72rem; color: var(--text-dim); margin-bottom: 0.5rem; line-height: 1.3;">${alt.desc}</p>
+            <div class="pugh-bar-container">
+              <div class="pugh-bar-fill" style="width: ${pct}%; background-color: ${alt.color};"></div>
+            </div>
+            ${isWinner ? `<span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.65rem; color: var(--accent-hub); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-top: 0.45rem;"><i class="fa-solid fa-crown"></i> Alternativa Seleccionada</span>` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ==========================================================================
+    // 10. MODO PRESENTACIÓN (AUTOPLAY NARRATIVO)
+    // ==========================================================================
+    const presentationSteps = [
+      {
+        title: "Selección de Ideas - Vista de Red",
+        description: "Iniciamos el recorrido en el mapa conceptual que conecta el núcleo central con las tres oportunidades de diseño clave.",
+        action: () => {
+          switchMainSection('selection');
+          switchView('map');
+          resetOpportunityFocus();
+          scrollToElement('map-view');
+        }
+      },
+      {
+        title: "Oportunidad A: Termorregulación y Refugios",
+        description: "Profundizamos en la Oportunidad A, que busca proteger a polinizadores nativos contra las heladas extremas.",
+        action: () => {
+          switchMainSection('selection');
+          switchView('map');
+          selectOpportunityFocus('A');
+        }
+      },
+      {
+        title: "Oportunidad B: Detección y Monitoreo IoT",
+        description: "Analizamos la Oportunidad B para monitoreo entomológico inteligente en la interfaz silvoagropecuaria.",
+        action: () => {
+          switchMainSection('selection');
+          switchView('map');
+          selectOpportunityFocus('B');
+        }
+      },
+      {
+        title: "Oportunidad C: Infraestructura Verde",
+        description: "Revisamos la Oportunidad C para micro-refugios sensorizados urbanos que mitiguen las islas de calor.",
+        action: () => {
+          switchMainSection('selection');
+          switchView('map');
+          selectOpportunityFocus('C');
+        }
+      },
+      {
+        title: "Selección de Ideas - Matriz de Consenso",
+        description: "Cruzamos las 21 ideas de diseño frente a sus niveles de consenso e impacto de viabilidad.",
+        action: () => {
+          switchMainSection('selection');
+          switchView('matrix');
+          scrollToElement('matrix-view');
+        }
+      },
+      {
+        title: "Selección de Ideas - Vista de Tabla",
+        description: "Listado tabular completo con ponderaciones de viabilidad e impacto ecológico.",
+        action: () => {
+          switchMainSection('selection');
+          switchView('table');
+          scrollToElement('table-view');
+        }
+      },
+      {
+        title: "Matriz de Pugh",
+        description: "Evaluación ponderada multicriterio que compara las 4 mejores alternativas frente al diseño de referencia.",
+        action: () => {
+          switchMainSection('pugh');
+          scrollToElement('pugh-section-container');
+        }
+      },
+      {
+        title: "Proyecto Ganador - Ficha de Diseño",
+        description: "La propuesta seleccionada: Estación Entomológica Modular de Bajo Costo e Impacto Mínimo.",
+        action: () => {
+          switchMainSection('winner');
+          switchWinnerSubTab('general');
+          scrollToElement('winner-section-container');
+        }
+      },
+      {
+        title: "Proyecto Ganador - Estructura Modular",
+        description: "Análisis del chasis exterior, geometría cónica de ingreso y control no invasivo de la estación.",
+        action: () => {
+          switchMainSection('winner');
+          switchWinnerSubTab('modular');
+          scrollToElement('winner-section-container');
+        }
+      },
+      {
+        title: "Proyecto Ganador - Validación Biológica",
+        description: "Uso de sustratos anti-anidación de avispas invasoras y análisis de dinámica de fluidos.",
+        action: () => {
+          switchMainSection('winner');
+          switchWinnerSubTab('biology');
+          scrollToElement('winner-section-container');
+        }
+      },
+      {
+        title: "Proyecto Ganador - Planos Técnicos",
+        description: "Detalle técnico de ensambles machihembrados y vistas de corte mecánico en 3D.",
+        action: () => {
+          switchMainSection('winner');
+          switchWinnerSubTab('blueprints');
+          scrollToElement('winner-section-container');
+        }
+      },
+      {
+        title: "Proyecto Ganador - Materiales y Técnicas",
+        description: "Especificación de maderas nativas, aceites protectores bio, PETG impreso e ingeniería de fabricación.",
+        action: () => {
+          switchMainSection('winner');
+          switchWinnerSubTab('resources');
+          scrollToElement('winner-section-container');
+        }
+      },
+      {
+        title: "Referencias Bibliográficas",
+        description: "Revisamos los fundamentos científicos, papers y literatura botánica que respaldan este ecosistema.",
+        action: () => {
+          switchMainSection('references');
+          scrollToElement('references-section-container');
+        }
+      }
+    ];
+
+    let currentPresentationStep = 0;
+    let presentationTimer = null;
+    let isPresentationPaused = false;
+    let stepDuration = 8000; // 8 segundos por diapositiva
+    let startTime = null;
+    let elapsedTimeBeforePause = 0;
+
+    window.startPresentation = function() {
+      const bar = document.getElementById('presentation-bar');
+      if (bar) bar.classList.add('active');
+      
+      stopPresentationTimer();
+      
+      currentPresentationStep = 0;
+      isPresentationPaused = false;
+      elapsedTimeBeforePause = 0;
+      
+      runStep(currentPresentationStep);
+    };
+
+    window.runStep = function(stepIndex) {
+      if (stepIndex < 0 || stepIndex >= presentationSteps.length) {
+        stopPresentation();
+        return;
+      }
+      
+      currentPresentationStep = stepIndex;
+      isPresentationPaused = false;
+      elapsedTimeBeforePause = 0;
+      
+      // Ejecutar la acción del paso
+      presentationSteps[stepIndex].action();
+      
+      // Actualizar UI
+      updatePresentationUI();
+      
+      // Iniciar timer
+      startStepTimer();
+    };
+
+    window.startStepTimer = function() {
+      stopPresentationTimer();
+      startTime = Date.now();
+      
+      function updateProgress() {
+        if (isPresentationPaused) return;
+        
+        const elapsed = Date.now() - startTime + elapsedTimeBeforePause;
+        const progressPercent = Math.min((elapsed / stepDuration) * 100, 100);
+        
+        const progressBar = document.getElementById('presentation-progress');
+        if (progressBar) {
+          progressBar.style.width = `${progressPercent}%`;
+        }
+        
+        if (elapsed >= stepDuration) {
+          runStep(currentPresentationStep + 1);
+        } else {
+          presentationTimer = requestAnimationFrame(updateProgress);
+        }
+      }
+      
+      presentationTimer = requestAnimationFrame(updateProgress);
+    };
+
+    window.stopPresentationTimer = function() {
+      if (presentationTimer) {
+        cancelAnimationFrame(presentationTimer);
+        presentationTimer = null;
+      }
+    };
+
+    window.togglePlayPause = function() {
+      const playPauseBtn = document.getElementById('btn-pres-play-pause');
+      if (!playPauseBtn) return;
+      
+      if (isPresentationPaused) {
+        isPresentationPaused = false;
+        startTime = Date.now();
+        startStepTimer();
+        playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+        playPauseBtn.title = "Pausar";
+      } else {
+        isPresentationPaused = true;
+        elapsedTimeBeforePause += Date.now() - startTime;
+        stopPresentationTimer();
+        playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+        playPauseBtn.title = "Reanudar";
+      }
+    };
+
+    window.nextStep = function() {
+      if (currentPresentationStep < presentationSteps.length - 1) {
+        runStep(currentPresentationStep + 1);
+      } else {
+        stopPresentation();
+      }
+    };
+
+    window.prevStep = function() {
+      if (currentPresentationStep > 0) {
+        runStep(currentPresentationStep - 1);
+      }
+    };
+
+    window.stopPresentation = function() {
+      const bar = document.getElementById('presentation-bar');
+      if (bar) bar.classList.remove('active');
+      
+      stopPresentationTimer();
+      isPresentationPaused = false;
+      elapsedTimeBeforePause = 0;
+      
+      resetOpportunityFocus();
+      switchMainSection('selection');
+      switchView('map');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.updatePresentationUI = function() {
+      const titleEl = document.getElementById('presentation-title-text');
+      const descEl = document.getElementById('presentation-desc-text');
+      const indicatorEl = document.getElementById('presentation-step-indicator');
+      const playPauseBtn = document.getElementById('btn-pres-play-pause');
+      
+      if (titleEl) titleEl.innerText = presentationSteps[currentPresentationStep].title;
+      if (descEl) descEl.innerText = presentationSteps[currentPresentationStep].description;
+      if (indicatorEl) indicatorEl.innerText = `Paso ${currentPresentationStep + 1} de ${presentationSteps.length}`;
+      
+      if (playPauseBtn) {
+        if (isPresentationPaused) {
+          playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+          playPauseBtn.title = "Reanudar";
+        } else {
+          playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+          playPauseBtn.title = "Pausar";
+        }
+      }
+    };
 
     // Cargar aplicación
     loadData();
   </script>
+
+  <!-- BARRA DE CONTROL DE LA PRESENTACIÓN AUTOPLAY -->
+  <div class="presentation-bar" id="presentation-bar">
+    <div class="presentation-progress-bar" id="presentation-progress"></div>
+    <div class="presentation-content">
+      <div class="presentation-header">
+        <div class="presentation-title" id="presentation-title-text">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> Presentación
+        </div>
+        <span class="presentation-step-indicator" id="presentation-step-indicator">Paso 1 de 13</span>
+      </div>
+      <div class="presentation-body">
+        <p class="presentation-description" id="presentation-desc-text">Cargando...</p>
+        <div class="presentation-controls">
+          <button class="presentation-btn" onclick="prevStep()" title="Anterior"><i class="fa-solid fa-chevron-left"></i></button>
+          <button class="presentation-btn btn-play-pause" id="btn-pres-play-pause" onclick="togglePlayPause()" title="Pausar"><i class="fa-solid fa-pause"></i></button>
+          <button class="presentation-btn" onclick="nextStep()" title="Siguiente"><i class="fa-solid fa-chevron-right"></i></button>
+          <button class="presentation-btn btn-stop" onclick="stopPresentation()" title="Detener y Salir"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>
