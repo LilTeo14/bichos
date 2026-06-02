@@ -6994,6 +6994,7 @@
       if (!overlay) {
         overlay = document.createElement('div');
         overlay.id = 'pdf-loading-overlay';
+        overlay.setAttribute('data-html2canvas-ignore', 'true');
         overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; color: white; font-family: "Space Grotesk", sans-serif;';
         overlay.innerHTML = `
           <div style="background: rgba(30, 41, 59, 0.75); border: 1px solid rgba(255, 255, 255, 0.1); padding: 2.5rem; border-radius: 24px; text-align: center; max-width: 420px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); width: 90%;">
@@ -7025,36 +7026,16 @@
         // Esperar 400ms para permitir que las transiciones de CSS, SVGs de Vis.js y pestañas se acomoden
         await new Promise(resolve => setTimeout(resolve, 400));
 
-        // Determinar qué contenedor está activo en este paso para capturarlo limpiamente
-        let captureElement = null;
-        if (i >= 0 && i <= 3) {
-          // Vista de mapa
-          captureElement = document.querySelector('.map-outer-container');
-        } else if (i === 4) {
-          // Vista de matriz de consenso
-          captureElement = document.querySelector('.matrix-outer-container');
-        } else if (i === 5) {
-          // Vista de tabla de ideas
-          captureElement = document.querySelector('#table-view');
-        } else if (i === 6) {
-          // Vista de Pugh
-          captureElement = document.querySelector('#pugh-section-container');
-        } else if (i >= 7 && i <= 11) {
-          // Vista de proyecto ganador (distintas pestañas)
-          captureElement = document.querySelector('#winner-section-container');
-        } else if (i === 12) {
-          // Vista de referencias
-          captureElement = document.querySelector('#references-section-container');
-        }
-
-        if (!captureElement) {
-          captureElement = document.body;
-        }
-
         try {
-          // Tomar captura
-          const canvas = await html2canvas(captureElement, {
-            scale: 2, // Doble resolución para nitidez vectorial de textos e imágenes
+          // Tomar captura de todo el viewport visible
+          const canvas = await html2canvas(document.body, {
+            width: window.innerWidth,
+            height: window.innerHeight,
+            scrollX: window.scrollX,
+            scrollY: window.scrollY,
+            x: window.scrollX,
+            y: window.scrollY,
+            scale: 2, // Doble resolución para nitidez
             useCORS: true,
             backgroundColor: '#0f172a',
             logging: false
@@ -7096,6 +7077,7 @@
 
       // Crear iframe para impresión limpia y formateada
       const iframe = document.createElement('iframe');
+      iframe.setAttribute('data-html2canvas-ignore', 'true');
       iframe.style.position = 'fixed';
       iframe.style.right = '0';
       iframe.style.bottom = '0';
