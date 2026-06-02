@@ -2546,6 +2546,63 @@
       align-items: center;
     }
 
+    /* Estilos para planos pendientes de carga */
+    .blueprint-placeholder-graphic {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      color: #64748b;
+      padding: 2rem;
+      text-align: center;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, #111827 0%, #030712 100%);
+      position: relative;
+    }
+
+    /* Decorative technical blueprint grid lines inside placeholder */
+    .blueprint-placeholder-graphic::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.08;
+      background-image: 
+        linear-gradient(to right, #60a5fa 1px, transparent 1px),
+        linear-gradient(to bottom, #60a5fa 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    .blueprint-placeholder-graphic i {
+      font-size: 2.2rem;
+      color: #3b82f6;
+      opacity: 0.8;
+      transition: all 0.3s ease;
+    }
+
+    .blueprint-technical-card:hover .blueprint-placeholder-graphic i {
+      transform: scale(1.1) rotate(5deg);
+      color: #60a5fa;
+      opacity: 1;
+    }
+
+    .blueprint-placeholder-graphic span {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+      text-transform: uppercase;
+    }
+    
+    .blueprint-placeholder-graphic .placeholder-sub {
+      font-size: 0.65rem;
+      color: #64748b;
+      max-width: 85%;
+      margin-top: -0.25rem;
+      text-transform: none;
+    }
+
     /* DISEÑO PESTAÑA 3: MATERIALES Y TÉCNICAS */
     .resource-grid {
       display: grid;
@@ -4895,37 +4952,23 @@
       </div>
 
       <div class="blueprint-grid">
-        <!-- Tarjeta Plano 1 -->
-        <div class="blueprint-technical-card" onclick="openBlueprintLightbox('images/winner_isometric.png', 'Vista General e Isométrica', 'Diagrama estructural en 3D que ilustra la estación entomológica acoplada al tronco de forma no invasiva mediante cinchas de tracción de poliuretano. Se aprecia la inclinación óptima del panel solar de 80W en la cubierta superior y la ubicación protegida del embudo de ingreso de insectos.')">
+        <!-- Tarjeta Plano 1: Módulo Superior -->
+        <div class="blueprint-technical-card" onclick="openBlueprintLightbox('images/plano_modulo_superior.png', 'Módulo Superior (Componentes Internos)', 'Vista explosionada y corte esquemático que detalla la distribución de los componentes electrónicos internos: microcomputador, acelerador de IA y sensores ópticos.', this)">
           <div class="blueprint-image-container">
-            <span class="blueprint-badge">PLANO 01: ISOMÉTRICO</span>
-            <img src="images/winner_isometric.png" alt="Plano Isométrico 3D">
-            <div class="blueprint-zoom-overlay">
+            <span class="blueprint-badge">PLANO 01: MÓDULO SUPERIOR</span>
+            <div class="blueprint-placeholder-graphic">
+              <i class="fa-solid fa-pencil-ruler"></i>
+              <span>Imagen pendiente de carga</span>
+              <span class="placeholder-sub">Carga plano_modulo_superior.png en images/</span>
+            </div>
+            <img src="images/plano_modulo_superior.png" alt="Módulo Superior" class="blueprint-img" style="display: none;" onload="this.style.display='block'; this.parentNode.querySelector('.blueprint-placeholder-graphic').style.display='none'; this.parentNode.querySelector('.blueprint-zoom-overlay').style.display='flex';" onerror="this.style.display='none';">
+            <div class="blueprint-zoom-overlay" style="display: none;">
               <i class="fa-solid fa-magnifying-glass-plus"></i>
             </div>
           </div>
           <div class="blueprint-info-area">
-            <h4>Vista General y Anclaje</h4>
-            <p>Modelado general del chasis exterior fabricado en madera de Roble Hualo y sus sistemas de acoplamiento.</p>
-          </div>
-          <div class="blueprint-tech-specs">
-            <span>ESCALA: 1:10</span>
-            <span>FORMATO: ISO A3</span>
-          </div>
-        </div>
-
-        <!-- Tarjeta Plano 2 -->
-        <div class="blueprint-technical-card" onclick="openBlueprintLightbox('images/winner_enclosure.png', 'Caja de Sensorización y Electrónica', 'Esquema técnico de corte que detalla el compartimento técnico estanco IP66. Muestra la distribución interna de la Raspberry Pi 4, el acelerador de red neuronal Google Coral TPU, y la batería protectora LiFePO4 aislada térmicamente mediante paneles de corcho aglomerado de alta densidad para mitigar las heladas invernales.')">
-          <div class="blueprint-image-container">
-            <span class="blueprint-badge">PLANO 02: HARDWARE</span>
-            <img src="images/winner_enclosure.png" alt="Plano de Electrónica">
-            <div class="blueprint-zoom-overlay">
-              <i class="fa-solid fa-magnifying-glass-plus"></i>
-            </div>
-          </div>
-          <div class="blueprint-info-area">
-            <h4>Habitáculo Técnico Estanco</h4>
-            <p>Planificación y aislamiento térmico de la instrumentación IoT, microcomputador y almacenamiento de energía.</p>
+            <h4>Módulo Superior (Componentes Internos)</h4>
+            <p>Vista explosionada y corte esquemático que detalla la distribución de los componentes electrónicos internos: microcomputador, acelerador de IA y sensores ópticos.</p>
           </div>
           <div class="blueprint-tech-specs">
             <span>ESCALA: 1:2</span>
@@ -4933,18 +4976,95 @@
           </div>
         </div>
 
-        <!-- Tarjeta Plano 3 -->
-        <div class="blueprint-technical-card" onclick="openBlueprintLightbox('images/winner_optical.png', 'Embudo de Tránsito y Sistema Óptico', 'Detalle de la recámara de muestreo biológico no invasivo. El insecto es atraído por los emisores LED UV transversales y cruza por el túnel óptico de vidrio de borosilicato. Una cámara Sony IMX219 macro de alta resolución toma capturas cenitales nítidas y libres de condensación para la clasificación automática de la IA.')">
+        <!-- Tarjeta Plano 2: Panel Solar con Cable -->
+        <div class="blueprint-technical-card" onclick="openBlueprintLightbox('images/plano_panel_solar.png', 'Panel Solar con Cableado', 'Detalle del sistema de alimentación fotovoltaico, soporte de inclinación regulable y cableado de salida estanco de alta resistencia climática.', this)">
           <div class="blueprint-image-container">
-            <span class="blueprint-badge">PLANO 03: ÓPTICA</span>
-            <img src="images/winner_optical.png" alt="Plano de Óptica">
-            <div class="blueprint-zoom-overlay">
+            <span class="blueprint-badge">PLANO 02: ENERGÍA</span>
+            <div class="blueprint-placeholder-graphic">
+              <i class="fa-solid fa-pencil-ruler"></i>
+              <span>Imagen pendiente de carga</span>
+              <span class="placeholder-sub">Carga plano_panel_solar.png en images/</span>
+            </div>
+            <img src="images/plano_panel_solar.png" alt="Panel Solar con Cable" class="blueprint-img" style="display: none;" onload="this.style.display='block'; this.parentNode.querySelector('.blueprint-placeholder-graphic').style.display='none'; this.parentNode.querySelector('.blueprint-zoom-overlay').style.display='flex';" onerror="this.style.display='none';">
+            <div class="blueprint-zoom-overlay" style="display: none;">
               <i class="fa-solid fa-magnifying-glass-plus"></i>
             </div>
           </div>
           <div class="blueprint-info-area">
-            <h4>Recámara Óptica y LEDs UV</h4>
-            <p>Diseño detallado del cono de tránsito, iluminación cromática selectiva y posicionamiento de cámara macro.</p>
+            <h4>Panel Solar con Cableado</h4>
+            <p>Detalle del sistema de alimentación fotovoltaico, soporte de inclinación regulable y cableado de salida estanco de alta resistencia climática.</p>
+          </div>
+          <div class="blueprint-tech-specs">
+            <span>ESCALA: 1:5</span>
+            <span>FORMATO: ISO A3</span>
+          </div>
+        </div>
+
+        <!-- Tarjeta Plano 3: Módulo Inferior para Abejas -->
+        <div class="blueprint-technical-card" onclick="openBlueprintLightbox('images/plano_modulo_inferior_abejas.png', 'Módulo Inferior (Abejas)', 'Estructura de la trampa adaptada para el monitoreo pasivo de abejas y abejorros nativos mediante thigmotaxis y mimetismo cromático UV.', this)">
+          <div class="blueprint-image-container">
+            <span class="blueprint-badge">PLANO 03: MOD. ABEJAS</span>
+            <div class="blueprint-placeholder-graphic">
+              <i class="fa-solid fa-pencil-ruler"></i>
+              <span>Imagen pendiente de carga</span>
+              <span class="placeholder-sub">Carga plano_modulo_inferior_abejas.png en images/</span>
+            </div>
+            <img src="images/plano_modulo_inferior_abejas.png" alt="Módulo Inferior Abejas" class="blueprint-img" style="display: none;" onload="this.style.display='block'; this.parentNode.querySelector('.blueprint-placeholder-graphic').style.display='none'; this.parentNode.querySelector('.blueprint-zoom-overlay').style.display='flex';" onerror="this.style.display='none';">
+            <div class="blueprint-zoom-overlay" style="display: none;">
+              <i class="fa-solid fa-magnifying-glass-plus"></i>
+            </div>
+          </div>
+          <div class="blueprint-info-area">
+            <h4>Módulo Inferior (Abejas)</h4>
+            <p>Estructura de la trampa adaptada para el monitoreo pasivo de abejas y abejorros nativos mediante thigmotaxis y mimetismo cromático UV.</p>
+          </div>
+          <div class="blueprint-tech-specs">
+            <span>ESCALA: 1:1</span>
+            <span>FORMATO: ISO A3</span>
+          </div>
+        </div>
+
+        <!-- Tarjeta Plano 4: Módulo Inferior para Escarabajos -->
+        <div class="blueprint-technical-card" onclick="openBlueprintLightbox('images/plano_modulo_inferior_escarabajos.png', 'Módulo Inferior (Escarabajos)', 'Diseño del embudo de caída seco (Simple-Pitfall) con ranura de difusión de feromonas, optimizado para la detección del escarabajo del pino.', this)">
+          <div class="blueprint-image-container">
+            <span class="blueprint-badge">PLANO 04: MOD. ESCARABAJOS</span>
+            <div class="blueprint-placeholder-graphic">
+              <i class="fa-solid fa-pencil-ruler"></i>
+              <span>Imagen pendiente de carga</span>
+              <span class="placeholder-sub">Carga plano_modulo_inferior_escarabajos.png en images/</span>
+            </div>
+            <img src="images/plano_modulo_inferior_escarabajos.png" alt="Módulo Inferior Escarabajos" class="blueprint-img" style="display: none;" onload="this.style.display='block'; this.parentNode.querySelector('.blueprint-placeholder-graphic').style.display='none'; this.parentNode.querySelector('.blueprint-zoom-overlay').style.display='flex';" onerror="this.style.display='none';">
+            <div class="blueprint-zoom-overlay" style="display: none;">
+              <i class="fa-solid fa-magnifying-glass-plus"></i>
+            </div>
+          </div>
+          <div class="blueprint-info-area">
+            <h4>Módulo Inferior (Escarabajos)</h4>
+            <p>Diseño del embudo de caída seco (Simple-Pitfall) con ranura de difusión de feromonas, optimizado para la detección del escarabajo del pino.</p>
+          </div>
+          <div class="blueprint-tech-specs">
+            <span>ESCALA: 1:1</span>
+            <span>FORMATO: ISO A3</span>
+          </div>
+        </div>
+
+        <!-- Tarjeta Plano 5: Módulo para Chaqueta Amarilla -->
+        <div class="blueprint-technical-card" onclick="openBlueprintLightbox('images/plano_modulo_chaqueta_amarilla.png', 'Módulo Inferior (Chaqueta Amarilla)', 'Detalle del cono unidireccional de entrada y cámara de cebado proteico para la captura selectiva de la avispa chaqueta amarilla.', this)">
+          <div class="blueprint-image-container">
+            <span class="blueprint-badge">PLANO 05: MOD. AVISPAS</span>
+            <div class="blueprint-placeholder-graphic">
+              <i class="fa-solid fa-pencil-ruler"></i>
+              <span>Imagen pendiente de carga</span>
+              <span class="placeholder-sub">Carga plano_modulo_chaqueta_amarilla.png en images/</span>
+            </div>
+            <img src="images/plano_modulo_chaqueta_amarilla.png" alt="Módulo Chaqueta Amarilla" class="blueprint-img" style="display: none;" onload="this.style.display='block'; this.parentNode.querySelector('.blueprint-placeholder-graphic').style.display='none'; this.parentNode.querySelector('.blueprint-zoom-overlay').style.display='flex';" onerror="this.style.display='none';">
+            <div class="blueprint-zoom-overlay" style="display: none;">
+              <i class="fa-solid fa-magnifying-glass-plus"></i>
+            </div>
+          </div>
+          <div class="blueprint-info-area">
+            <h4>Módulo Inferior (Chaqueta Amarilla)</h4>
+            <p>Detalle del cono unidireccional de entrada y cámara de cebado proteico para la captura selectiva de la avispa chaqueta amarilla.</p>
           </div>
           <div class="blueprint-tech-specs">
             <span>ESCALA: 1:1</span>
@@ -5483,7 +5603,15 @@
     }
 
     // Funciones del Lightbox Modal para los Planos Técnicos
-    function openBlueprintLightbox(imgSrc, title, desc) {
+    function openBlueprintLightbox(imgSrc, title, desc, cardElement) {
+      if (cardElement) {
+        const img = cardElement.querySelector('.blueprint-img');
+        if (!img || img.style.display === 'none') {
+          alert(`El plano técnico "${title}" estará disponible cuando guardes la imagen en: \n${imgSrc}`);
+          return;
+        }
+      }
+
       const lightbox = document.getElementById('blueprint-lightbox');
       const lightboxImg = document.getElementById('lightbox-img');
       const lightboxTitle = document.getElementById('lightbox-title');
