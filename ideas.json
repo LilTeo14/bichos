@@ -136,17 +136,17 @@
     "id": 8,
     "modulo": "B",
     "modulo_nombre": "Oportunidad B: Detección Temprana y Monitoreo de Insectos Clave en la Interfase Silvoagropecuaria",
-    "titulo": "Estación Inteligente de Detección Entomológica mediante Visión Artificial (Edge AI)",
-    "propuesta_tecnica": "Trampa inteligente equipada con una cámara de alta resolución a nivel del suelo, iluminación LED optimizada para insectos y un microcomputador de placa única (SBC) que ejecuta un modelo de clasificación de imágenes (red neuronal convolucional optimizada en el dispositivo, como MobileNet o YOLO Lite) para identificar especies en tiempo real al ingresar al habitáculo.",
+    "titulo": "Estación Inteligente de Detección Entomológica mediante Visión Artificial en la Nube (Cloud AI)",
+    "propuesta_tecnica": "Trampa inteligente equipada con una cámara de alta resolución a nivel del suelo, iluminación LED optimizada para insectos y un microcomputador de placa única (SBC) que captura y transmite imágenes a un servidor en la nube a través de redes celulares, donde un modelo de visión artificial (red neuronal convolucional) clasifica e identifica las especies en tiempo real.",
     "justificacion_conservacion": "Permite el monitoreo automatizado y la detección temprana de adultos de insectos barrenadores invasores o brotes de especies nativas destructivas (como coleópteros de las familias Cerambycidae y Scolytinae) en los bordes boscosos de parques nacionales del sur de Chile, transmitiendo alertas en tiempo real vía red celular para aislar la zona antes del daño al dosel forestal.",
     "evaluaciones_expertos": {
       "experto_desarrollo_tecnologico": {
         "puntuacion": 9.5,
-        "comentario": "Impacto crítico y estratégico. Chile depende fuertemente de la agroexportación y tiene barreras fitosanitarias estrictas. Identificar especies invasoras y plagas en tiempo real mediante Edge AI en terreno previene catástrofes ecológicas y económicas."
+        "comentario": "Impacto crítico y estratégico. Chile depende fuertemente de la agroexportación y tiene barreras fitosanitarias estrictas. Identificar especies invasoras y plagas en tiempo real mediante procesamiento de IA en la nube previene catástrofes ecológicas y económicas."
       },
       "experto_entomologia": {
         "puntuacion": 10.0,
-        "comentario": "Excelente. El uso de visión artificial en el dispositivo para clasificar escarabajos barrenadores en su fase de vuelo adulta permite capturar brotes de plagas forestales de manera instantánea y geolocalizada en el sur de Chile, coordinando con el SAG de manera inédita."
+        "comentario": "Excelente. La captura automática y el procesamiento en la nube para clasificar escarabajos barrenadores en su fase de vuelo adulta permite capturar brotes de plagas forestales de manera instantánea y geolocalizada en el sur de Chile, coordinando con el SAG de manera inédita."
       }
     },
     "imagen": "images/idea_8.png"

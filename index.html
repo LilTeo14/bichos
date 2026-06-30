@@ -2859,7 +2859,7 @@
       margin-bottom: 0.25rem;
     }
 
-    /* Hide selector elements when winner, references or pugh are active */
+    /* Hide selector elements when winner, references, pugh or posters are active */
     body.winner-active #dashboard-stats,
     body.winner-active #controls-container,
     body.winner-active #onboarding-card,
@@ -2883,7 +2883,15 @@
     body.pugh-active .map-outer-container,
     body.pugh-active .matrix-outer-container,
     body.pugh-active .grid-outer-container,
-    body.pugh-active #table-view {
+    body.pugh-active #table-view,
+    body.posters-active #dashboard-stats,
+    body.posters-active #controls-container,
+    body.posters-active #onboarding-card,
+    body.posters-active #opportunity-panel,
+    body.posters-active .map-outer-container,
+    body.posters-active .matrix-outer-container,
+    body.posters-active .grid-outer-container,
+    body.posters-active #table-view {
       display: none !important;
     }
 
@@ -3454,6 +3462,9 @@
       <button class="toggle-btn" id="btn-section-references" onclick="switchMainSection('references')">
         <i class="fa-solid fa-book" style="color: var(--accent-b);"></i> Referencias
       </button>
+      <button class="toggle-btn" id="btn-section-posters" onclick="switchMainSection('posters')">
+        <i class="fa-solid fa-file-invoice" style="color: var(--accent-c);"></i> Láminas
+      </button>
     </div>
 
     <!-- Contenedor de acciones derechas -->
@@ -3835,7 +3846,7 @@
             <tr style="border-bottom: 2px solid var(--border-light); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; font-weight: 700; background: rgba(15, 23, 42, 0.02);">
               <th style="padding: 1rem; width: 32%;">Criterio de Evaluación</th>
               <th style="padding: 1rem; width: 12%; text-align: center;">Peso (Pond.)</th>
-              <th style="padding: 1rem; width: 14%; text-align: center; background: rgba(194, 65, 12, 0.015); border-left: 2px solid rgba(194, 65, 12, 0.15); border-right: 2px solid rgba(194, 65, 12, 0.15);">Alt 1: Estación Edge AI (Ganador)</th>
+              <th style="padding: 1rem; width: 14%; text-align: center; background: rgba(194, 65, 12, 0.015); border-left: 2px solid rgba(194, 65, 12, 0.15); border-right: 2px solid rgba(194, 65, 12, 0.15);">Alt 1: Estación Cloud AI (Ganador)</th>
               <th style="padding: 1rem; width: 14%; text-align: center; background: rgba(15, 118, 110, 0.015);">Alt 2: Postes IA</th>
               <th style="padding: 1rem; width: 14%; text-align: center; background: rgba(29, 78, 216, 0.015);">Alt 3: LiDAR</th>
               <th style="padding: 1rem; width: 14%; text-align: center; background: rgba(109, 40, 217, 0.015);">Alt 4: Plataforma 4G</th>
@@ -3871,8 +3882,8 @@
           </h3>
           <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.75rem;">
             <li>
-              <strong style="color: var(--accent-hub); display: block;"><i class="fa-solid fa-crown"></i> Alt 1: Estación Edge AI (Idea 8)</strong>
-              Estación de monitoreo entomológico autónomo con visión de inteligencia artificial local (Edge AI). Alternativa seleccionada por su alto impacto.
+              <strong style="color: var(--accent-hub); display: block;"><i class="fa-solid fa-crown"></i> Alt 1: Estación Cloud AI (Idea 8)</strong>
+              Estación de monitoreo entomológico autónomo con procesamiento de visión de inteligencia artificial en la nube (Cloud AI). Alternativa seleccionada por su alto impacto.
             </li>
             <li>
               <strong style="color: var(--accent-a); display: block;"><i class="fa-solid fa-circle-dot"></i> Alt 2: Postes Alumbrado IA (Idea 19)</strong>
@@ -3893,6 +3904,1043 @@
     </div>
   </div>
 
+  <!-- SECCIÓN 4: LÁMINAS DE PRESENTACIÓN (POSTERS) -->
+  <div class="posters-section lang-mode-en" id="posters-section-container" style="display: none; max-width: 1400px; margin: 0 auto; padding: 0 2rem 3rem 2rem;">
+    <style>
+      /* Styles for Posters Section */
+      .posters-section {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+
+      .poster-controls-bar {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-light);
+        padding: 1rem 1.5rem;
+        border-radius: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        box-shadow: 0 8px 30px rgba(15, 23, 42, 0.04);
+        position: sticky;
+        top: 85px;
+        z-index: 90;
+      }
+
+      .poster-controls-left {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+      }
+
+      .poster-controls-right {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+      }
+
+      .poster-btn {
+        background: transparent;
+        border: 1px solid var(--border-light);
+        color: var(--text-muted);
+        padding: 0.5rem 1rem;
+        border-radius: 10px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: var(--transition-base);
+      }
+
+      .poster-btn:hover {
+        color: var(--text-main);
+        background: rgba(15, 23, 42, 0.02);
+      }
+
+      .poster-btn.active {
+        background: var(--text-main);
+        color: #ffffff;
+        border-color: var(--text-main);
+      }
+
+      .poster-btn-lang {
+        background: rgba(15, 23, 42, 0.03);
+        border: 1px solid var(--border-light);
+        border-radius: 10px;
+        padding: 0.25rem;
+        display: flex;
+        gap: 0.25rem;
+      }
+
+      .poster-lang-toggle {
+        border: none;
+        background: transparent;
+        padding: 0.35rem 0.75rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: var(--transition-base);
+        color: var(--text-dim);
+      }
+
+      .poster-lang-toggle.active {
+        background: #ffffff;
+        color: var(--text-main);
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+      }
+
+      .poster-btn-action {
+        background: var(--gradient-a);
+        color: #ffffff;
+        border: none;
+        box-shadow: 0 4px 15px rgba(20, 184, 166, 0.25);
+      }
+
+      .poster-btn-action:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(20, 184, 166, 0.35);
+        color: #ffffff;
+      }
+
+      /* Grid of posters */
+      .posters-wrapper {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2.5rem;
+        transition: all 0.5s ease-in-out;
+      }
+
+      .posters-wrapper.focus-1 .poster-card:not(:nth-child(1)) { display: none; }
+      .posters-wrapper.focus-2 .poster-card:not(:nth-child(2)) { display: none; }
+      .posters-wrapper.focus-3 .poster-card:not(:nth-child(3)) { display: none; }
+
+      .posters-wrapper.focus-1, .posters-wrapper.focus-2, .posters-wrapper.focus-3 {
+        grid-template-columns: 1fr;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      /* Fullscreen Presentation Mode Styles */
+      #posters-wrapper:fullscreen,
+      #posters-wrapper:-webkit-full-screen {
+        background-color: #0f172a !important; /* Elegant dark coordinate space */
+        background-image: 
+          linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px) !important;
+        background-size: 30px 30px !important;
+        padding: 3rem !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        box-sizing: border-box !important;
+        overflow-y: auto !important;
+      }
+      
+      /* Grid view in fullscreen */
+      #posters-wrapper:fullscreen {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 2rem !important;
+        align-items: center !important;
+      }
+      
+      /* Focus view centering in fullscreen */
+      #posters-wrapper.focus-1:fullscreen,
+      #posters-wrapper.focus-2:fullscreen,
+      #posters-wrapper.focus-3:fullscreen,
+      #posters-wrapper.focus-1:-webkit-full-screen,
+      #posters-wrapper.focus-2:-webkit-full-screen,
+      #posters-wrapper.focus-3:-webkit-full-screen {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+      }
+      
+      #posters-wrapper.focus-1:fullscreen .poster-card,
+      #posters-wrapper.focus-2:fullscreen .poster-card,
+      #posters-wrapper.focus-3:fullscreen .poster-card,
+      #posters-wrapper.focus-1:-webkit-full-screen .poster-card,
+      #posters-wrapper.focus-2:-webkit-full-screen .poster-card,
+      #posters-wrapper.focus-3:-webkit-full-screen .poster-card {
+        height: 94vh !important;
+        max-height: 94vh !important;
+        aspect-ratio: 1 / 1.414 !important;
+        margin: 0 auto !important;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6) !important;
+        border: 2px solid #38bdf8 !important; /* Neon high-precision border when focused in fullscreen */
+      }
+
+      /* Large full-width images for the Presentation Poster (Poster 1) */
+      .posters-wrapper .poster-card:nth-child(1) .poster-image-row {
+        grid-template-columns: 1fr !important;
+        gap: 0.75rem !important;
+        margin: 1.5rem 0 !important;
+      }
+      
+      .posters-wrapper .poster-card:nth-child(1) .poster-image-row .poster-image-box {
+        height: 320px !important;
+        width: 100% !important;
+        border-radius: 12px !important;
+        border: 1px solid rgba(15, 23, 42, 0.08) !important;
+      }
+      
+      .posters-wrapper .poster-card:nth-child(1) .poster-image-row .poster-image-caption {
+        padding: 0 0.25rem !important;
+      }
+      
+      .posters-wrapper .poster-card:nth-child(1) .poster-image-row .poster-image-caption strong {
+        font-size: 0.85rem !important;
+      }
+      
+      .posters-wrapper .poster-card:nth-child(1) .poster-image-row .poster-image-caption span {
+        font-size: 0.76rem !important;
+      }
+
+      /* Poster Board Styling */
+      .poster-card {
+        background-color: #ffffff;
+        background-image: 
+          radial-gradient(#e2e8f0 1px, transparent 1px),
+          radial-gradient(#e2e8f0 1px, transparent 1px);
+        background-size: 20px 20px;
+        background-position: 0 0, 10px 10px;
+        border: 2px solid #0f172a;
+        box-shadow: 0 30px 60px -20px rgba(15, 23, 42, 0.15);
+        border-radius: 8px;
+        padding: 1.85rem;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        aspect-ratio: 1 / 1.414; /* Standard Poster Ratio */
+        position: relative;
+        color: #0f172a;
+        overflow: hidden;
+      }
+
+      .poster-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: var(--gradient-a);
+      }
+
+      .poster-card:nth-child(2)::before {
+        background: var(--gradient-b);
+      }
+
+      .poster-card:nth-child(3)::before {
+        background: var(--gradient-hub);
+      }
+
+      /* Poster Header */
+      .poster-header {
+        border-bottom: 2px double #0f172a;
+        padding-bottom: 0.85rem;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      .poster-institution {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.6rem;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--text-dim);
+        margin-bottom: 0.35rem;
+        display: block;
+      }
+
+      .poster-title-area h2 {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 2rem;
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -1px;
+        color: #0f172a;
+        margin: 0.25rem 0;
+      }
+
+      .poster-subtitle {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: block;
+        margin-top: 0.25rem;
+      }
+
+      .poster-board-num {
+        position: absolute;
+        top: 1rem;
+        right: 1.5rem;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: rgba(15, 23, 42, 0.1);
+      }
+
+      /* Poster Sections */
+      .poster-body {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .poster-block {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .poster-block-title {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.05rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #0f172a;
+        border-left: 4px solid var(--accent-a);
+        padding-left: 0.75rem;
+        margin-bottom: 0.25rem;
+        letter-spacing: 0.5px;
+      }
+
+      .poster-card:nth-child(2) .poster-block-title {
+        border-left-color: var(--accent-b);
+      }
+
+      .poster-card:nth-child(3) .poster-block-title {
+        border-left-color: var(--accent-hub);
+      }
+
+      .poster-block-content {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        line-height: 1.55;
+        text-align: justify;
+      }
+
+      .poster-features-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-top: 0.5rem;
+      }
+
+      .poster-feature-box {
+        background: rgba(15, 23, 42, 0.02);
+        border: 1px solid var(--border-light);
+        border-radius: 12px;
+        padding: 0.75rem;
+      }
+
+      .poster-feature-box strong {
+        font-family: 'Space Grotesk', sans-serif;
+        display: block;
+        font-size: 0.75rem;
+        color: #0f172a;
+        margin-bottom: 0.25rem;
+        text-transform: uppercase;
+      }
+
+      .poster-feature-box span {
+        font-size: 0.68rem;
+        color: var(--text-dim);
+        line-height: 1.4;
+        display: block;
+      }
+
+      /* Images layout */
+      .poster-image-row {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 1rem;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.5);
+        border: 1px solid var(--border-light);
+        border-radius: 16px;
+        padding: 1rem;
+      }
+
+      .poster-image-row.optical {
+        grid-template-columns: 1fr 1.2fr;
+      }
+
+      .poster-image-box {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--border-light);
+        background: #f8fafc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 140px;
+      }
+
+      .poster-image-box img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+
+      .poster-image-caption {
+        font-size: 0.72rem;
+        line-height: 1.4;
+        color: var(--text-muted);
+      }
+
+      .poster-image-caption strong {
+        display: block;
+        color: #0f172a;
+        margin-bottom: 0.25rem;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+      }
+
+      /* Interactive loop map */
+      .poster-loop-box {
+        background: #0f172a;
+        border-radius: 16px;
+        padding: 1.25rem;
+        color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .poster-loop-title {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #f59e0b;
+        letter-spacing: 0.5px;
+        margin: 0;
+      }
+
+      .poster-loop-steps {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0.35rem;
+        align-items: center;
+      }
+
+      .poster-loop-step {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 0.5rem;
+        text-align: center;
+        min-height: 70px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .poster-loop-step i {
+        font-size: 0.95rem;
+        margin-bottom: 0.25rem;
+        color: #60a5fa;
+      }
+
+      .poster-loop-step span {
+        font-size: 0.58rem;
+        color: #94a3b8;
+        line-height: 1.3;
+        display: block;
+      }
+
+      .poster-loop-arrow {
+        color: rgba(255, 255, 255, 0.25);
+        text-align: center;
+        font-size: 0.75rem;
+      }
+
+      /* Blueprint / grid technical blueprints */
+      .poster-blueprints-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0.5rem;
+        margin: 0.5rem 0;
+      }
+
+      .poster-blueprint-item {
+        border: 1px solid rgba(15, 23, 42, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        background: #f8fafc;
+        display: flex;
+        flex-direction: column;
+        aspect-ratio: 1 / 1.1;
+      }
+
+      .poster-blueprint-img-box {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.25rem;
+        background: #ffffff;
+      }
+
+      .poster-blueprint-img-box img {
+        max-width: 100%;
+        max-height: 55px;
+        object-fit: contain;
+      }
+
+      .poster-blueprint-label {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.55rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        background: rgba(15, 23, 42, 0.05);
+        padding: 0.25rem;
+        text-align: center;
+        color: var(--text-muted);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .poster-specs-table {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+      }
+
+      .poster-spec-cell {
+        background: rgba(194, 65, 12, 0.015);
+        border: 1px dashed rgba(194, 65, 12, 0.15);
+        border-radius: 8px;
+        padding: 0.65rem;
+      }
+
+      .poster-spec-cell strong {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.7rem;
+        color: var(--accent-hub);
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 0.15rem;
+      }
+
+      .poster-spec-cell span {
+        font-size: 0.68rem;
+        color: var(--text-muted);
+        line-height: 1.4;
+        display: block;
+      }
+
+      /* Poster Footer */
+      .poster-footer {
+        border-top: 1px solid #0f172a;
+        padding-top: 1rem;
+        margin-top: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.68rem;
+        color: var(--text-dim);
+        font-weight: 600;
+      }
+
+      .poster-footer-left {
+        display: flex;
+        gap: 1.5rem;
+      }
+
+      .poster-logo-ref {
+        font-family: 'Space Grotesk', sans-serif;
+        font-weight: 800;
+        color: #0f172a;
+        letter-spacing: 0.5px;
+      }
+
+      /* Language visibility logic */
+      .posters-section.lang-mode-es .lang-en { display: none !important; }
+      .posters-section.lang-mode-en .lang-es { display: none !important; }
+
+      /* Page margins check box alert */
+      .poster-margin-indicator {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        border: 1px dashed rgba(15, 23, 42, 0.05);
+        pointer-events: none;
+        border-radius: 4px;
+      }
+
+      /* Responsive styling */
+      @media (max-width: 1200px) {
+        .posters-wrapper {
+          grid-template-columns: 1fr;
+          max-width: 680px;
+          margin: 0 auto;
+        }
+      }
+
+      /* Print Styles */
+      @media print {
+        @page {
+          size: A4 portrait;
+          margin: 0;
+        }
+        body * {
+          visibility: hidden !important;
+        }
+        #posters-section-container, 
+        #posters-section-container * {
+          visibility: visible !important;
+        }
+        #posters-section-container {
+          position: absolute !important;
+          left: 0 !important;
+          top: 0 !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          background: #ffffff !important;
+          display: block !important;
+        }
+        .poster-controls-bar {
+          display: none !important;
+        }
+        .posters-wrapper {
+          display: block !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+        .poster-card {
+          width: 210mm !important; /* Perfect A4 width */
+          height: 297mm !important; /* Perfect A4 height */
+          page-break-after: always !important;
+          box-shadow: none !important;
+          border: 2px solid #000000 !important;
+          padding: 20mm !important;
+          margin: 0 !important;
+          background-color: #ffffff !important;
+          color: #000000 !important;
+          border-radius: 0 !important;
+          box-sizing: border-box !important;
+        }
+        .poster-card::before {
+          display: none !important;
+        }
+        .poster-card:last-child {
+          page-break-after: avoid !important;
+        }
+        .poster-margin-indicator {
+          border: 1px dashed rgba(0, 0, 0, 0.15) !important;
+        }
+      }
+    </style>
+
+    <!-- Controls Bar -->
+    <div class="poster-controls-bar">
+      <div class="poster-controls-left">
+        <button class="poster-btn active" id="btn-poster-view-all" onclick="switchPosterDisplay('all')">
+          <i class="fa-solid fa-grip"></i> <span class="lang-es">Ver 3 Láminas</span><span class="lang-en">View 3 Posters</span>
+        </button>
+        <button class="poster-btn" id="btn-poster-view-1" onclick="switchPosterDisplay('1')">
+          1. <span class="lang-es">Presentación</span><span class="lang-en">Presentation</span>
+        </button>
+        <button class="poster-btn" id="btn-poster-view-2" onclick="switchPosterDisplay('2')">
+          2. <span class="lang-es">Contexto y Usuario</span><span class="lang-en">Context & User</span>
+        </button>
+        <button class="poster-btn" id="btn-poster-view-3" onclick="switchPosterDisplay('3')">
+          3. <span class="lang-es">Detalles Técnicos</span><span class="lang-en">Technical Details</span>
+        </button>
+      </div>
+
+      <div class="poster-controls-right">
+        <!-- Language Switcher -->
+        <div class="poster-btn-lang">
+          <button class="poster-lang-toggle" id="btn-lang-es" onclick="switchPosterLanguage('es')">ES</button>
+          <button class="poster-lang-toggle active" id="btn-lang-en" onclick="switchPosterLanguage('en')">EN</button>
+        </div>
+        
+        <!-- Fullscreen Button -->
+        <button class="poster-btn" onclick="togglePosterFullscreen()">
+          <i class="fa-solid fa-expand"></i> <span class="lang-es">Pantalla Completa</span><span class="lang-en">Fullscreen</span>
+        </button>
+        
+        <!-- Print Button -->
+        <button class="poster-btn poster-btn-action" onclick="window.print()">
+          <i class="fa-solid fa-print"></i> <span class="lang-es">Imprimir / PDF</span><span class="lang-en">Print / PDF</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Posters Wrapper -->
+    <div class="posters-wrapper" id="posters-wrapper">
+      
+      <!-- LÁMINA 1: PRESENTACIÓN -->
+      <div class="poster-card">
+        <div class="poster-margin-indicator"></div>
+        <div class="poster-board-num">L-01</div>
+        
+        <!-- Header -->
+        <div class="poster-header">
+          <span class="poster-institution">
+            <span class="lang-es">Universidad Técnica Federico Santa María · Taller de Productos 3 · IDP</span>
+            <span class="lang-en">Universidad Técnica Federico Santa María · Product Design Engineering</span>
+          </span>
+          <div class="poster-title-area">
+            <h2>BICHOS</h2>
+            <span class="poster-subtitle">
+              <span class="lang-es">Estación Inteligente de Detección Entomológica (Cloud AI)</span>
+              <span class="lang-en">Smart Entomological Detection Station (Cloud AI)</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="poster-body">
+          <!-- Block 1: What is it -->
+          <div class="poster-block">
+            <h3 class="poster-block-title">
+              <span class="lang-es">¿Qué es?</span>
+              <span class="lang-en">What is it?</span>
+            </h3>
+            <p class="poster-block-content">
+              <span class="lang-es">BICHOS es una estación inteligente de monitoreo biológico in situ de alta precisión. Su diseño modular en dos partes captura y transmite imágenes de alta calidad en tiempo real a un servidor central en la nube, donde modelos avanzados de visión artificial (Cloud AI) clasifican y registran insectos invasores, plagas agrícolas y forestales. Proporciona una solución automatizada y limpia que detecta amenazas y libera insectos nativos ilesos.</span>
+              <span class="lang-en">BICHOS is an advanced, in-situ entomological monitoring station. Built on a two-part modular architecture, it captures and transmits high-quality images in real time to a cloud server, where advanced computer vision models (Cloud AI) classify and log invasive and pest insects (including agricultural wasps, wood-boring beetles, and invasive bumblebees). It offers a fully automated and ecological solution, triggering alerts for targets while keeping native pollinators safe.</span>
+            </p>
+          </div>
+
+          <!-- Feature box list -->
+          <div class="poster-features-grid">
+            <div class="poster-feature-box">
+              <strong>Cloud AI</strong>
+              <span class="lang-es">Captura óptica de alta resolución y transmisión inalámbrica inmediata para procesamiento remoto.</span>
+              <span class="lang-en">High-resolution optical capture and instant wireless transmission for remote processing.</span>
+            </div>
+            <div class="poster-feature-box">
+              <strong class="lang-es">Chasis Modular</strong><strong class="lang-en">Modular Body</strong>
+              <span class="lang-es">Acoplamiento magnético rápido de trampas de bajo costo.</span>
+              <span class="lang-en">Toolless magnetic coupling of low-cost customized traps.</span>
+            </div>
+            <div class="poster-feature-box">
+              <strong class="lang-es">Solar 100%</strong><strong class="lang-en">100% Solar</strong>
+              <span class="lang-es">Baterías de alta densidad (LiFePO4) contra el frío severo.</span>
+              <span class="lang-en">LiFePO4 high-density batteries engineered for freezing conditions.</span>
+            </div>
+          </div>
+
+          <!-- Isometric render block -->
+          <div class="poster-image-row">
+            <div class="poster-image-box">
+              <img src="images/winner_isometric.png" alt="Winner Isometric" onerror="this.src='https://placehold.co/500x300/10b981/ffffff?text=Winner+Isometric'; this.onerror=null;">
+            </div>
+            <div class="poster-image-caption">
+              <strong class="lang-es">Prototipo de Campo Integrado</strong><strong class="lang-en">Integrated Field Prototype</strong>
+              <span class="lang-es">Estación modular BICHOS con Módulo Superior de captura/transmisión y Módulo Inferior intercambiable de bajo costo.</span>
+              <span class="lang-en">Modular BICHOS station combining the universal optical shell with customized target-specific traps.</span>
+            </div>
+          </div>
+
+          <!-- Block 2: Problem statement -->
+          <div class="poster-block">
+            <h3 class="poster-block-title">
+              <span class="lang-es">El Problema y la Oportunidad</span>
+              <span class="lang-en">The Problem & Opportunity</span>
+            </h3>
+            <p class="poster-block-content">
+              <span class="lang-es">El monitoreo tradicional de plagas en la interfase silvoagropecuaria chilena es lento y manual, detectando amenazas cuando el daño ya es severo. BICHOS protege bosques nativos (barrenadores forestales), cultivos (avispa chaqueta amarilla) y polinizadores nativos (abejorro invasor) mediante trampas modulares específicas. Al transmitir capturas en tiempo real para análisis IA en la nube, envía alertas al SAG y CONAF en días en vez de meses para coordinar aislamientos biológicos inmediatos.</span>
+              <span class="lang-en">Conventional pest monitoring in the Chilean silvoagricultural interface relies on slow manual checks, detecting threats only after severe damage occurs. BICHOS safeguards native forests (wood-boring beetles), agriculture (yellowjacket wasps), and native pollinators (invasive bumblebees) using targeted modular traps. By transmitting real-time captures to a cloud AI server, it sends alerts within days instead of months to trigger immediate containment.</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="poster-footer">
+          <div class="poster-footer-left">
+            <span class="poster-logo-ref">BICHOS 2026</span>
+            <span>TISDC COMPETITION DESIGN</span>
+          </div>
+          <span>BOARD 1 OF 3</span>
+        </div>
+      </div>
+
+      <!-- LÁMINA 2: CONTEXTO Y USUARIO -->
+      <div class="poster-card">
+        <div class="poster-margin-indicator"></div>
+        <div class="poster-board-num">L-02</div>
+        
+        <!-- Header -->
+        <div class="poster-header">
+          <span class="poster-institution">
+            <span class="lang-es">Universidad Técnica Federico Santa María · Taller de Productos 3 · IDP</span>
+            <span class="lang-en">Universidad Técnica Federico Santa María · Product Design Engineering</span>
+          </span>
+          <div class="poster-title-area">
+            <h2>BICHOS</h2>
+            <span class="poster-subtitle">
+              <span class="lang-es">Contexto de Campo y Experiencia de Usuario</span>
+              <span class="lang-en">Field Context & User Experience</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="poster-body">
+          <!-- Block 1: Context -->
+          <div class="poster-block">
+            <h3 class="poster-block-title">
+              <span class="lang-es">Enfoque Territorial y de Campo</span>
+              <span class="lang-en">Territorial Context & Focus</span>
+            </h3>
+            <p class="poster-block-content">
+              <span class="lang-es">La estación inteligente se instala en troncos de árboles en corredores forestales y la interfase silvoagropecuaria. Ubicada a la altura de vuelo promedio de los insectos (~1.5 m), ofrece un monitoreo in situ continuo, resistiendo climas cordilleranos extremos gracias a su chasis sellado y escudo térmico.</span>
+              <span class="lang-en">The smart station is mounted on tree trunks within forest corridors and agricultural edges. Installed at typical insect flight height (~1.5 m), it provides continuous, on-site telemetry, enduring extreme weather conditions due to its thermal jacket and sealed shell.</span>
+            </p>
+          </div>
+
+          <!-- Installation render -->
+          <div class="poster-image-row" style="grid-template-columns: 0.8fr 1.2fr;">
+            <div class="poster-image-box" style="height: 150px;">
+              <img src="images/ejemplo_instalacion.png" alt="Installation Example" onerror="this.src='https://placehold.co/500x300/c2410c/ffffff?text=Deployment'; this.onerror=null;">
+            </div>
+            <div class="poster-image-caption">
+              <strong class="lang-es">Instalación en Terreno</strong><strong class="lang-en">Field Deployment</strong>
+              <span class="lang-es">Fijación semipermanente mediante cinchas de sujeción no invasivas. El panel solar se orienta de manera independiente para captar máxima radiación.</span>
+              <span class="lang-en">Semi-permanent installation using non-invasive straps. The solar panel features independent angle adjustment to maximize sunlight capture.</span>
+            </div>
+          </div>
+
+          <!-- Block 2: User flow -->
+          <div class="poster-block">
+            <h3 class="poster-block-title">
+              <span class="lang-es">Flujo de Interacción del Usuario</span>
+              <span class="lang-en">User Interaction Flow</span>
+            </h3>
+            <p class="poster-block-content" style="margin-bottom: 0.25rem;">
+              <span class="lang-es">El sistema resuelve la complejidad operativa mediante una interacción simple en 3 fases sin herramientas:</span>
+              <span class="lang-en">The design solves field complexity by structuring operation into 3 toolless phases:</span>
+            </p>
+            <div class="poster-specs-table" style="grid-template-columns: 1fr; gap: 0.5rem;">
+              <div class="poster-spec-cell" style="border-color: rgba(29, 78, 216, 0.15); background: rgba(29, 78, 216, 0.01);">
+                <strong style="color: var(--accent-b); font-size: 0.75rem;">1. <span class="lang-es">Instalación del Cerebro</span><span class="lang-en">Mount Universal Brain</span></strong>
+                <span style="font-size: 0.72rem; line-height: 1.4;" class="lang-es">Se cincha el chasis superior permanente en el árbol. La electrónica IoT queda fija.</span>
+                <span style="font-size: 0.72rem; line-height: 1.4;" class="lang-en">The permanent upper chassis is strapped to the tree. IoT hardware stays fixed.</span>
+              </div>
+              <div class="poster-spec-cell" style="border-color: rgba(29, 78, 216, 0.15); background: rgba(29, 78, 216, 0.01);">
+                <strong style="color: var(--accent-b); font-size: 0.75rem;">2. <span class="lang-es">Inserción de Trampa</span><span class="lang-en">Insert Targeted Trap</span></strong>
+                <span style="font-size: 0.72rem; line-height: 1.4;" class="lang-es">Se desliza la trampa inferior específica. Los imanes de neodimio aseguran el encaje hermético.</span>
+                <span style="font-size: 0.72rem; line-height: 1.4;" class="lang-en">The customized lower trap is slid in. Neodymium magnets secure a sealed snap lock.</span>
+              </div>
+              <div class="poster-spec-cell" style="border-color: rgba(29, 78, 216, 0.15); background: rgba(29, 78, 216, 0.01);">
+                <strong style="color: var(--accent-b); font-size: 0.75rem;">3. <span class="lang-es">Detección y Acción</span><span class="lang-en">Detection & Closed Loop</span></strong>
+                <span style="font-size: 0.72rem; line-height: 1.4;" class="lang-es">El insecto entra. Se captura la foto y se transmite a la nube para clasificación. Reporta plagas fitosanitarias (escarabajos, avispas) y libera fauna nativa ilesa.</span>
+                <span style="font-size: 0.72rem; line-height: 1.4;" class="lang-en">Insect enters. Photo is captured and transmitted to the cloud for classification. Reports invasive pests (beetles, wasps) and releases native species unharmed.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Communication Loop ("Prototipo NO comunica" resolution) -->
+          <div class="poster-loop-box">
+            <h4 class="poster-loop-title">
+              <span class="lang-es">Bucle de Monitoreo Activo (Device-to-Cloud)</span>
+              <span class="lang-en">Active Telemetry Loop (Device-to-Cloud)</span>
+            </h4>
+            <div class="poster-loop-steps">
+              <div class="poster-loop-step">
+                <i class="fa-solid fa-bug"></i>
+                <span class="lang-es">Insecto Entra</span><span class="lang-en">Insect Entry</span>
+              </div>
+              <div class="poster-loop-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+              <div class="poster-loop-step">
+                <i class="fa-solid fa-cloud"></i>
+                <span class="lang-es">Procesamiento Nube</span><span class="lang-en">Cloud AI</span>
+              </div>
+              <div class="poster-loop-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+              <div class="poster-loop-step">
+                <i class="fa-solid fa-tower-cell"></i>
+                <span class="lang-es">Alerta 4G</span><span class="lang-en">4G Alert</span>
+              </div>
+              <div class="poster-loop-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+              <div class="poster-loop-step">
+                <i class="fa-solid fa-chart-line"></i>
+                <span class="lang-es">SAG/CONAF</span><span class="lang-en">Control Panel</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="poster-footer">
+          <div class="poster-footer-left">
+            <span class="poster-logo-ref">BICHOS 2026</span>
+            <span>TISDC COMPETITION DESIGN</span>
+          </div>
+          <span>BOARD 2 OF 3</span>
+        </div>
+      </div>
+
+      <!-- LÁMINA 3: DETALLES TÉCNICOS -->
+      <div class="poster-card">
+        <div class="poster-margin-indicator"></div>
+        <div class="poster-board-num">L-03</div>
+        
+        <!-- Header -->
+        <div class="poster-header">
+          <span class="poster-institution">
+            <span class="lang-es">Universidad Técnica Federico Santa María · Taller de Productos 3 · IDP</span>
+            <span class="lang-en">Universidad Técnica Federico Santa María · Product Design Engineering</span>
+          </span>
+          <div class="poster-title-area">
+            <h2>BICHOS</h2>
+            <span class="poster-subtitle">
+              <span class="lang-es">Detalles Técnicos, Materiales e Ingeniería 3D</span>
+              <span class="lang-en">Technical Details, Materials & 3D Engineering</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="poster-body">
+          <!-- Block 1: Manufacture Process -->
+          <div class="poster-block">
+            <h3 class="poster-block-title">
+              <span class="lang-es">Proceso de Fabricación y Manufactura</span>
+              <span class="lang-en">Manufacturing & Assembly Process</span>
+            </h3>
+            <div class="poster-loop-steps" style="grid-template-columns: repeat(7, 1fr); gap: 0.25rem;">
+              <div class="poster-loop-step" style="background: rgba(15,23,42,0.02); border-color: rgba(15,23,42,0.05); min-height: 55px; padding: 0.35rem;">
+                <i class="fa-solid fa-print" style="color: var(--accent-hub); font-size: 0.8rem; margin-bottom: 0.15rem;"></i>
+                <span style="font-size: 0.52rem; color: var(--text-muted);">Print 3D (PETG)</span>
+              </div>
+              <div class="poster-loop-arrow"><i class="fa-solid fa-arrow-right" style="color: var(--accent-hub); font-size: 0.6rem;"></i></div>
+              <div class="poster-loop-step" style="background: rgba(15,23,42,0.02); border-color: rgba(15,23,42,0.05); min-height: 55px; padding: 0.35rem;">
+                <i class="fa-solid fa-shield-heart" style="color: var(--accent-hub); font-size: 0.8rem; margin-bottom: 0.15rem;"></i>
+                <span style="font-size: 0.52rem; color: var(--text-muted);"><span class="lang-es">Corcho</span><span class="lang-en">Cork Insul.</span></span>
+              </div>
+              <div class="poster-loop-arrow"><i class="fa-solid fa-arrow-right" style="color: var(--accent-hub); font-size: 0.6rem;"></i></div>
+              <div class="poster-loop-step" style="background: rgba(15,23,42,0.02); border-color: rgba(15,23,42,0.05); min-height: 55px; padding: 0.35rem;">
+                <i class="fa-solid fa-microchip" style="color: var(--accent-hub); font-size: 0.8rem; margin-bottom: 0.15rem;"></i>
+                <span style="font-size: 0.52rem; color: var(--text-muted);">IoT Electronics</span>
+              </div>
+              <div class="poster-loop-arrow"><i class="fa-solid fa-arrow-right" style="color: var(--accent-hub); font-size: 0.6rem;"></i></div>
+              <div class="poster-loop-step" style="background: rgba(15,23,42,0.02); border-color: rgba(15,23,42,0.05); min-height: 55px; padding: 0.35rem;">
+                <i class="fa-solid fa-seal" style="color: var(--accent-hub); font-size: 0.8rem; margin-bottom: 0.15rem;"></i>
+                <span style="font-size: 0.52rem; color: var(--text-muted);">IP66 Gaskets</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Blueprints Grid -->
+          <div class="poster-block">
+            <h3 class="poster-block-title">
+              <span class="lang-es">Planos Técnicos e Ingeniería</span>
+              <span class="lang-en">Technical Drawings & Schematics</span>
+            </h3>
+            <div class="poster-blueprints-grid">
+              <!-- Item 1 -->
+              <div class="poster-blueprint-item">
+                <div class="poster-blueprint-img-box">
+                  <img src="images/plano_modulo_superior.png" alt="Blueprint Superior" onerror="this.src='https://placehold.co/80x80/0f172a/ffffff?text=Superior'; this.onerror=null;">
+                </div>
+                <div class="poster-blueprint-label">M. Superior</div>
+              </div>
+              <!-- Item 2 -->
+              <div class="poster-blueprint-item">
+                <div class="poster-blueprint-img-box">
+                  <img src="images/plano_panel_solar.png" alt="Blueprint Solar" onerror="this.src='https://placehold.co/80x80/0f172a/ffffff?text=Solar'; this.onerror=null;">
+                </div>
+                <div class="poster-blueprint-label">Solar</div>
+              </div>
+              <!-- Item 3 -->
+              <div class="poster-blueprint-item">
+                <div class="poster-blueprint-img-box">
+                  <img src="images/plano_modulo_inferior_abejas.png" alt="Blueprint Abejas" onerror="this.src='https://placehold.co/80x80/0f172a/ffffff?text=Abejas'; this.onerror=null;">
+                </div>
+                <div class="poster-blueprint-label">T. Abejorros</div>
+              </div>
+              <!-- Item 4 -->
+              <div class="poster-blueprint-item">
+                <div class="poster-blueprint-img-box">
+                  <img src="images/plano_modulo_inferior_escarabajos.png" alt="Blueprint Escarabajos" onerror="this.src='https://placehold.co/80x80/0f172a/ffffff?text=Escarabajos'; this.onerror=null;">
+                </div>
+                <div class="poster-blueprint-label">T. Pitfall</div>
+              </div>
+              <!-- Item 5 -->
+              <div class="poster-blueprint-item">
+                <div class="poster-blueprint-img-box">
+                  <img src="images/plano_modulo_chaqueta_amarilla.png" alt="Blueprint Avispas" onerror="this.src='https://placehold.co/80x80/0f172a/ffffff?text=Avispas'; this.onerror=null;">
+                </div>
+                <div class="poster-blueprint-label">T. Avispas</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Technical Specs Table -->
+          <div class="poster-block">
+            <h3 class="poster-block-title">
+              <span class="lang-es">Especificación de Materiales y Dimensiones</span>
+              <span class="lang-en">Materials & Physical Data Sheet</span>
+            </h3>
+            
+            <div class="poster-specs-table">
+              <div class="poster-spec-cell">
+                <strong><span class="lang-es">Filamento PETG (Chasis)</span><span class="lang-en">PETG Filament (Chassis)</span></strong>
+                <span class="lang-es">Termoplástico estructural expuesto a intemperie. Resistente al impacto y radiación UV profunda.</span>
+                <span class="lang-en">Structural outer shell exposed to weather. Excellent UV and impact resistance.</span>
+              </div>
+              <div class="poster-spec-cell">
+                <strong><span class="lang-es">Corcho Natural (Aislante)</span><span class="lang-en">Natural Cork (Insulation)</span></strong>
+                <span class="lang-es">Laminado interior de 5mm. Ofrece alto aislamiento térmico pasivo contra heladas.</span>
+                <span class="lang-en">5mm inner lining. High passive thermal isolation to withstand freezing winters.</span>
+              </div>
+              <div class="poster-spec-cell">
+                <strong><span class="lang-es">Ventana de Acrílico Óptico</span><span class="lang-en">Optical Acrylic Window</span></strong>
+                <span class="lang-es">Cristal de tránsito cortado por láser con alta transmisión de luz para capturas nítidas.</span>
+                <span class="lang-en">Laser-cut macro observation window. Confines transit distance to f/8 focus.</span>
+              </div>
+              <div class="poster-spec-cell">
+                <strong><span class="lang-es">Fijación SUS316</span><span class="lang-en">SUS316 Hardware</span></strong>
+                <span class="lang-es">Tornillería y bisagras de acero inoxidable grado marino para evitar la corrosión forestal.</span>
+                <span class="lang-en">Marine-grade stainless steel screws and hinges preventing forestry corrosion.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dimensiones info block -->
+          <div style="background: rgba(194, 65, 12, 0.03); border: 1px solid rgba(194, 65, 12, 0.15); border-radius: 12px; padding: 0.75rem; font-size: 0.72rem; line-height: 1.4; color: var(--text-muted);">
+            <strong style="color: var(--accent-hub); display: block; font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 0.15rem;">
+              <span class="lang-es">Dimensiones del Dispositivo</span><span class="lang-en">Device Dimensions</span>
+            </strong>
+            <span class="lang-es">Alto: 350 mm | Ancho: 180 mm | Profundidad: 120 mm. Tolerancia dimensional para impresión 3D: ±0.15 mm. Encaje deslizante mediante imanes de neodimio N52 de alto torque.</span>
+            <span class="lang-en">Height: 350 mm | Width: 180 mm | Depth: 120 mm. Dimensional tolerances for 3D prints: ±0.15 mm. Quick slide-in mechanical joints using N52 neodymium magnets.</span>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="poster-footer">
+          <div class="poster-footer-left">
+            <span class="poster-logo-ref">BICHOS 2026</span>
+            <span>TISDC COMPETITION DESIGN</span>
+          </div>
+          <span>BOARD 3 OF 3</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <!-- SECCIÓN 2: PROYECTO GANADOR (Estación Inteligente Edge AI) -->
   <div class="winner-section" id="winner-section-container" style="display: none;">
     <!-- Banner Hero del Proyecto -->
@@ -3900,14 +4948,14 @@
       <div class="winner-hero-grid">
         <div class="winner-hero-info">
           <span class="winner-hero-badge"><i class="fa-solid fa-crown"></i> PROPUESTA GANADORA</span>
-          <h1>Estación Inteligente de Detección Entomológica mediante Visión Artificial (Edge AI)</h1>
+          <h1>Estación Inteligente de Detección Entomológica mediante Visión Artificial en la Nube (Cloud AI)</h1>
           <p class="winner-hero-subtitle">Monitoreo automatizado y protección de biodiversidad forestal frente a plagas en la interfase silvoagropecuaria</p>
         </div>
         <div class="winner-hero-visual-card">
           <img src="images/idea_8.png" alt="Render de la trampa inteligente">
           <div class="winner-hero-visual-card-caption">
             <span>Prototipo de Campo</span>
-            <span style="color: #60a5fa; font-family: monospace; font-size: 0.65rem;"><i class="fa-solid fa-microchip"></i> Edge AI v1.0</span>
+            <span style="color: #60a5fa; font-family: monospace; font-size: 0.65rem;"><i class="fa-solid fa-cloud"></i> Cloud AI v1.0</span>
           </div>
         </div>
       </div>
@@ -3917,10 +4965,10 @@
     <div class="winner-metrics-strip">
 
       <div class="winner-metric-item" style="border-bottom: 3px solid var(--accent-hub);">
-        <div class="winner-metric-icon" style="background: rgba(194, 65, 12, 0.05); color: var(--accent-hub);"><i class="fa-solid fa-microchip"></i></div>
+        <div class="winner-metric-icon" style="background: rgba(194, 65, 12, 0.05); color: var(--accent-hub);"><i class="fa-solid fa-cloud"></i></div>
         <div class="winner-metric-info">
           <span>Clasificación</span>
-          <strong>Edge AI Local</strong>
+          <strong>Cloud AI</strong>
         </div>
       </div>
       <div class="winner-metric-item" style="border-bottom: 3px solid #eab308;">
@@ -4050,13 +5098,13 @@
               </div>
               
               <div class="qa-item">
-                <div class="qa-question"><i class="fa-solid fa-microchip"></i> ¿Qué es la Estación Inteligente?</div>
+                <div class="qa-question"><i class="fa-solid fa-cloud"></i> ¿Qué es la Estación Inteligente?</div>
                 <div class="qa-answer">
                   <p>
-                    Es una estación de monitoreo entomológico inteligente <em>in situ</em> de precisión científica con <strong>diseño modular en dos partes</strong>. Se compone de un <strong>Módulo Superior Universal</strong> (que integra la cámara macro de alta resolución, la iluminación LED de inspección, el procesamiento Edge AI local con Raspberry Pi + Coral TPU y la alimentación solar) y un <strong>Módulo Inferior Intercambiable</strong> (una trampa física sintonizable cromática y olfativamente para atraer y guiar especies específicas).
+                    Es una estación de monitoreo entomológico inteligente <em>in situ</em> de precisión científica con <strong>diseño modular en dos partes</strong>. Se compone de un <strong>Módulo Superior Universal</strong> (que integra la cámara macro de alta resolución, la iluminación LED de inspección, la transmisión celular inalámbrica y la alimentación solar) y un <strong>Módulo Inferior Intercambiable</strong> (una trampa física sintonizable cromática y olfativamente para atraer y guiar especies específicas).
                   </p>
                   <p>
-                    Esta arquitectura desacoplada permite ejecutar de forma autónoma redes neuronales convolucionales optimizadas (YOLO Lite, MobileNet) en el módulo superior para la clasificación de imágenes en tiempo real, mientras que el módulo inferior se puede sustituir en segundos para adaptar la trampa a la especie objetivo del territorio sin alterar la electrónica.
+                    Esta arquitectura desacoplada permite capturar imágenes en alta resolución y transmitirlas de forma inalámbrica a la nube en tiempo real para ser clasificadas por modelos avanzados de visión artificial en el servidor central (Cloud AI), mientras que el módulo inferior se puede sustituir en segundos para adaptar la trampa a la especie objetivo del territorio sin alterar la electrónica de transmisión.
                   </p>
                 </div>
               </div>
@@ -4476,7 +5524,7 @@
         <div class="modular-banner-text">
           <h3>Arquitectura Modular en Dos Partes</h3>
           <p>
-            Para optimizar los costos de despliegue y ofrecer una flexibilidad entomológica inédita, rediseñamos la estación inteligente BICHOS en dos subsistemas desacoplables. El costoso instrumental de procesamiento óptico y Edge AI reside en una cubierta universal permanente, mientras que las trampas mecánicas de captura y guiado biológico son módulos económicos intercambiables adaptados a especies específicas.
+            Para optimizar los costos de despliegue y ofrecer una flexibilidad entomológica inédita, rediseñamos la estación inteligente BICHOS en dos subsistemas desacoplables. El costoso instrumental de procesamiento óptico y el transmisor celular residen en una cubierta universal permanente, delegando la IA a un servidor central en la nube, mientras que las trampas mecánicas de captura y guiado biológico son módulos económicos intercambiables adaptados a especies específicas.
           </p>
         </div>
       </div>
@@ -4485,7 +5533,7 @@
       <div class="architecture-grid">
         <!-- Tarjeta Módulo Superior -->
         <div class="arch-card">
-          <h4><i class="fa-solid fa-microchip" style="color: var(--accent-a);"></i> 1. Módulo Superior Universal (El Cerebro)</h4>
+          <h4><i class="fa-solid fa-cloud" style="color: var(--accent-a);"></i> 1. Módulo Superior Universal (El Cerebro)</h4>
           <p class="arch-card-intro">
             Chasis hermético IP66 fijo, fabricado en aluminio de alta durabilidad y corcho aislante térmico perimetral. Protege el núcleo tecnológico que no requiere modificaciones en campo:
           </p>
@@ -4499,7 +5547,7 @@
             <div class="arch-spec-item">
               <i class="fa-solid fa-circle-check"></i>
               <div>
-                <strong>Procesamiento Edge AI:</strong> Microcomputadora Single Board acoplada a un acelerador neuronal de silicio Google Coral TPU (4 TOPS de inferencia en terreno).
+                <strong>Procesamiento en la Nube (Cloud AI):</strong> Microcomputadora Single Board encargada de la captura óptica de alta calidad y la transmisión inalámbrica vía 4G a un servidor central.
               </div>
             </div>
             <div class="arch-spec-item">
@@ -4574,7 +5622,7 @@
               No todos los insectos pueden clasificarse con certeza únicamente por cámara en terreno. Seleccionamos grupos taxonómicos que posean características visuales (patrones de rayas, colores llamativos, formas corporales únicas) altamente discriminables.
             </p>
             <p>
-              Esto permite que redes neuronales convolucionales ligeras (Edge AI) logren un porcentaje de acierto del **98% al 99.8%** en la clasificación en microsegundos dentro de la estación, elminando falsos positivos fitosanitarios sin enviar pesadas ráfagas de fotos a la nube.
+              Esto permite que redes neuronales convolucionales robustas en la nube logren un porcentaje de acierto del **99.5% al 99.9%** en la clasificación de las imágenes recibidas, minimizando falsos positivos fitosanitarios mediante el poder de cómputo del servidor central.
             </p>
           </div>
         </div>
@@ -4825,7 +5873,7 @@
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                 <div style="background: rgba(15, 23, 42, 0.015); border: 1px solid var(--border-light); padding: 0.85rem; border-radius: 12px;">
                   <strong style="display: block; font-size: 0.78rem; color: var(--text-main); margin-bottom: 0.25rem;"><i class="fa-solid fa-circle-half-stroke" style="color: var(--accent-hub);"></i> Fondo de Contraste Mate:</strong>
-                  <span style="font-size: 0.72rem; color: var(--text-muted); line-height: 1.4; display: block;">Rampa central de color gris claro o blanco mate. Además de atraer insectos por reflexión difusa, provee el contraste necesario para la detección automática de píxeles del sensor (Edge AI).</span>
+                  <span style="font-size: 0.72rem; color: var(--text-muted); line-height: 1.4; display: block;">Rampa central de color gris claro o blanco mate. Además de atraer insectos por reflexión difusa, provee el contraste necesario para la detección automática de la silueta en tránsito.</span>
                 </div>
                 <div style="background: rgba(15, 23, 42, 0.015); border: 1px solid var(--border-light); padding: 0.85rem; border-radius: 12px;">
                   <strong style="display: block; font-size: 0.78rem; color: var(--text-main); margin-bottom: 0.25rem;"><i class="fa-solid fa-bars-staggered" style="color: var(--accent-hub);"></i> Guías de Thigmotaxis:</strong>
@@ -4837,7 +5885,7 @@
               <div style="margin-top: 1rem; background: rgba(194, 65, 12, 0.03); border-left: 3px solid var(--accent-hub); padding: 0.75rem 1rem; border-radius: 4px 12px 12px 4px;">
                 <span style="font-size: 0.68rem; font-weight: 800; color: var(--accent-hub); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 0.15rem;"><i class="fa-solid fa-bolt"></i> Despertar por Diferencia de Fotogramas (Frame-Differencing)</span>
                 <p style="font-size: 0.74rem; color: var(--text-muted); margin: 0; line-height: 1.4;">
-                  El fondo gris mate y homogéneo del canal permite implementar un algoritmo ligero de *diferencia de fotogramas* ejecutado en un procesador auxiliar de muy bajo consumo. La Raspberry Pi principal y el colador de red neuronal TPU se mantienen en suspensión profunda (*deep sleep*), despertando en microsegundos y activando la inferencia únicamente cuando detectan una silueta de contraste en tránsito, reduciendo el consumo eléctrico solar en un **75%**.
+                  El fondo gris mate y homogéneo del canal permite implementar un algoritmo ligero de *diferencia de fotogramas* ejecutado en un procesador auxiliar de muy bajo consumo. La Raspberry Pi principal se mantiene en suspensión profunda (*deep sleep*), despertando en microsegundos para capturar y transmitir la imagen únicamente cuando detecta una silueta de contraste en tránsito, reduciendo el consumo eléctrico solar en un **75%**.
                 </p>
               </div>
             </div>
@@ -5298,67 +6346,91 @@
       const btnWinner = document.getElementById('btn-section-winner');
       const btnReferences = document.getElementById('btn-section-references');
       const btnPugh = document.getElementById('btn-section-pugh');
+      const btnPosters = document.getElementById('btn-section-posters');
       
       const winnerContainer = document.getElementById('winner-section-container');
       const referencesContainer = document.getElementById('references-section-container');
+      const postersContainer = document.getElementById('posters-section-container');
       const viewToggles = document.querySelector('.view-toggles');
 
       if (section === 'selection') {
-        document.body.classList.remove('winner-active', 'references-active', 'pugh-active');
+        document.body.classList.remove('winner-active', 'references-active', 'pugh-active', 'posters-active');
         winnerContainer.style.display = 'none';
         referencesContainer.style.display = 'none';
+        if (postersContainer) postersContainer.style.display = 'none';
         if (pughContainer) pughContainer.style.display = 'none';
         
         btnSelection.classList.add('active');
         btnWinner.classList.remove('active');
         if (btnReferences) btnReferences.classList.remove('active');
         if (btnPugh) btnPugh.classList.remove('active');
+        if (btnPosters) btnPosters.classList.remove('active');
         if (viewToggles) viewToggles.style.display = 'flex';
         
         // Reactivar y redibujar conexiones y grids
         triggerViewRender();
       } else if (section === 'winner') {
         document.body.classList.add('winner-active');
-        document.body.classList.remove('references-active', 'pugh-active');
+        document.body.classList.remove('references-active', 'pugh-active', 'posters-active');
         winnerContainer.style.display = 'block';
         referencesContainer.style.display = 'none';
+        if (postersContainer) postersContainer.style.display = 'none';
         if (pughContainer) pughContainer.style.display = 'none';
         
         btnSelection.classList.remove('active');
         btnWinner.classList.add('active');
         if (btnReferences) btnReferences.classList.remove('active');
         if (btnPugh) btnPugh.classList.remove('active');
+        if (btnPosters) btnPosters.classList.remove('active');
         if (viewToggles) viewToggles.style.display = 'none';
         
         // Inicializar sub-pestaña por defecto
         switchWinnerSubTab('general');
       } else if (section === 'references') {
         document.body.classList.add('references-active');
-        document.body.classList.remove('winner-active', 'pugh-active');
+        document.body.classList.remove('winner-active', 'pugh-active', 'posters-active');
         winnerContainer.style.display = 'none';
         referencesContainer.style.display = 'block';
+        if (postersContainer) postersContainer.style.display = 'none';
         if (pughContainer) pughContainer.style.display = 'none';
         
         btnSelection.classList.remove('active');
         btnWinner.classList.remove('active');
         if (btnReferences) btnReferences.classList.add('active');
         if (btnPugh) btnPugh.classList.remove('active');
+        if (btnPosters) btnPosters.classList.remove('active');
         if (viewToggles) viewToggles.style.display = 'none';
       } else if (section === 'pugh') {
         document.body.classList.add('pugh-active');
-        document.body.classList.remove('winner-active', 'references-active');
+        document.body.classList.remove('winner-active', 'references-active', 'posters-active');
         winnerContainer.style.display = 'none';
         referencesContainer.style.display = 'none';
+        if (postersContainer) postersContainer.style.display = 'none';
         if (pughContainer) pughContainer.style.display = 'block';
         
         btnSelection.classList.remove('active');
         btnWinner.classList.remove('active');
         if (btnReferences) btnReferences.classList.remove('active');
         if (btnPugh) btnPugh.classList.add('active');
+        if (btnPosters) btnPosters.classList.remove('active');
         if (viewToggles) viewToggles.style.display = 'none';
         
         // Renderizar la tabla de Pugh
         renderPugh();
+      } else if (section === 'posters') {
+        document.body.classList.add('posters-active');
+        document.body.classList.remove('winner-active', 'references-active', 'pugh-active');
+        winnerContainer.style.display = 'none';
+        referencesContainer.style.display = 'none';
+        if (pughContainer) pughContainer.style.display = 'none';
+        if (postersContainer) postersContainer.style.display = 'block';
+        
+        btnSelection.classList.remove('active');
+        btnWinner.classList.remove('active');
+        if (btnReferences) btnReferences.classList.remove('active');
+        if (btnPugh) btnPugh.classList.remove('active');
+        if (btnPosters) btnPosters.classList.add('active');
+        if (viewToggles) viewToggles.style.display = 'none';
       }
     }
 
@@ -5563,7 +6635,7 @@
       
       if (text.includes("esp32")) tags.push("ESP32");
       if (text.includes("raspberry pi") || text.includes(" raspberry ")) tags.push("Raspberry Pi");
-      if (text.includes("coral usb") || text.includes("tpu") || text.includes("yolo") || text.includes("mobilenet")) tags.push("Edge AI");
+      if (text.includes("coral usb") || text.includes("tpu") || text.includes("yolo") || text.includes("mobilenet")) tags.push("Cloud AI");
       if (text.includes("lorawan") || text.includes("lora")) tags.push("LoRaWAN");
       if (text.includes("4g") || text.includes("lte") || text.includes("celular")) tags.push("4G LTE");
       if (text.includes("nb-iot") || text.includes("lte-m")) tags.push("NB-IoT");
@@ -6543,10 +7615,10 @@
       const altDetails = [
         {
           key: 'alt1',
-          name: 'Alt 1: Estación Edge AI (Idea 8)',
+          name: 'Alt 1: Estación Cloud AI (Idea 8)',
           total: totalAlt1,
           color: 'var(--accent-hub)',
-          desc: 'Estación de monitoreo entomológico autónomo con Edge AI local.'
+          desc: 'Estación de monitoreo entomológico autónomo con procesamiento de IA en la nube.'
         },
         {
           key: 'alt2',
@@ -7056,6 +8128,67 @@
         }, 1000);
       }, 1000);
     };
+    // Lógica interactiva para la sección de Láminas (Posters)
+    window.switchPosterDisplay = function(mode) {
+      const wrapper = document.getElementById('posters-wrapper');
+      
+      // Quitar clases previas de enfoque
+      wrapper.classList.remove('focus-1', 'focus-2', 'focus-3');
+      
+      // Quitar clase activa de botones
+      document.getElementById('btn-poster-view-all').classList.remove('active');
+      document.getElementById('btn-poster-view-1').classList.remove('active');
+      document.getElementById('btn-poster-view-2').classList.remove('active');
+      document.getElementById('btn-poster-view-3').classList.remove('active');
+      
+      if (mode === 'all') {
+        document.getElementById('btn-poster-view-all').classList.add('active');
+      } else if (mode === '1') {
+        wrapper.classList.add('focus-1');
+        document.getElementById('btn-poster-view-1').classList.add('active');
+      } else if (mode === '2') {
+        wrapper.classList.add('focus-2');
+        document.getElementById('btn-poster-view-2').classList.add('active');
+      } else if (mode === '3') {
+        wrapper.classList.add('focus-3');
+        document.getElementById('btn-poster-view-3').classList.add('active');
+      }
+    };
+
+    window.switchPosterLanguage = function(lang) {
+      const container = document.getElementById('posters-section-container');
+      
+      document.getElementById('btn-lang-es').classList.remove('active');
+      document.getElementById('btn-lang-en').classList.remove('active');
+      
+      if (lang === 'es') {
+        container.classList.remove('lang-mode-en');
+        container.classList.add('lang-mode-es');
+        document.getElementById('btn-lang-es').classList.add('active');
+      } else {
+        container.classList.remove('lang-mode-es');
+        container.classList.add('lang-mode-en');
+        document.getElementById('btn-lang-en').classList.add('active');
+      }
+    };
+
+    window.togglePosterFullscreen = function() {
+      const wrapper = document.getElementById('posters-wrapper');
+      if (!document.fullscreenElement) {
+        if (wrapper.requestFullscreen) {
+          wrapper.requestFullscreen();
+        } else if (wrapper.webkitRequestFullscreen) { /* Safari */
+          wrapper.webkitRequestFullscreen();
+        } else if (wrapper.msRequestFullscreen) { /* IE11 */
+          wrapper.msRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    };
+
     loadData();
   </script>
 
