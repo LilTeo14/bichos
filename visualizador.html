@@ -4118,30 +4118,34 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding: 2.5rem;
-  gap: 1.5rem;
+  padding: 1.5rem 2.5rem; /* Reduced vertical padding */
+  gap: 1rem; /* Reduced gap */
+  min-height: 0;
 }
 .wb-row {
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
+  min-height: 0;
 }
 .wb-col {
   display: flex;
   flex-direction: column;
+  min-height: 0;
 }
 .wb-flex-1 { flex: 1; }
 .wb-flex-2 { flex: 2; }
 .wb-flex-3 { flex: 3; }
-.wb-flex-grow { flex-grow: 1; display: flex; flex-direction: column; }
+.wb-flex-grow { flex-grow: 1; display: flex; flex-direction: column; min-height: 0; }
 
 .wb-title {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 700;
   border-bottom: 2px solid #0f172a;
-  padding-bottom: 0.5rem;
-  margin-bottom: 1rem;
+  padding-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
   text-transform: uppercase;
+  color: #0f172a;
 }
 
 .wb-box {
@@ -4613,60 +4617,60 @@
     <!-- Posters Wrapper -->
     <div class="posters-wrapper" id="posters-wrapper">
       
-                  <!-- LÁMINA 1: PRESENTACIÓN -->
+                        <!-- LÁMINA 1: PRESENTACIÓN -->
       <div class="poster-card wb-layout">
         <div class="poster-margin-indicator"></div>
         <div class="poster-board-num">L-01</div>
         <div class="wb-content-area">
-          <div class="wb-title" style="font-size: 2.5rem; color: #166534; border:none; margin-bottom: 0; padding-bottom: 0;">Presentación</div>
+          <div class="wb-title" style="font-size: 2rem; color: #166534; border:none; margin-bottom: 0; padding-bottom: 0;">Presentation</div>
           
           <div class="wb-row wb-flex-grow">
             <!-- Izquierda: Que es -->
             <div class="wb-col wb-flex-1">
-              <div class="wb-title">¿Qué es?</div>
-              <p style="font-size: 1rem; flex-grow:1;"><span class="lang-es">BICHOS es una estación inteligente de monitoreo biológico in situ de alta precisión. Su diseño modular captura y transmite imágenes de alta calidad en tiempo real a la nube, donde la IA clasifica insectos invasores.</span><span class="lang-en">BICHOS is an advanced, in-situ entomological monitoring station. It captures and transmits high-quality images in real time to a cloud server.</span></p>
+              <div class="wb-title">What is it?</div>
+              <p style="font-size: 0.9rem; flex-grow:1; line-height: 1.5;">BICHOS is an advanced, in-situ entomological monitoring station. Its modular design captures and transmits high-quality images in real time to a cloud server, where AI classifies invasive insects and pests.</p>
             </div>
             <!-- Derecha: Fotos/Renders -->
             <div class="wb-col wb-flex-2">
               <div class="wb-box">
-                <img src="images/winner_isometric.png" alt="Fotos/Renders" onerror="this.src='https://placehold.co/800x600/e2e8f0/64748b?text=[Fotos+/+Renders]';">
+                <img src="images/winner_isometric.png" alt="Photos/Renders" onerror="this.src='https://placehold.co/800x600/e2e8f0/64748b?text=[Photos+/+Renders]';">
               </div>
             </div>
           </div>
           
           <!-- Medio: Diagrama (Triángulo invertido en el dibujo) -->
-          <div class="wb-row" style="height: 180px;">
+          <div class="wb-row" style="height: 150px;">
             <div class="wb-box wb-flex-1">
-               <img src="images/winner_enclosure.png" alt="Diagrama" style="object-fit: contain;" onerror="this.src='https://placehold.co/800x200/e2e8f0/64748b?text=[Imagen+Diagrama/Invento]';">
+               <img src="images/winner_enclosure.png" alt="Diagram" style="object-fit: contain;" onerror="this.src='https://placehold.co/800x200/e2e8f0/64748b?text=[Diagram+/+Invention]';">
             </div>
           </div>
 
           <!-- Abajo: Problema -->
           <div class="wb-col wb-flex-grow">
-            <div class="wb-title">El Problema</div>
+            <div class="wb-title">The Problem</div>
             <div class="wb-row wb-flex-grow">
               <div class="wb-box wb-flex-1" style="flex-direction: column; gap: 0.5rem; background: transparent; border: none;">
-                <img src="images/idea_3.png" alt="Árbol Sano" style="border-radius: 8px;">
-                <span style="font-size: 0.9rem; font-weight: bold;">Árbol Sano</span>
+                <img src="images/idea_3.png" alt="Healthy Tree" style="border-radius: 8px;">
+                <span style="font-size: 0.85rem; font-weight: bold; color: #0f172a;">Healthy Tree</span>
               </div>
               <div class="wb-box wb-flex-1" style="flex-direction: column; gap: 0.5rem; background: transparent; border: none;">
-                <img src="images/escarabajo_pino.png" alt="Invasor Presente" style="border-radius: 8px;">
-                <span style="font-size: 0.9rem; font-weight: bold;">Invasor Presente</span>
+                <img src="images/escarabajo_pino.png" alt="Invader Present" style="border-radius: 8px;">
+                <span style="font-size: 0.85rem; font-weight: bold; color: #0f172a;">Invader Present</span>
               </div>
               <div class="wb-box wb-flex-1" style="flex-direction: column; gap: 0.5rem; background: transparent; border: none;">
-                <img src="images/idea_4.png" alt="Bosque Afectado" style="border-radius: 8px;">
-                <span style="font-size: 0.9rem; font-weight: bold;">Bosque Afectado</span>
+                <img src="images/idea_4.png" alt="Affected Forest" style="border-radius: 8px;">
+                <span style="font-size: 0.85rem; font-weight: bold; color: #0f172a;">Affected Forest</span>
               </div>
             </div>
           </div>
         </div>
         
-        <div class="poster-footer" style="margin-top: auto; border-top: 2px solid #0f172a; padding: 1.5rem 2.5rem;">
+        <div class="poster-footer" style="margin-top: auto; border-top: 2px solid #0f172a; padding: 1rem 2.5rem;">
           <div class="poster-footer-left">
-            <span class="poster-logo-ref">[IDP] Concurso</span>
+            <span class="poster-logo-ref">[IDP] Competition</span>
             <span>TISDC COMPETITION DESIGN</span>
           </div>
-          <span>Margen / Info / Inglés</span>
+          <span>Board 1 of 3</span>
         </div>
       </div>
 
@@ -4679,60 +4683,60 @@
           <div class="wb-row wb-flex-grow" style="flex: 2;">
             <!-- Contexto Izq -->
             <div class="wb-col wb-flex-1">
-               <div class="wb-title">Contexto</div>
-               <ul style="list-style: none; padding: 0; font-size: 1rem; line-height: 2; flex-grow: 1;">
-                 <li><strong>Dónde:</strong> <span class="lang-es">Bosques de la Zona Centro Sur de Chile.</span><span class="lang-en">Forests of Central-South Chile.</span></li>
-                 <li><strong>Cuándo:</strong> <span class="lang-es">Monitoreo permanente 24/7.</span><span class="lang-en">Permanent 24/7 monitoring.</span></li>
-                 <li><strong>Solución:</strong> <span class="lang-es">Estación autónoma sin internet.</span><span class="lang-en">Autonomous offline station.</span></li>
+               <div class="wb-title">Context</div>
+               <ul style="list-style: none; padding: 0; font-size: 0.95rem; line-height: 1.8; flex-grow: 1;">
+                 <li><strong>Where:</strong> Forests of Central-South Chile.</li>
+                 <li><strong>When:</strong> Permanent 24/7 monitoring.</li>
+                 <li><strong>Solution:</strong> Autonomous offline station.</li>
                </ul>
             </div>
             <!-- Contexto Der (Imagen [X]) -->
             <div class="wb-col wb-flex-2">
                <div class="wb-box">
-                 <img src="images/ejemplo_instalacion.png" alt="Contexto Proyecto" onerror="this.src='https://placehold.co/800x600/e2e8f0/64748b?text=[X]+Mapa/Contexto';">
+                 <img src="images/ejemplo_instalacion.png" alt="Project Context" onerror="this.src='https://placehold.co/800x600/e2e8f0/64748b?text=[X]+Map/Context';">
                </div>
             </div>
           </div>
 
-          <div class="wb-col wb-flex-grow" style="flex: 1;">
-             <div class="wb-title">Usuario / Interacción</div>
-             <div class="wb-row" style="flex-grow: 1; margin-bottom: 1.5rem;">
-               <div class="wb-box wb-flex-1" style="background:#fff; border: 2px solid #cbd5e1; flex-direction:column; gap:0.5rem; padding: 1rem;">
-                 <i class="fa-solid fa-tree" style="font-size: 2.5rem; color: #166534;"></i>
-                 <span style="font-size: 0.9rem; font-weight: bold; text-align:center;">1. CONAF (Gestión)</span>
+          <div class="wb-col wb-flex-grow" style="flex: 1.5;">
+             <div class="wb-title">User / Interaction</div>
+             <div class="wb-row" style="flex-grow: 1; margin-bottom: 1rem;">
+               <div class="wb-box wb-flex-1" style="background:#fff; border: 2px solid #cbd5e1; flex-direction:column; gap:0.5rem; padding: 0.5rem;">
+                 <i class="fa-solid fa-tree" style="font-size: 2rem; color: #166534;"></i>
+                 <span style="font-size: 0.85rem; font-weight: bold; text-align:center; color: #0f172a;">1. Forestry Mgmt</span>
                </div>
-               <div class="wb-box wb-flex-1" style="background:#fff; border: 2px solid #cbd5e1; flex-direction:column; gap:0.5rem; padding: 1rem;">
-                 <i class="fa-solid fa-microscope" style="font-size: 2.5rem; color: #166534;"></i>
-                 <span style="font-size: 0.9rem; font-weight: bold; text-align:center;">2. Investigadores</span>
+               <div class="wb-box wb-flex-1" style="background:#fff; border: 2px solid #cbd5e1; flex-direction:column; gap:0.5rem; padding: 0.5rem;">
+                 <i class="fa-solid fa-microscope" style="font-size: 2rem; color: #166534;"></i>
+                 <span style="font-size: 0.85rem; font-weight: bold; text-align:center; color: #0f172a;">2. Researchers</span>
                </div>
-               <div class="wb-box wb-flex-1" style="background:#fff; border: 2px solid #cbd5e1; flex-direction:column; gap:0.5rem; padding: 1rem;">
-                 <i class="fa-solid fa-binoculars" style="font-size: 2.5rem; color: #166534;"></i>
-                 <span style="font-size: 0.9rem; font-weight: bold; text-align:center;">3. Guardaparques</span>
+               <div class="wb-box wb-flex-1" style="background:#fff; border: 2px solid #cbd5e1; flex-direction:column; gap:0.5rem; padding: 0.5rem;">
+                 <i class="fa-solid fa-binoculars" style="font-size: 2rem; color: #166534;"></i>
+                 <span style="font-size: 0.85rem; font-weight: bold; text-align:center; color: #0f172a;">3. Park Rangers</span>
                </div>
              </div>
              
              <!-- Texto y circulo abajo -->
              <div class="wb-row" style="align-items: center; justify-content: space-between;">
-               <div style="font-size: 1rem; line-height: 1.8;">
+               <div style="font-size: 0.95rem; line-height: 1.6;">
                  <ul style="padding-left: 1.5rem; margin:0;">
-                   <li><span class="lang-es">Instalación en terreno</span><span class="lang-en">Field installation</span></li>
-                   <li><span class="lang-es">Sincronización local</span><span class="lang-en">Local sync</span></li>
-                   <li><span class="lang-es">Descarga de reportes</span><span class="lang-en">Download reports</span></li>
+                   <li>Field installation</li>
+                   <li>Local synchronization</li>
+                   <li>Download reports</li>
                  </ul>
                </div>
                <div style="display: flex; justify-content: center; padding-right: 3rem;">
-                 <i class="fa-solid fa-infinity" style="font-size: 4rem; color: #166534;"></i>
+                 <i class="fa-solid fa-infinity" style="font-size: 3.5rem; color: #166534;"></i>
                </div>
              </div>
           </div>
         </div>
 
-        <div class="poster-footer" style="margin-top: auto; border-top: 2px solid #0f172a; padding: 1.5rem 2.5rem;">
+        <div class="poster-footer" style="margin-top: auto; border-top: 2px solid #0f172a; padding: 1rem 2.5rem;">
           <div class="poster-footer-left">
-            <span class="poster-logo-ref">[IDP] Concurso</span>
+            <span class="poster-logo-ref">[IDP] Competition</span>
             <span>TISDC COMPETITION DESIGN</span>
           </div>
-          <span>BOARD 2 OF 3</span>
+          <span>Board 2 of 3</span>
         </div>
       </div>
 
@@ -4743,47 +4747,47 @@
         <div class="wb-content-area">
           <!-- Flow diagram -->
           <div class="wb-col">
-            <div class="wb-title">Detalles (Proceso / Función)</div>
-            <div class="wb-box" style="padding: 1.5rem; background: #fff; border: 2px solid #cbd5e1; flex-direction: row; gap: 1.5rem;">
-              <div style="flex:1; text-align:center;"><i class="fa-solid fa-magnet" style="font-size: 2.5rem;"></i><br><span style="font-size:0.9rem; display:block; margin-top:0.5rem;">Atracción</span></div>
-              <i class="fa-solid fa-chevron-right" style="color: #94a3b8; font-size: 1.5rem;"></i>
-              <div style="flex:1; text-align:center;"><i class="fa-solid fa-camera" style="font-size: 2.5rem;"></i><br><span style="font-size:0.9rem; display:block; margin-top:0.5rem;">Captura</span></div>
-              <i class="fa-solid fa-chevron-right" style="color: #94a3b8; font-size: 1.5rem;"></i>
-              <div style="flex:1; text-align:center;"><i class="fa-solid fa-brain" style="font-size: 2.5rem;"></i><br><span style="font-size:0.9rem; display:block; margin-top:0.5rem;">IA Edge</span></div>
-              <i class="fa-solid fa-chevron-right" style="color: #94a3b8; font-size: 1.5rem;"></i>
-              <div style="flex:1; text-align:center;"><i class="fa-solid fa-filter" style="font-size: 2.5rem;"></i><br><span style="font-size:0.9rem; display:block; margin-top:0.5rem;">Decisión</span></div>
-              <i class="fa-solid fa-chevron-right" style="color: #94a3b8; font-size: 1.5rem;"></i>
-              <div style="flex:1; text-align:center;"><i class="fa-solid fa-cloud" style="font-size: 2.5rem;"></i><br><span style="font-size:0.9rem; display:block; margin-top:0.5rem;">Registro</span></div>
+            <div class="wb-title">Details (Process / Function)</div>
+            <div class="wb-box" style="padding: 1rem; background: #fff; border: 2px solid #cbd5e1; flex-direction: row; gap: 1rem;">
+              <div style="flex:1; text-align:center;"><i class="fa-solid fa-magnet" style="font-size: 2rem; color: #0f172a;"></i><br><span style="font-size:0.8rem; display:block; margin-top:0.5rem; font-weight: bold; color:#0f172a;">Attraction</span></div>
+              <i class="fa-solid fa-chevron-right" style="color: #94a3b8; font-size: 1.2rem;"></i>
+              <div style="flex:1; text-align:center;"><i class="fa-solid fa-camera" style="font-size: 2rem; color: #0f172a;"></i><br><span style="font-size:0.8rem; display:block; margin-top:0.5rem; font-weight: bold; color:#0f172a;">Capture</span></div>
+              <i class="fa-solid fa-chevron-right" style="color: #94a3b8; font-size: 1.2rem;"></i>
+              <div style="flex:1; text-align:center;"><i class="fa-solid fa-brain" style="font-size: 2rem; color: #0f172a;"></i><br><span style="font-size:0.8rem; display:block; margin-top:0.5rem; font-weight: bold; color:#0f172a;">Edge AI</span></div>
+              <i class="fa-solid fa-chevron-right" style="color: #94a3b8; font-size: 1.2rem;"></i>
+              <div style="flex:1; text-align:center;"><i class="fa-solid fa-filter" style="font-size: 2rem; color: #0f172a;"></i><br><span style="font-size:0.8rem; display:block; margin-top:0.5rem; font-weight: bold; color:#0f172a;">Decision</span></div>
+              <i class="fa-solid fa-chevron-right" style="color: #94a3b8; font-size: 1.2rem;"></i>
+              <div style="flex:1; text-align:center;"><i class="fa-solid fa-cloud" style="font-size: 2rem; color: #0f172a;"></i><br><span style="font-size:0.8rem; display:block; margin-top:0.5rem; font-weight: bold; color:#0f172a;">Logging</span></div>
             </div>
           </div>
 
           <!-- Planos -->
           <div class="wb-col wb-flex-grow">
-            <div class="wb-title" style="margin-top: 1rem;">Planos Generales</div>
+            <div class="wb-title" style="margin-top: 1rem;">General Blueprints</div>
             <div class="wb-row wb-flex-grow">
               <!-- Plano Izquierdo (Vertical) -->
               <div class="wb-box wb-flex-1">
-                 <img src="images/plano_modulo_superior.png" alt="Plano Lateral" onerror="this.src='https://placehold.co/400x800/e2e8f0/64748b?text=Plano+Vertical';">
+                 <img src="images/plano_modulo_superior.png" alt="Side Blueprint" style="object-fit: contain; padding: 0.5rem;" onerror="this.src='https://placehold.co/400x800/e2e8f0/64748b?text=Vertical+Blueprint';">
               </div>
               <!-- Planos Derechos -->
-              <div class="wb-col wb-flex-1" style="gap: 1.5rem;">
+              <div class="wb-col wb-flex-1" style="gap: 1rem;">
                  <div class="wb-box wb-flex-1">
-                    <img src="images/plano_modulo_inferior_escarabajos.png" alt="Plano Superior" style="object-fit: contain;" onerror="this.src='https://placehold.co/400x400/e2e8f0/64748b?text=Plano+Horizontal+1';">
+                    <img src="images/plano_modulo_inferior_escarabajos.png" alt="Top Blueprint" style="object-fit: contain; padding: 0.5rem;" onerror="this.src='https://placehold.co/400x400/e2e8f0/64748b?text=Horizontal+Blueprint+1';">
                  </div>
                  <div class="wb-box wb-flex-1">
-                    <img src="images/plano_modulo_inferior_abejas.png" alt="Plano Inferior" style="object-fit: contain;" onerror="this.src='https://placehold.co/400x400/e2e8f0/64748b?text=Plano+Horizontal+2';">
+                    <img src="images/plano_modulo_inferior_abejas.png" alt="Bottom Blueprint" style="object-fit: contain; padding: 0.5rem;" onerror="this.src='https://placehold.co/400x400/e2e8f0/64748b?text=Horizontal+Blueprint+2';">
                  </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="poster-footer" style="margin-top: auto; border-top: 2px solid #0f172a; padding: 1.5rem 2.5rem;">
+        <div class="poster-footer" style="margin-top: auto; border-top: 2px solid #0f172a; padding: 1rem 2.5rem;">
           <div class="poster-footer-left">
-            <span class="poster-logo-ref">[IDP] Concurso</span>
+            <span class="poster-logo-ref">[IDP] Competition</span>
             <span>TISDC COMPETITION DESIGN</span>
           </div>
-          <span>BOARD 3 OF 3</span>
+          <span>Board 3 of 3</span>
         </div>
       </div>
 
