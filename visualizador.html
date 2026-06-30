@@ -4101,151 +4101,68 @@
         font-size: 0.76rem !important;
       }
 
-      /* Poster Board Visual Styling - Rediseño */
-.poster-card.visual-poster-layout {
+      /* Poster Board Whiteboard Styling */
+.poster-card.wb-layout {
   display: flex;
   flex-direction: column;
   padding: 0 !important;
   overflow: hidden;
   position: relative;
-  background-color: #f8fafc;
+  background-color: #ffffff;
   aspect-ratio: 1 / 1.414;
   border-radius: 8px;
   box-shadow: 0 30px 60px -20px rgba(15, 23, 42, 0.15);
   border: 2px solid #0f172a;
 }
-
-.poster-hero {
-  position: relative;
-  width: 100%;
-  height: 40%;
-  background-size: cover;
-  background-position: center;
-  background-color: #0f172a;
-}
-.hero-overlay {
-  position: absolute;
-  top: 2rem;
-  left: 2rem;
-  background: rgba(255,255,255,0.9);
-  padding: 1rem 1.5rem;
-  border-radius: 8px;
-  max-width: 60%;
-}
-.hero-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 3rem;
-  font-weight: 800;
-  margin: 0;
-  color: #166534;
-}
-.hero-subtitle {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: #334155;
-  margin-top: 0.5rem;
-}
-.poster-cols-3 {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 1.5rem;
-  padding: 1.5rem;
+.wb-content-area {
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
+  padding: 2.5rem;
+  gap: 1.5rem;
 }
-.poster-col {
+.wb-row {
+  display: flex;
+  gap: 1.5rem;
+}
+.wb-col {
   display: flex;
   flex-direction: column;
 }
-.col-title {
+.wb-flex-1 { flex: 1; }
+.wb-flex-2 { flex: 2; }
+.wb-flex-3 { flex: 3; }
+.wb-flex-grow { flex-grow: 1; display: flex; flex-direction: column; }
+
+.wb-title {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  border-bottom: 2px solid #166534;
+  border-bottom: 2px solid #0f172a;
   padding-bottom: 0.5rem;
   margin-bottom: 1rem;
   text-transform: uppercase;
 }
-.user-icons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  text-align: center;
-  font-size: 0.8rem;
+
+.wb-box {
+  background: #f1f5f9;
+  border: 1px dashed #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
   font-weight: 600;
-}
-.user-icons i { font-size: 2rem; color: #166534; margin-bottom: 0.5rem; }
-.problem-images {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 0.5rem;
+  border-radius: 8px;
+  flex-grow: 1;
   text-align: center;
-  font-size: 0.7rem;
-  font-weight: 700;
+  overflow: hidden;
+  min-height: 0; /* Important for flex image containment */
 }
-.problem-images img {
+.wb-box img {
   width: 100%;
-  aspect-ratio: 1;
+  height: 100%;
   object-fit: cover;
-  border-radius: 4px;
 }
-.lamina-header {
-  padding: 1.5rem;
-  background: #ffffff;
-}
-.lamina2-top-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  padding: 0 1.5rem;
-}
-.map-container img { width: 100%; max-height: 250px; object-fit: contain; }
-.features-list ul { list-style: none; padding: 0; }
-.features-list li { margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem;}
-.features-list i { font-size: 1.5rem; color: #166534; }
-.scenario-container {
-  padding: 0 1.5rem;
-  margin: 1.5rem 0;
-}
-.how-it-works {
-  padding: 0 1.5rem;
-}
-.loop-diagram {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.75rem;
-  text-align: center;
-}
-.loop-diagram div { flex: 1; }
-.loop-diagram i { font-size: 2rem; color: #166534; margin-bottom: 0.5rem; display: block; }
-.exploded-view-container {
-  display: flex;
-  padding: 1.5rem;
-  gap: 1rem;
-  align-items: center;
-}
-.exploded-view-img {
-  flex: 2;
-  text-align: center;
-}
-.exploded-view-img img {
-  width: 100%;
-  max-height: 400px;
-  object-fit: contain;
-}
-.exploded-view-desc {
-  flex: 1;
-  font-size: 0.8rem;
-}
-.details-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 1.5rem;
-  padding: 0 1.5rem 1.5rem 1.5rem;
-}
-.detail-box { text-align: center; }
-.detail-box img { width: 100%; height: 120px; object-fit: cover; border-radius: 6px; }
-.detail-box p { font-size: 0.7rem; font-weight: 600; margin-top: 0.5rem; }
 
       /* Poster Header */
       .poster-header {
@@ -4696,164 +4613,174 @@
     <!-- Posters Wrapper -->
     <div class="posters-wrapper" id="posters-wrapper">
       
-            <!-- LÁMINA 1: PRESENTACIÓN -->
-      <div class="poster-card visual-poster-layout">
+                  <!-- LÁMINA 1: PRESENTACIÓN -->
+      <div class="poster-card wb-layout">
         <div class="poster-margin-indicator"></div>
         <div class="poster-board-num">L-01</div>
-        <div class="poster-hero" style="background-image: url('images/winner_isometric.png');">
-           <div class="hero-overlay">
-              <h1 class="hero-title">BICHOS</h1>
-              <h2 class="hero-subtitle">
-                <span class="lang-es">DETECCIÓN TEMPRANA DE PLAGAS PARA BOSQUES RESILIENTES</span>
-                <span class="lang-en">EARLY PEST DETECTION FOR RESILIENT FORESTS</span>
-              </h2>
-           </div>
+        <div class="wb-content-area">
+          <div class="wb-title" style="font-size: 2.5rem; color: #166534; border:none; margin-bottom: 0; padding-bottom: 0;">Presentación</div>
+          
+          <div class="wb-row wb-flex-grow">
+            <!-- Izquierda: Que es -->
+            <div class="wb-col wb-flex-1">
+              <div class="wb-title">¿Qué es?</div>
+              <p style="font-size: 1rem; flex-grow:1;"><span class="lang-es">BICHOS es una estación inteligente de monitoreo biológico in situ de alta precisión. Su diseño modular captura y transmite imágenes de alta calidad en tiempo real a la nube, donde la IA clasifica insectos invasores.</span><span class="lang-en">BICHOS is an advanced, in-situ entomological monitoring station. It captures and transmits high-quality images in real time to a cloud server.</span></p>
+            </div>
+            <!-- Derecha: Fotos/Renders -->
+            <div class="wb-col wb-flex-2">
+              <div class="wb-box">
+                <img src="images/winner_isometric.png" alt="Fotos/Renders" onerror="this.src='https://placehold.co/800x600/e2e8f0/64748b?text=[Fotos+/+Renders]';">
+              </div>
+            </div>
+          </div>
+          
+          <!-- Medio: Diagrama (Triángulo invertido en el dibujo) -->
+          <div class="wb-row" style="height: 180px;">
+            <div class="wb-box wb-flex-1">
+               <img src="images/winner_enclosure.png" alt="Diagrama" style="object-fit: contain;" onerror="this.src='https://placehold.co/800x200/e2e8f0/64748b?text=[Imagen+Diagrama/Invento]';">
+            </div>
+          </div>
+
+          <!-- Abajo: Problema -->
+          <div class="wb-col wb-flex-grow">
+            <div class="wb-title">El Problema</div>
+            <div class="wb-row wb-flex-grow">
+              <div class="wb-box wb-flex-1" style="flex-direction: column; gap: 0.5rem; background: transparent; border: none;">
+                <img src="images/idea_3.png" alt="Árbol Sano" style="border-radius: 8px;">
+                <span style="font-size: 0.9rem; font-weight: bold;">Árbol Sano</span>
+              </div>
+              <div class="wb-box wb-flex-1" style="flex-direction: column; gap: 0.5rem; background: transparent; border: none;">
+                <img src="images/escarabajo_pino.png" alt="Invasor Presente" style="border-radius: 8px;">
+                <span style="font-size: 0.9rem; font-weight: bold;">Invasor Presente</span>
+              </div>
+              <div class="wb-box wb-flex-1" style="flex-direction: column; gap: 0.5rem; background: transparent; border: none;">
+                <img src="images/idea_4.png" alt="Bosque Afectado" style="border-radius: 8px;">
+                <span style="font-size: 0.9rem; font-weight: bold;">Bosque Afectado</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="poster-cols-3">
-           <div class="poster-col">
-              <h3 class="col-title"><span class="lang-es">USUARIOS</span><span class="lang-en">USERS</span></h3>
-              <div class="user-icons">
-                 <div><i class="fa-solid fa-tree"></i><p>CONAF<br>Gestión forestal</p></div>
-                 <div><i class="fa-solid fa-bug"></i><p>SAG<br>Sanidad vegetal</p></div>
-                 <div><i class="fa-solid fa-microscope"></i><p>Investigadores<br>Monitoreo</p></div>
-                 <div><i class="fa-solid fa-binoculars"></i><p>Guardaparques<br>Vigilancia</p></div>
-              </div>
-           </div>
-           <div class="poster-col" style="flex: 1.5;">
-              <h3 class="col-title"><span class="lang-es">EL PROBLEMA</span><span class="lang-en">THE PROBLEM</span></h3>
-              <p style="font-size: 0.85rem; font-weight: 600; margin-bottom: 1rem;"><span class="lang-es">Las plagas se detectan cuando el daño ya es irreversible.</span><span class="lang-en">Pests are detected when damage is irreversible.</span></p>
-              <div class="problem-images">
-                 <div class="prob-img"><img src="images/idea_3.png" alt="Sano"><p>Árbol Sano</p></div>
-                 <div class="prob-img"><img src="images/escarabajo_pino.png" alt="Invasor"><p>Invasor Presente</p></div>
-                 <div class="prob-img"><img src="images/idea_4.png" alt="Dano"><p>Bosque Afectado</p></div>
-              </div>
-           </div>
-           <div class="poster-col" style="justify-content: center; gap: 1rem; text-align: center;">
-              <div>
-                <i class="fa-solid fa-temperature-arrow-up" style="font-size: 2rem; color: #c2410c;"></i>
-                <p style="font-size: 0.8rem;"><span class="lang-es">Sequía y cambio climático debilitan nuestros bosques.</span><span class="lang-en">Drought and climate change weaken our forests.</span></p>
-              </div>
-              <div>
-                <i class="fa-solid fa-triangle-exclamation" style="font-size: 2rem; color: #c2410c;"></i>
-                <p style="font-size: 0.8rem;"><span class="lang-es">La detección tardía genera pérdidas irreparables.</span><span class="lang-en">Late detection generates irreparable losses.</span></p>
-              </div>
-           </div>
-        </div>
-        <div class="poster-footer" style="margin-top: auto; border-top: 1px solid #e2e8f0; padding: 1rem 1.5rem;">
+        
+        <div class="poster-footer" style="margin-top: auto; border-top: 2px solid #0f172a; padding: 1.5rem 2.5rem;">
           <div class="poster-footer-left">
-            <span class="poster-logo-ref">BICHOS 2026</span>
+            <span class="poster-logo-ref">[IDP] Concurso</span>
             <span>TISDC COMPETITION DESIGN</span>
           </div>
-          <span>BOARD 1 OF 3</span>
+          <span>Margen / Info / Inglés</span>
         </div>
       </div>
 
       <!-- LÁMINA 2: CONTEXTO Y EXPERIENCIA -->
-      <div class="poster-card visual-poster-layout">
+      <div class="poster-card wb-layout">
         <div class="poster-margin-indicator"></div>
         <div class="poster-board-num">L-02</div>
-        <div class="lamina-header">
-           <h2 class="col-title" style="border: none; margin: 0;"><span class="lang-es">CONTEXTO Y EXPERIENCIA</span><span class="lang-en">CONTEXT & EXPERIENCE</span></h2>
-           <p style="font-size: 0.85rem; font-weight: 600; color: #475569;">UNA RED DE MONITOREO AUTÓNOMA EN LA ZONA CENTRO Y SUR DE CHILE</p>
+        <div class="wb-content-area">
+          
+          <div class="wb-row wb-flex-grow" style="flex: 2;">
+            <!-- Contexto Izq -->
+            <div class="wb-col wb-flex-1">
+               <div class="wb-title">Contexto</div>
+               <ul style="list-style: none; padding: 0; font-size: 1rem; line-height: 2; flex-grow: 1;">
+                 <li><strong>Dónde:</strong> <span class="lang-es">Bosques de la Zona Centro Sur de Chile.</span><span class="lang-en">Forests of Central-South Chile.</span></li>
+                 <li><strong>Cuándo:</strong> <span class="lang-es">Monitoreo permanente 24/7.</span><span class="lang-en">Permanent 24/7 monitoring.</span></li>
+                 <li><strong>Solución:</strong> <span class="lang-es">Estación autónoma sin internet.</span><span class="lang-en">Autonomous offline station.</span></li>
+               </ul>
+            </div>
+            <!-- Contexto Der (Imagen [X]) -->
+            <div class="wb-col wb-flex-2">
+               <div class="wb-box">
+                 <img src="images/ejemplo_instalacion.png" alt="Contexto Proyecto" onerror="this.src='https://placehold.co/800x600/e2e8f0/64748b?text=[X]+Mapa/Contexto';">
+               </div>
+            </div>
+          </div>
+
+          <div class="wb-col wb-flex-grow" style="flex: 1;">
+             <div class="wb-title">Usuario / Interacción</div>
+             <div class="wb-row" style="flex-grow: 1; margin-bottom: 1.5rem;">
+               <div class="wb-box wb-flex-1" style="background:#fff; border: 2px solid #cbd5e1; flex-direction:column; gap:0.5rem; padding: 1rem;">
+                 <i class="fa-solid fa-tree" style="font-size: 2.5rem; color: #166534;"></i>
+                 <span style="font-size: 0.9rem; font-weight: bold; text-align:center;">1. CONAF (Gestión)</span>
+               </div>
+               <div class="wb-box wb-flex-1" style="background:#fff; border: 2px solid #cbd5e1; flex-direction:column; gap:0.5rem; padding: 1rem;">
+                 <i class="fa-solid fa-microscope" style="font-size: 2.5rem; color: #166534;"></i>
+                 <span style="font-size: 0.9rem; font-weight: bold; text-align:center;">2. Investigadores</span>
+               </div>
+               <div class="wb-box wb-flex-1" style="background:#fff; border: 2px solid #cbd5e1; flex-direction:column; gap:0.5rem; padding: 1rem;">
+                 <i class="fa-solid fa-binoculars" style="font-size: 2.5rem; color: #166534;"></i>
+                 <span style="font-size: 0.9rem; font-weight: bold; text-align:center;">3. Guardaparques</span>
+               </div>
+             </div>
+             
+             <!-- Texto y circulo abajo -->
+             <div class="wb-row" style="align-items: center; justify-content: space-between;">
+               <div style="font-size: 1rem; line-height: 1.8;">
+                 <ul style="padding-left: 1.5rem; margin:0;">
+                   <li><span class="lang-es">Instalación en terreno</span><span class="lang-en">Field installation</span></li>
+                   <li><span class="lang-es">Sincronización local</span><span class="lang-en">Local sync</span></li>
+                   <li><span class="lang-es">Descarga de reportes</span><span class="lang-en">Download reports</span></li>
+                 </ul>
+               </div>
+               <div style="display: flex; justify-content: center; padding-right: 3rem;">
+                 <i class="fa-solid fa-infinity" style="font-size: 4rem; color: #166534;"></i>
+               </div>
+             </div>
+          </div>
         </div>
-        <div class="lamina2-top-grid">
-           <div class="map-container" style="background: #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-              <!-- PLACEHOLDER MAPA -->
-              <h3 style="color: #64748b; text-align: center;">[IMAGEN SOFTWARE: Mapa de Acción]</h3>
-           </div>
-           <div class="features-list">
-              <ul>
-                <li><i class="fa-solid fa-solar-panel"></i> <div><strong>100% Autónoma:</strong><br>Energía solar y baterías de larga duración.</div></li>
-                <li><i class="fa-solid fa-wifi-slash"></i> <div><strong>Sin Internet:</strong><br>Red Wi-Fi local para descarga de datos in situ.</div></li>
-                <li><i class="fa-solid fa-clock"></i> <div><strong>Monitoreo 24/7:</strong><br>Trampas activas día y noche.</div></li>
-                <li><i class="fa-solid fa-location-dot"></i> <div><strong>Geolocalización:</strong><br>Registro de datos con ubicación GPS exacta.</div></li>
-              </ul>
-           </div>
-        </div>
-        <div class="scenario-container">
-           <h3 class="col-title" style="font-size: 0.9rem;">ESCENARIO DE USO</h3>
-           <div style="background: #e2e8f0; height: 180px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
-              <!-- PLACEHOLDER ESCENARIO -->
-              <h3 style="color: #64748b;">[IMAGEN SOFTWARE: Escenario en Bosque]</h3>
-           </div>
-           <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 600;">
-             <span>1. BICHOS detecta 24/7</span>
-             <span>2. Guardaparque se conecta</span>
-             <span>3. Descarga de datos</span>
-             <span>4. Plataforma central</span>
-           </div>
-        </div>
-        <div class="how-it-works">
-           <h3 class="col-title" style="font-size: 0.9rem;">¿CÓMO FUNCIONA?</h3>
-           <div class="loop-diagram">
-              <div><i class="fa-solid fa-magnet"></i><strong>ATRACCIÓN</strong></div>
-              <div><i class="fa-solid fa-arrow-right" style="color: #94a3b8;"></i></div>
-              <div><i class="fa-solid fa-camera"></i><strong>CAPTURA</strong></div>
-              <div><i class="fa-solid fa-arrow-right" style="color: #94a3b8;"></i></div>
-              <div><i class="fa-solid fa-brain"></i><strong>IA</strong></div>
-              <div><i class="fa-solid fa-arrow-right" style="color: #94a3b8;"></i></div>
-              <div><i class="fa-solid fa-filter"></i><strong>DECISIÓN</strong></div>
-              <div><i class="fa-solid fa-arrow-right" style="color: #94a3b8;"></i></div>
-              <div><i class="fa-solid fa-cloud"></i><strong>REGISTRO</strong></div>
-           </div>
-        </div>
-        <div class="poster-footer" style="margin-top: auto; border-top: 1px solid #e2e8f0; padding: 1rem 1.5rem;">
+
+        <div class="poster-footer" style="margin-top: auto; border-top: 2px solid #0f172a; padding: 1.5rem 2.5rem;">
           <div class="poster-footer-left">
-            <span class="poster-logo-ref">BICHOS 2026</span>
+            <span class="poster-logo-ref">[IDP] Concurso</span>
             <span>TISDC COMPETITION DESIGN</span>
           </div>
           <span>BOARD 2 OF 3</span>
         </div>
       </div>
 
-      <!-- LÁMINA 3: PRODUCTO Y CONSTRUCCIÓN -->
-      <div class="poster-card visual-poster-layout">
+      <!-- LÁMINA 3: DETALLES Y PLANOS -->
+      <div class="poster-card wb-layout">
         <div class="poster-margin-indicator"></div>
         <div class="poster-board-num">L-03</div>
-        <div class="lamina-header">
-           <h2 class="col-title" style="border: none; margin: 0;"><span class="lang-es">PRODUCTO Y CONSTRUCCIÓN</span><span class="lang-en">PRODUCT & CONSTRUCTION</span></h2>
-           <p style="font-size: 0.85rem; font-weight: 600; color: #475569;">DISEÑO MODULAR, ROBUSTO Y ADAPTABLE</p>
-        </div>
-        
-        <div class="exploded-view-container">
-           <div class="exploded-view-desc" style="text-align: right;">
-              <h4 style="margin-bottom: 1.5rem;">VISTA EXPLOTADA</h4>
-              <p><strong>1. PANEL SOLAR</strong><br><span style="color:#64748b">Alta eficiencia</span></p><br>
-              <p><strong>2. TAPA SUPERIOR</strong><br><span style="color:#64748b">Sellado IP66</span></p><br>
-              <p><strong>3. CÁMARA MACRO</strong><br><span style="color:#64748b">Visión nocturna</span></p>
-           </div>
-           <div class="exploded-view-img" style="background: #e2e8f0; height: 350px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-              <!-- PLACEHOLDER VISTA EXPLOTADA -->
-              <h3 style="color: #64748b;">[IMAGEN SOFTWARE: Vista Explotada]</h3>
-           </div>
-           <div class="exploded-view-desc">
-              <h4 style="margin-bottom: 1.5rem;">MÓDULOS</h4>
-              <p><strong>MÓDULO SUPERIOR (UNIVERSAL)</strong><br><span style="color:#64748b">• Hermético<br>• Procesamiento Edge AI<br>• Baterías<br>• Almacenamiento local</span></p><br>
-              <p><strong>MÓDULO INFERIOR (INTERCAMBIABLE)</strong><br><span style="color:#64748b">• Trampa pasiva<br>• Impresa en 3D<br>• Especie objetivo</span></p>
-           </div>
+        <div class="wb-content-area">
+          <!-- Flow diagram -->
+          <div class="wb-col">
+            <div class="wb-title">Detalles (Proceso / Función)</div>
+            <div class="wb-box" style="padding: 1.5rem; background: #fff; border: 2px solid #cbd5e1; flex-direction: row; gap: 1.5rem;">
+              <div style="flex:1; text-align:center;"><i class="fa-solid fa-magnet" style="font-size: 2.5rem;"></i><br><span style="font-size:0.9rem; display:block; margin-top:0.5rem;">Atracción</span></div>
+              <i class="fa-solid fa-chevron-right" style="color: #94a3b8; font-size: 1.5rem;"></i>
+              <div style="flex:1; text-align:center;"><i class="fa-solid fa-camera" style="font-size: 2.5rem;"></i><br><span style="font-size:0.9rem; display:block; margin-top:0.5rem;">Captura</span></div>
+              <i class="fa-solid fa-chevron-right" style="color: #94a3b8; font-size: 1.5rem;"></i>
+              <div style="flex:1; text-align:center;"><i class="fa-solid fa-brain" style="font-size: 2.5rem;"></i><br><span style="font-size:0.9rem; display:block; margin-top:0.5rem;">IA Edge</span></div>
+              <i class="fa-solid fa-chevron-right" style="color: #94a3b8; font-size: 1.5rem;"></i>
+              <div style="flex:1; text-align:center;"><i class="fa-solid fa-filter" style="font-size: 2.5rem;"></i><br><span style="font-size:0.9rem; display:block; margin-top:0.5rem;">Decisión</span></div>
+              <i class="fa-solid fa-chevron-right" style="color: #94a3b8; font-size: 1.5rem;"></i>
+              <div style="flex:1; text-align:center;"><i class="fa-solid fa-cloud" style="font-size: 2.5rem;"></i><br><span style="font-size:0.9rem; display:block; margin-top:0.5rem;">Registro</span></div>
+            </div>
+          </div>
+
+          <!-- Planos -->
+          <div class="wb-col wb-flex-grow">
+            <div class="wb-title" style="margin-top: 1rem;">Planos Generales</div>
+            <div class="wb-row wb-flex-grow">
+              <!-- Plano Izquierdo (Vertical) -->
+              <div class="wb-box wb-flex-1">
+                 <img src="images/plano_modulo_superior.png" alt="Plano Lateral" onerror="this.src='https://placehold.co/400x800/e2e8f0/64748b?text=Plano+Vertical';">
+              </div>
+              <!-- Planos Derechos -->
+              <div class="wb-col wb-flex-1" style="gap: 1.5rem;">
+                 <div class="wb-box wb-flex-1">
+                    <img src="images/plano_modulo_inferior_escarabajos.png" alt="Plano Superior" style="object-fit: contain;" onerror="this.src='https://placehold.co/400x400/e2e8f0/64748b?text=Plano+Horizontal+1';">
+                 </div>
+                 <div class="wb-box wb-flex-1">
+                    <img src="images/plano_modulo_inferior_abejas.png" alt="Plano Inferior" style="object-fit: contain;" onerror="this.src='https://placehold.co/400x400/e2e8f0/64748b?text=Plano+Horizontal+2';">
+                 </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="details-grid">
-           <div style="grid-column: span 3;">
-              <h3 class="col-title" style="font-size: 0.9rem; margin-bottom: 0.5rem;">DETALLES CONSTRUCTIVOS</h3>
-           </div>
-           <div class="detail-box">
-              <img src="images/winner_optical.png" alt="Detalle 1" onerror="this.src='https://placehold.co/300x200/cccccc/000?text=Detalle+1';">
-              <p>Cámara macro + Iluminación LED</p>
-           </div>
-           <div class="detail-box">
-              <img src="images/plano_modulo_superior.png" alt="Detalle 2" onerror="this.src='https://placehold.co/300x200/cccccc/000?text=Detalle+2';">
-              <p>Interior Módulo Superior</p>
-           </div>
-           <div class="detail-box">
-              <img src="images/plano_modulo_inferior_escarabajos.png" alt="Detalle 3" onerror="this.src='https://placehold.co/300x200/cccccc/000?text=Detalle+3';">
-              <p>Trampilla y retención</p>
-           </div>
-        </div>
-
-        <div class="poster-footer" style="margin-top: auto; border-top: 1px solid #e2e8f0; padding: 1rem 1.5rem;">
+        <div class="poster-footer" style="margin-top: auto; border-top: 2px solid #0f172a; padding: 1.5rem 2.5rem;">
           <div class="poster-footer-left">
-            <span class="poster-logo-ref">BICHOS 2026</span>
+            <span class="poster-logo-ref">[IDP] Concurso</span>
             <span>TISDC COMPETITION DESIGN</span>
           </div>
           <span>BOARD 3 OF 3</span>
