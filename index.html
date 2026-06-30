@@ -4579,10 +4579,7 @@
     <!-- Controls Bar -->
     <div class="poster-controls-bar">
       <div class="poster-controls-left">
-        <button class="poster-btn active" id="btn-poster-view-all" onclick="switchPosterDisplay('all')">
-          <i class="fa-solid fa-grip"></i> <span class="lang-es">Ver 3 Láminas</span><span class="lang-en">View 3 Posters</span>
-        </button>
-        <button class="poster-btn" id="btn-poster-view-1" onclick="switchPosterDisplay('1')">
+        <button class="poster-btn active" id="btn-poster-view-1" onclick="switchPosterDisplay('1')">
           1. <span class="lang-es">Presentación</span><span class="lang-en">Presentation</span>
         </button>
         <button class="poster-btn" id="btn-poster-view-2" onclick="switchPosterDisplay('2')">
@@ -7984,14 +7981,11 @@
       wrapper.classList.remove('focus-1', 'focus-2', 'focus-3');
       
       // Quitar clase activa de botones
-      document.getElementById('btn-poster-view-all').classList.remove('active');
       document.getElementById('btn-poster-view-1').classList.remove('active');
       document.getElementById('btn-poster-view-2').classList.remove('active');
       document.getElementById('btn-poster-view-3').classList.remove('active');
       
-      if (mode === 'all') {
-        document.getElementById('btn-poster-view-all').classList.add('active');
-      } else if (mode === '1') {
+      if (mode === '1') {
         wrapper.classList.add('focus-1');
         document.getElementById('btn-poster-view-1').classList.add('active');
       } else if (mode === '2') {
