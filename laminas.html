@@ -3456,8 +3456,7 @@
         align-items: center;
         margin-bottom: 2rem;
         box-shadow: 0 8px 30px rgba(15, 23, 42, 0.04);
-        position: sticky;
-        top: 85px;
+        position: relative;
         z-index: 90;
       }
 
@@ -3547,9 +3546,9 @@
         transition: all 0.5s ease-in-out;
       }
 
-      .posters-wrapper.focus-1 .poster-card:not(:nth-child(1)) { display: block; }
-      .posters-wrapper.focus-2 .poster-card:not(:nth-child(2)) { display: block; }
-      .posters-wrapper.focus-3 .poster-card:not(:nth-child(3)) { display: block; }
+      .posters-wrapper.focus-1 .poster-card:not(:nth-child(1)) { display: none; }
+      .posters-wrapper.focus-2 .poster-card:not(:nth-child(2)) { display: none; }
+      .posters-wrapper.focus-3 .poster-card:not(:nth-child(3)) { display: none; }
 
       .posters-wrapper.focus-1, .posters-wrapper.focus-2, .posters-wrapper.focus-3 {
         grid-template-columns: 1fr;
